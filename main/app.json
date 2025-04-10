@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Persona",
-    "slug": "persona",
+    "name": "Serava",
+    "slug": "serava",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "serava",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

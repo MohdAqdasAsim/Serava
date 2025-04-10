@@ -1,102 +1,130 @@
-**Serava: Your AI-Powered Mental Health Companion**
+<p align="center">
+  <img src="docs/logo.png" width="200" alt="Serava Logo" />
+</p>
 
-**Tagline:** "Always Present. Always Kind. Always You."
+<h1 align="center">🌿 Serava – Your AI-Powered Mental Health Companion</h1>
 
----
-
-## **1. Overview**
-**Name:** Serava  
-**Type:** AI-powered mental health support assistant  
-**Purpose:** To provide personalized, emotionally intelligent support for users struggling with stress, anxiety, and emotional well-being through an adaptive AI companion.
-
----
-
-## **2. Problem Statement**
-Many individuals struggle with mental health issues such as anxiety, stress, and emotional distress. Traditional therapy can be expensive, inaccessible, or intimidating for some. Mental health apps often provide generic advice without truly understanding the user’s emotions and needs.
-
-Serava aims to bridge this gap by offering:
-- A **personalized** AI companion that detects and adapts to the user’s mood.
-- A safe space for self-expression and emotional regulation.
-- Real-time, **empathetic** responses tailored to individual struggles.
-- Practical **self-help tools** like grounding exercises and mindfulness techniques.
+<p align="center">
+  <em>A sanctuary in your pocket, Serava is always kind, always present, always evolving with you.</em>
+</p>
 
 ---
 
-## **3. Target Audience**
-Serava is designed for:
-- Individuals experiencing **stress, anxiety, or burnout**.
-- Those who want a **non-judgmental space** to express their thoughts.
-- People looking to build healthier thought patterns and emotional resilience.
-- Users seeking **on-demand mental health support** without professional intervention.
+## 🌈 Overview
+
+**Serava** isn't just another chatbot. It's your mood-aware, emotionally intelligent AI friend designed to support your mental well-being through empathy, mindfulness, and personalization.
+
+Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding exercise, Serava adapts to what _you_ need in the moment—offering a calming presence, motivational support, or a gentle nudge toward self-reflection.
 
 ---
 
-## **4. How It Works**
-### **Core Features**
-✅ **Mood-Adaptive AI Chat** – Understands user emotions, adapts conversations, and provides support accordingly.  
-✅ **Emotional Tracking & Insights** – Users can log their mood, receive reflections, and track emotional patterns over time.  
-✅ **Personalized Recommendations** – AI suggests self-care activities based on current emotional state.  
-✅ **Mindfulness & Coping Exercises** – Includes guided breathing, grounding techniques, and meditation prompts.  
-✅ **Dynamic Theming** – UI changes based on user emotions, using psychologically calming color schemes.  
-✅ **Community & Social Features (Future Update)** – Safe interaction space for users who wish to connect with others.  
+## ✨ Features
+
+- 🎭 **Mood-Aware Conversations** – Real-time mood detection shapes the UI and chatbot tone.
+- 🧠 **Emotionally Intelligent AI** – Built using advanced LLMs with emotional nuance and personalized memory.
+- 📱 **Dynamic Theming** – UI that adapts colors/fonts based on your emotional state.
+- ♻ **Mindfulness Loops** – Grounding exercises, journaling prompts, and calming flows.
+- 💬 **Self-Care Toolbox** – Tools for breathwork, focus, reflection, and motivation.
+- 🧘 **Offline Mode** – Access core wellness tools even without internet.
+- 🔒 **Secure & Private** – Data encrypted and stored with Firebase.
 
 ---
 
-## **5. Technical Stack**
-**Frontend:** Expo React Native  
-**Backend:** Firebase  
-**AI/NLP:** Gemini as a wrapper, Rasa Pro for dialogue handling  
-**Speech Recognition:** Free emotional analysis software  
-**Database:** Firestore (NoSQL) for storing user interactions and mood data  
-**Authentication:** Firebase Auth (Google, Apple, Email sign-in)  
-**Hosting & Deployment:** Google Cloud (future expansion for scalability)  
+## 💡 The Problem It Solves
+
+> Many people struggle silently with anxiety, burnout, and emotional turmoil. Not everyone can or wants to reach out. Serava steps in with 24/7 support, not to replace therapy, but to **bridge the gap** between daily struggles and professional help.
 
 ---
 
-## **6. App Architecture**
-1. **User Interaction Layer** – React Native frontend with dynamic UI adaptation based on mood detection.  
-2. **AI Processing Layer** – Rasa Pro for conversational AI, Gemini wrapper for enhanced NLP.  
-3. **Emotional Analysis & Context Handling** – AI models analyze tone, text input, and past mood logs.  
-4. **Database & Cloud Storage** – Firebase for real-time data synchronization.  
-5. **Theming Engine** – Dynamic UI that shifts fonts, colors, and layouts based on detected mood states.  
+## 🌟 Target Audience
+
+- College students under academic pressure
+- Remote workers feeling disconnected or burned out
+- Anyone struggling with anxiety, overthinking, or emotional overwhelm
+- People seeking consistent, non-judgmental emotional support
 
 ---
 
-## **7. Design Philosophy**
-### **Color Psychology for UI Theming:**
-🎨 **Calm Theme:** Soft blues & greens for relaxation.  
-🎨 **Anxiety Mode:** Muted earth tones to reduce overstimulation.  
-🎨 **Motivation Mode:** Energizing yellows & oranges for positivity.  
-🎨 **Dark Mode:** Deep purples & blacks for nighttime reflection.  
+## 🧹 Tech Stack
 
-### **UI Components & Visual Elements:**
-- **Mood-Based Navigation Icons** – Custom buttons for quick emotional input.  
-- **Onboarding Illustrations** – Friendly, comforting artwork for first-time users.  
-- **Background Textures** – Organic waves, soft gradients, and calming abstract designs.  
-
----
-
-## **8. Monetization & Sustainability Plan**
-- **Freemium Model:** Basic features free, premium plans for advanced customization.  
-- **In-App Purchases:** Personalized therapy plans, premium AI interactions.  
-- **Affiliate Partnerships:** Collaborate with mental health organizations for sponsorships.  
+| Layer              | Tech Used                                          |
+| ------------------ | -------------------------------------------------- |
+| **Frontend**       | Expo React Native, Tailwind (NativeWind)           |
+| **Backend**        | Firebase                                           |
+| **AI/NLP**         | Gemini API for conversational intelligence         |
+| **Mood Detection** | Emotion analysis via free NLP/emotion libraries    |
+| **Voice & Input**  | Optional integration with Mozilla DeepSpeech       |
+| **Design**         | Figma, Midjourney for assets, custom illustrations |
 
 ---
 
-## **9. Challenges & Considerations**
-🔴 **AI Limitations:** Ensuring responsible AI responses, preventing misinformation.  
-🔴 **User Privacy:** Securing sensitive emotional data with end-to-end encryption.  
-🔴 **Emotional Accuracy:** Improving AI’s ability to detect moods effectively.  
+## 🗾 Architecture
+
+![Architecture Diagram](docs/diagrams/architecture.png)
 
 ---
 
-## **10. Next Steps: Moving into Development**
-1. **Prototype & MVP Development** – Initial UI design, chatbot integration.  
-2. **AI Training & Fine-Tuning** – Ensuring natural, empathetic AI conversations.  
-3. **User Testing & Feedback** – Conducting closed beta testing.  
-4. **Refinement & Expansion** – Improving features based on real-world usage.  
+## 📏 User Flow
+
+![User Flow](docs/diagrams/user_flow.png)
 
 ---
 
-### **Final Thought:**
-Serava is not just a mental health app—it’s an **experience**, a **companion**, a **sanctuary** in your pocket. It adapts, understands, and walks alongside users in their emotional journey. **With the right balance of AI, psychology, and design, Serava has the potential to redefine mental health support in the digital age.**
+## 🎨 Mood-based UI System
+
+Serava’s UI shifts based on the user’s mood, influencing:
+
+- 🎨 Color Palette
+- 🌠 Typography
+- 🧰 Animations
+- 🌊 Background textures (clouds, waves, particles)
+- 📍 Component behavior
+
+---
+
+## 🌟 Mockups
+
+- [📱 Mobile Screens – Set 1](docs/mockups/mockup_set_1.png)
+- [📱 Mobile Screens – Set 2](docs/mockups/mockup_set_2.png)
+
+---
+
+## ⚙️ Getting Started
+
+1. Clone the repo:
+
+   ```bash
+   git clone https://github.com/MohdAqdasAsim/Serava.git
+   cd Serava
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the app locally:
+   ```bash
+   npx expo start
+   ```
+
+---
+
+## 📄 License
+
+MIT © [Mohd Aqdas Asim]. Feel free to use, fork, and remix with attribution.
+
+---
+
+## 📨 Stay Connected
+
+Follow our journey on:
+
+- 🌐 Website (coming soon!)
+- 📸 Instagram @serava.app
+- 🧠 Medium Blog (mental health & dev diaries)
+
+> _"Mental health matters, and so do you."_
+
+---

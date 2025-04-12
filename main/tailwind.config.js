@@ -6,6 +6,7 @@ module.exports = {
     "./App.{js,jsx,ts,tsx}",
     "./app/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
     "./app/(tabs)/index.tsx",
   ],
   presets: [require("nativewind/preset")], // Ensures NativeWind is recognized
@@ -15,16 +16,18 @@ module.exports = {
         heartful: ["Heartful", "sans-serif"],
       },
       colors: {
-        ...Colors.light, // ✅ Normal colors
+        ...Colors.light,
         ...Object.fromEntries(
           Object.entries(Colors.dark).map(([key, value]) => [
             `dark-${key}`,
             value,
           ])
-        ), // ✅ Dark mode colors prefixed properly
+        ),
+      },
+      backgroundImage: {
+        "main-pattern": "url('/assets/images/main.png')",
       },
     },
   },
   plugins: [],
-  darkMode: "class", // ✅ Keep class-based dark mode
 };

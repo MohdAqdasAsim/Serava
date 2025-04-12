@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRouter } from "expo-router";
 import { View, ActivityIndicator, Text } from "react-native";
-import { OnBoarding } from "@/pages";
+import OnBoarding from "./OnBoarding";
 
 const App = () => {
   const router = useRouter();
   const navigation = useNavigation();
-  const [hasOnBoarded, setHasOnBoarded] = useState<boolean | null>(null);
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkOnBoarded = async () => {
@@ -16,10 +16,10 @@ const App = () => {
         if (value === null) {
           // First launch
           await AsyncStorage.setItem("hasLaunched", "true");
-          setHasOnBoarded(true);
+          setIsFirstLaunch(true);
         } else {
           // Not the first launch
-          setHasOnBoarded(false);
+          setIsFirstLaunch(false);
         }
       } catch (error) {
         console.error("Error checking first launch:", error);
@@ -30,7 +30,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (hasOnBoarded === false) {
+    if (isFirstLaunch === false) {
       requestAnimationFrame(() => {
         router.replace("/home");
       });
@@ -39,9 +39,9 @@ const App = () => {
       headerShown: false,
       headerShadowVisible: false,
     });
-  }, [hasOnBoarded, router, navigation]);
+  }, [isFirstLaunch, router, navigation]);
 
-  if (hasOnBoarded === null) {
+  if (isFirstLaunch === null) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
@@ -51,7 +51,7 @@ const App = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-primary-blue-shades-darkest">
-      {!hasOnBoarded && <OnBoarding />}
+      {isFirstLaunch && <OnBoarding />}
     </View>
   );
 };

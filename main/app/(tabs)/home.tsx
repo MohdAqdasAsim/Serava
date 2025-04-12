@@ -5,7 +5,7 @@ export default function App() {
   const { isDark, theme, toggleTheme } = useTheme();
 
   return (
-    <View className="flex-1 items-center justify-center bg-background">
+    <View className="flex-1 items-center justify-center bg-main-pattern">
       <Text className="text-accent">Hello World! (Tailwind)</Text>
       <Text style={{ color: theme.box }}>Hello World! (Manual Style)</Text>
 

@@ -1,6 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 const { Colors } = require("./constants/Colors");
 
+const themes = Object.keys(Colors); // ['joy', 'serenity', ...]
+const properties = ["primary", "background"];
+
+const themedColors = {};
+
+for (const theme of themes) {
+  for (const prop of properties) {
+    // Generate class names like 'joy-primary': '#FFD700'
+    themedColors[`${theme}-${prop}`] = Colors[theme][prop];
+  }
+}
+
 module.exports = {
   content: [
     "./App.{js,jsx,ts,tsx}",
@@ -9,6 +21,12 @@ module.exports = {
     "./pages/**/*.{js,jsx,ts,tsx}",
     "./app/(tabs)/index.tsx",
   ],
+  safelist: [
+    {
+      pattern:
+        /(bg|text|border)-(joy|serenity|tension|sorrow|fury|haze)-(primary|background|gradientStart|gradientEnd|text|accent|surface)/,
+    },
+  ],
   presets: [require("nativewind/preset")], // Ensures NativeWind is recognized
   theme: {
     extend: {
@@ -16,16 +34,7 @@ module.exports = {
         heartful: ["Heartful", "sans-serif"],
       },
       colors: {
-        ...Colors.light,
-        ...Object.fromEntries(
-          Object.entries(Colors.dark).map(([key, value]) => [
-            `dark-${key}`,
-            value,
-          ])
-        ),
-      },
-      backgroundImage: {
-        "main-pattern": "url('/assets/images/main.png')",
+        ...themedColors,
       },
     },
   },

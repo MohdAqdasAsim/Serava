@@ -1,40 +1,56 @@
 export const Colors = {
-  light: {
-    background: "#FAFAFA",      // Soft White Background
-    surface: "#FFFFFF",         // White for Cards/Containers
-    textPrimary: "#181818",     // Charcoal Black (Main Text)
-    textSecondary: "#4A4A4A",   // Dark Gray (Subtext/Muted Text)
-    
-    primary: "#FFC107",         // Vibrant Gold (Main Action Color)
-    primaryHover: "#E6A500",    // Darker Gold for Hover Effects
-    primaryDisabled: "#B3A07D", // Muted Gold for Disabled Buttons
-
-    border: "#E0E0E0",          // Soft Gray for Borders & Dividers
-    accent: "#8E44AD",          // Elegant Purple for Highlights
-    success: "#4CAF50",         // Green for Success Messages
-    warning: "#FF9800",         // Orange for Warnings
-    error: "#E53935",           // Red for Errors
-    link: "#1E88E5",            // Blue for Clickable Links
-
-    box: "#ff00ff",
+  joy: {
+    primary: "#FFD700",        // Gold
+    background: "#FFF8DC",     // Cornsilk
+    tabBar: "#FFE066",         // Light Goldenrod
+    tabIcon: "#B8860B",        // Dark Goldenrod
+    gradientStart: "#FFE27A",  // Butter Yellow
+    gradientEnd: "#FFF1B0",    // Banana Cream
+    text: "#B8860B",           // Dark Gray (Good on light background)
   },
-  dark: {
-    background: "#121212",      // Deep Black Background
-    surface: "#1E1E1E",         // Dark Gray for Cards/Containers
-    textPrimary: "#E0E0E0",     // Soft White (Main Text)
-    textSecondary: "#B0B0B0",   // Light Gray (Subtext/Muted Text)
-    
-    primary: "#FFC107",         // Vibrant Gold (Main Action Color)
-    primaryHover: "#E6A500",    // Darker Gold for Hover Effects
-    primaryDisabled: "#B3A07D", // Muted Gold for Disabled Buttons
-
-    border: "#292929",          // Dark Gray for Borders & Dividers
-    accent: "#9B59B6",          // Soft Purple for Highlights
-    success: "#66BB6A",         // Green for Success Messages
-    warning: "#FFB74D",         // Muted Orange for Warnings
-    error: "#EF5350",           // Softer Red for Errors
-    link: "#42A5F5",            // Light Blue for Clickable Links
-
-    box: "#00ffff",
+  serenity: {
+    primary: "#7FDBFF",        // Sky Blue
+    background: "#E0F7FA",     // Light Cyan
+    tabBar: "#B2EBF2",         // Pale Aqua
+    tabIcon: "#0288D1",        // Ocean Blue
+    gradientStart: "#A4E1F9",  // Soft Blue
+    gradientEnd: "#D4F5FA",    // Icy Blue
+    text: "#0288D1",           // Deep Navy (Calming and legible)
+  },
+  tension: {
+    primary: "#FF6F61",        // Coral
+    background: "#FFF3E0",     // Linen Peach
+    tabBar: "#FFAB91",         // Salmon
+    tabIcon: "#D84315",        // Burnt Orange
+    gradientStart: "#FF977D",  // Warm Coral
+    gradientEnd: "#FFE0BD",    // Soft Peach
+    text: "#D84315",           // Warm Brown (Stands out on peach tones)
+  },
+  sorrow: {
+    primary: "#5C6BC0",        // Indigo
+    background: "#ECEFF1",     // Pale Gray
+    tabBar: "#C5CAE9",         // Muted Indigo
+    tabIcon: "#3F51B5",        // Classic Indigo
+    gradientStart: "#9FA8DA",  // Light Periwinkle
+    gradientEnd: "#E2E6F3",    // Foggy Blue
+    text: "#3F51B5",           // Deep Indigo (Blends with theme, very readable)
+  },
+  fury: {
+    primary: "#D32F2F",        // Crimson Red
+    background: "#FFEBEE",     // Blush Pink
+    tabBar: "#EF9A9A",         // Pink Coral
+    tabIcon: "#B71C1C",        // Dark Cherry Red
+    gradientStart: "#F46A6A",  // Rosy Red
+    gradientEnd: "#FFC1C1",    // Pink Mist
+    text: "#B71C1C",           // Deep Maroon (Sharp contrast with soft red)
+  },
+  haze: {
+    primary: "#9575CD",        // Medium Purple
+    background: "#F3E5F5",     // Lavender Blush
+    tabBar: "#CE93D8",         // Orchid
+    tabIcon: "#6A1B9A",        // Deep Violet
+    gradientStart: "#BFA2E0",  // Pastel Purple
+    gradientEnd: "#ECDCF4",    // Lavender Fog
+    text: "#6A1B9A",           // Dusty Plum (Moody but readable)
   },
 };

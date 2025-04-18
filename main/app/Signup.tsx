@@ -6,16 +6,64 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { BackgroundWrapper } from "@/components";
+import { BackgroundWrapper, EmailSentModal } from "@/components";
 import { useRouter } from "expo-router";
+import { signUp } from "@/services/firebaseFunctions";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
+
+  const handleSignUp = async () => {
+    // Validate email format
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email!");
+      return;
+    }
+
+    // Validate password match
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    // Check if password is strong enough (optional)
+    if (password.length < 6) {
+      alert("Password should be at least 6 characters long!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const { success, message } = await signUp(email, password);
+
+      setLoading(false);
+
+      if (success) {
+        setModalVisible(true); // Show email sent modal
+      } else {
+        alert(message); // Show error message if sign-up fails
+      }
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleOkButton = () => {
+    setModalVisible(false);
+  };
 
   return (
     <BackgroundWrapper>
@@ -56,6 +104,8 @@ const Signup = () => {
           <Text className="self-start text-gray-700 text-base mb-1">Email</Text>
           <TextInput
             placeholder="Enter your email"
+            value={email}
+            onChangeText={setEmail}
             placeholderTextColor="white"
             className="w-full text-[#312170] placeholder:text-gray-300 text-xl bg-white/10 rounded-xl px-4 py-2 mb-4"
           />
@@ -67,6 +117,8 @@ const Signup = () => {
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
               placeholderTextColor="white"
               className="flex-1 text-[#312170] placeholder:text-gray-300 text-xl"
               secureTextEntry={!showPassword}
@@ -87,6 +139,8 @@ const Signup = () => {
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Confirm Password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
               placeholderTextColor="white"
               className="flex-1 text-[#312170] placeholder:text-gray-300 text-xl"
               secureTextEntry={!showPassword}
@@ -102,7 +156,7 @@ const Signup = () => {
         </BlurView>
       </View>
 
-      {/* Login Button */}
+      {/* Sign Up Button */}
       <LinearGradient
         colors={["#b6a8ff", "#9486f0"]}
         start={{ x: 0, y: 0 }}
@@ -112,12 +166,17 @@ const Signup = () => {
         <Pressable
           android_ripple={{ color: "#d3cfff" }}
           className="w-full h-full flex items-center justify-center"
+          onPress={handleSignUp}
         >
-          <Text className="text-2xl text-white text-center">Sign Up</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text className="text-2xl text-white text-center">Signup</Text>
+          )}
         </Pressable>
       </LinearGradient>
 
-      {/* Already Have an Account? Sign Up Link */}
+      {/* Already Have an Account? Login Link */}
       <View className="w-full flex flex-row items-center justify-center mt-6">
         <Text className="text-[#312170cb]">Already have an account? </Text>
         <TouchableOpacity
@@ -129,6 +188,13 @@ const Signup = () => {
           <Text className="text-[#312170]">Log In</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Email Sent Modal */}
+      <EmailSentModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        handleOk={handleOkButton}
+      />
     </BackgroundWrapper>
   );
 };

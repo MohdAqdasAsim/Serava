@@ -1,70 +1,75 @@
-import { Colors } from "@/constants/Colors";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {
   createContext,
   useContext,
   useState,
-  ReactNode,
   useEffect,
+  ReactNode,
 } from "react";
-import { useColorScheme, View } from "react-native";
-import { useColorScheme as useTailwindColorScheme } from "nativewind";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Colors } from "@/constants/Colors";
 
-type Theme = typeof Colors.light;
+export type Theme = keyof typeof Colors;
 
-interface ThemeContextType {
+const ThemeContext = createContext<{
   theme: Theme;
-  isDark: boolean;
-  toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
+  ambientSounds: boolean;
+  setAmbientSounds: (enabled: boolean) => void;
+}>({
+  theme: "joy",
+  setTheme: () => {},
+  ambientSounds: false,
+  setAmbientSounds: () => {},
+});
+
+interface ThemeProviderProps {
+  children: ReactNode;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const [theme, setThemeState] = useState<Theme>("sorrow");
+  const [ambientSounds, setAmbientSoundsState] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState(false); // Prevent overwrite on startup
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const systemColorScheme = useColorScheme();
-  const { colorScheme, setColorScheme } = useTailwindColorScheme(); // NativeWind color scheme hook
-  const [isDark, setIsDark] = useState(systemColorScheme === "dark");
-
-  useEffect(() => {
-    const loadTheme = async () => {
-      const savedTheme = await AsyncStorage.getItem("theme");
-      if (savedTheme) {
-        const isDarkTheme = savedTheme === "dark";
-        setIsDark(isDarkTheme);
-        setColorScheme(isDarkTheme ? "dark" : "light"); // NativeWind update
-      }
-    };
-    loadTheme();
-  }, []);
-
-  const toggleTheme = async () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    await AsyncStorage.setItem("theme", newTheme ? "dark" : "light");
-
-    setColorScheme(newTheme ? "dark" : "light"); // Sync with NativeWind
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+    AsyncStorage.setItem("theme", newTheme);
   };
+
+  const setAmbientSounds = (enabled: boolean) => {
+    setAmbientSoundsState(enabled);
+    AsyncStorage.setItem("ambientSounds", JSON.stringify(enabled));
+  };
+
+  // Load theme & ambientSounds from storage
+  useEffect(() => {
+    const loadSettings = async () => {
+      const savedTheme = await AsyncStorage.getItem("theme");
+      const savedSounds = await AsyncStorage.getItem("ambientSounds");
+
+      if (savedTheme && Colors[savedTheme as Theme]) {
+        setThemeState(savedTheme as Theme);
+      }
+
+      if (savedSounds !== null) {
+        setAmbientSoundsState(JSON.parse(savedSounds));
+      }
+
+      setLoaded(true);
+    };
+
+    if (!loaded) {
+      loadSettings();
+    }
+  }, [loaded]);
 
   return (
     <ThemeContext.Provider
-      value={{
-        theme: isDark ? Colors.dark : Colors.light,
-        isDark,
-        toggleTheme,
-      }}
+      value={{ theme, setTheme, ambientSounds, setAmbientSounds }}
     >
-      {/* ✅ Ensure NativeWind applies correct styles */}
-      <View className="flex-1">{children}</View>
+      {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
-};
+export const useTheme = () => useContext(ThemeContext);

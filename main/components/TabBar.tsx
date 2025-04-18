@@ -5,7 +5,7 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -13,23 +13,27 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { useEffect, useState } from "react";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/contexts/ThemeProvider";
 
-// Define the valid icon names
-type IconName = "home" | "transactions" | "settings";
+// Define the valid icon names for all 5 tabs
+type IconName = "home" | "chat" | "journal" | "toolbox" | "profile";
 
-// Define the icon mapping
+// Define the icon mapping for each tab
 const icon: Record<IconName, (props: any) => React.JSX.Element> = {
   home: (props: any) => <FontAwesome name="home" size={24} {...props} />,
-  transactions: (props: any) => (
-    <FontAwesome6 name="money-bill-transfer" size={24} {...props} />
-  ),
-  settings: (props: any) => <Feather name="settings" size={24} {...props} />,
+  chat: (props: any) => <FontAwesome name="comments" size={24} {...props} />,
+  journal: (props: any) => <FontAwesome name="book" size={24} {...props} />,
+  toolbox: (props: any) => <Feather name="tool" size={24} {...props} />,
+  profile: (props: any) => <FontAwesome name="user" size={24} {...props} />,
 };
 
 // Define the TabBar component
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const [dimensions, setDimensions] = useState({ height: 20, width: 100 });
   const buttonWidth = dimensions.width / state.routes.length;
+
+  const { theme } = useTheme();
 
   const onTabbarLayout = (e: LayoutChangeEvent) => {
     setDimensions({
@@ -48,18 +52,19 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
     <View
       onLayout={onTabbarLayout}
-      className="absolute bottom-4 flex-row justify-between items-center bg-primary-blue-shades-darkest mx-12 h-16 w-3/4 rounded-full shadow-md"
+      style={{ backgroundColor: Colors[theme].tabBar }}
+      className="absolute bottom-4 flex-row justify-between items-center mx-[58px] h-16 w-3/4 rounded-full shadow-md"
     >
       <Animated.View
         style={[
           animatedStyle,
           {
             height: dimensions.height - 15,
-            width: buttonWidth - 30,
-            backgroundColor: "white",
+            width: buttonWidth - 24,
+            backgroundColor: Colors[theme].tabIcon,
           },
         ]}
-        className="absolute rounded-full mx-4"
+        className="absolute rounded-full mx-3.5"
       />
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -142,6 +147,7 @@ function TabBarButton({
   color,
   label,
 }: TabBarButtonProps) {
+  const { theme, setTheme } = useTheme();
   const scale = useSharedValue(0);
 
   useEffect(() => {
@@ -180,12 +186,12 @@ function TabBarButton({
       className="flex-1 items-center justify-center p-2"
     >
       <Animated.View style={animatedIconStyle}>
-        {icon["home"]({
-          color: "white",
+        {icon[routeName]({
+          color: isFocused ? Colors[theme].tabBar : Colors[theme].tabIcon,
         })}
       </Animated.View>
       <Animated.Text
-        style={[{ color: "white" }, animatedTextStyle]}
+        style={[{ color: Colors[theme].tabIcon }, animatedTextStyle]}
         className="font-heartful mt-1"
       >
         {label}

@@ -6,16 +6,42 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { BackgroundWrapper } from "@/components";
 import { useRouter } from "expo-router";
+import { checkUserProfileExists, logIn } from "@/services/firebaseFunctions";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+
   const router = useRouter();
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setFeedback(null);
+
+    const result = await logIn(email.trim(), password);
+
+    setLoading(false);
+    setFeedback(result.message);
+
+    if (result.success) {
+      const hasProfile = await checkUserProfileExists();
+      if (hasProfile) {
+        router.replace("/home");
+      } else {
+        router.replace("/ProfileSetup");
+      }
+    }
+  };
 
   return (
     <BackgroundWrapper>
@@ -55,8 +81,11 @@ const Login = () => {
           {/* Email */}
           <Text className="self-start text-gray-700 text-base mb-1">Email</Text>
           <TextInput
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
             placeholder="Enter your email"
-            placeholderTextColor="white"
             className="w-full text-[#312170] placeholder:text-gray-300 text-xl bg-white/10 rounded-xl px-4 py-2 mb-4"
           />
 
@@ -67,9 +96,11 @@ const Login = () => {
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Password"
-              placeholderTextColor="white"
+              value={password}
+              onChangeText={setPassword}
               className="flex-1 text-[#312170] placeholder:text-gray-300 text-xl"
               secureTextEntry={!showPassword}
+              autoCapitalize="none"
             />
             <Pressable onPress={() => setShowPassword(!showPassword)}>
               <Entypo
@@ -93,6 +124,11 @@ const Login = () => {
         </BlurView>
       </View>
 
+      {/* Feedback */}
+      {feedback && (
+        <Text className="text-center mb-2 text-[#312170]">{feedback}</Text>
+      )}
+
       {/* Login Button */}
       <LinearGradient
         colors={["#b6a8ff", "#9486f0"]}
@@ -103,14 +139,19 @@ const Login = () => {
         <Pressable
           android_ripple={{ color: "#d3cfff" }}
           className="w-full h-full flex items-center justify-center"
+          onPress={handleLogin}
         >
-          <Text className="text-2xl text-white text-center">Login</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text className="text-2xl text-white text-center">Login</Text>
+          )}
         </Pressable>
       </LinearGradient>
 
       {/* Already Have an Account? Sign Up Link */}
       <View className="w-full flex flex-row items-center justify-center mt-6">
-        <Text className="text-[#312170cb]">Already have an account? </Text>
+        <Text className="text-[#312170cb]">Don't have an account? </Text>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {

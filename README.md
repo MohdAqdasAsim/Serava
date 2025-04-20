@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" width="200" alt="Serava Logo" />
+  <img src="docs/mockups/banner.png" alt="Serava Logo" />
 </p>
 
 <h1 align="center">🌿 Serava – Your AI-Powered Mental Health Companion</h1>
@@ -8,15 +8,12 @@
   <em>A sanctuary in your pocket, Serava is always kind, always present, always evolving with you.</em>
 </p>
 
----
-
 ## 🌈 Overview
 
 **Serava** isn't just another chatbot. It's your mood-aware, emotionally intelligent AI friend designed to support your mental well-being through empathy, mindfulness, and personalization.
 
 Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding exercise, Serava adapts to what _you_ need in the moment—offering a calming presence, motivational support, or a gentle nudge toward self-reflection.
 
----
 
 ## ✨ Features
 
@@ -28,13 +25,11 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
 - 🧘 **Offline Mode** – Access core wellness tools even without internet.
 - 🔒 **Secure & Private** – Data encrypted and stored with Firebase.
 
----
 
 ## 💡 The Problem It Solves
 
 > Many people struggle silently with anxiety, burnout, and emotional turmoil. Not everyone can or wants to reach out. Serava steps in with 24/7 support, not to replace therapy, but to **bridge the gap** between daily struggles and professional help.
 
----
 
 ## 🌟 Target Audience
 
@@ -43,7 +38,75 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
 - Anyone struggling with anxiety, overthinking, or emotional overwhelm
 - People seeking consistent, non-judgmental emotional support
 
----
+## 🌟 Mockups
+
+<style>
+  .scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    cursor: grab;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+
+  .scroll-wrapper::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari */
+  }
+
+  .scroll-wrapper:active {
+    cursor: grabbing;
+  }
+
+  .scroll-wrapper img {
+    display: inline-block;
+    margin-right: 1rem;
+    user-select: none;
+    pointer-events: none;
+  }
+</style>
+
+<div class="scroll-wrapper" id="scroll-wrapper">
+  <img draggable="false" src="docs/mockups/1.png" width="300" alt="Mockup 1" />
+  <img draggable="false" src="docs/mockups/2.png" width="300" alt="Mockup 2" />
+  <img draggable="false" src="docs/mockups/3.png" width="300" alt="Mockup 3" />
+  <img draggable="false" src="docs/mockups/4.png" width="300" alt="Mockup 4" />
+</div>
+
+<script>
+  const slider = document.getElementById('scroll-wrapper');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+</script>
+
+
 
 ## 🧹 Tech Stack
 
@@ -56,38 +119,16 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
 | **Voice & Input**  | Optional integration with Mozilla DeepSpeech       |
 | **Design**         | Figma, Midjourney for assets, custom illustrations |
 
----
 
 ## 🗾 Architecture
 
 ![Architecture Diagram](docs/diagrams/architecture.png)
 
----
 
 ## 📏 User Flow
 
 ![User Flow](docs/diagrams/user_flow.png)
 
----
-
-## 🎨 Mood-based UI System
-
-Serava’s UI shifts based on the user’s mood, influencing:
-
-- 🎨 Color Palette
-- 🌠 Typography
-- 🧰 Animations
-- 🌊 Background textures (clouds, waves, particles)
-- 📍 Component behavior
-
----
-
-## 🌟 Mockups
-
-- [📱 Mobile Screens – Set 1](docs/mockups/mockup_set_1.png)
-- [📱 Mobile Screens – Set 2](docs/mockups/mockup_set_2.png)
-
----
 
 ## ⚙️ Getting Started
 
@@ -109,13 +150,9 @@ Serava’s UI shifts based on the user’s mood, influencing:
    npx expo start
    ```
 
----
-
 ## 📄 License
 
 MIT © [Mohd Aqdas Asim]. Feel free to use, fork, and remix with attribution.
-
----
 
 ## 📨 Stay Connected
 
@@ -126,5 +163,3 @@ Follow our journey on:
 - 🧠 Medium Blog (mental health & dev diaries)
 
 > _"Mental health matters, and so do you."_
-
----

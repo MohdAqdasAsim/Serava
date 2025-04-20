@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horizontal Scroll Gallery</title>
+  <style>
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      flex-wrap: nowrap;
+      width: 100%;
+      padding: 1rem;
+      cursor: grab;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+
+    .scroll-container img {
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .scroll-container.active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-container" id="scrollContainer">
+    <img src="https://via.placeholder.com/300x200?text=1"  width="300" />
+    <img src="https://via.placeholder.com/300x200?text=2" width="300" />
+    <img src="https://via.placeholder.com/300x200?text=3" width="300" />
+    <img src="https://via.placeholder.com/300x200?text=4" width="300" />
+  </div>
+
+  <script>
+    const slider = document.getElementById('scrollContainer');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.classList.add('active');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.classList.remove('active');
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 1.5; // scroll speed multiplier
+      slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // Enable vertical mouse wheel to scroll horizontally
+    slider.addEventListener('wheel', (e) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      slider.scrollLeft += e.deltaY;
+    }, { passive: false });
+  </script>
+
+</body>
+</html>

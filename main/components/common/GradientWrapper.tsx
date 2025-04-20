@@ -2,7 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { ReactNode } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface GradientWrapperProps {
@@ -11,7 +11,6 @@ interface GradientWrapperProps {
 
 const GradientWrapper: React.FC<GradientWrapperProps> = ({ children }) => {
   const { theme } = useTheme();
-
   return (
     <LinearGradient
       colors={[Colors[theme].gradientStart, Colors[theme].gradientEnd]}

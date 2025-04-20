@@ -3,6 +3,7 @@ import {
   Pressable,
   LayoutChangeEvent,
   GestureResponderEvent,
+  Text,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -15,6 +16,7 @@ import Animated, {
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useNetwork } from "@/contexts/NetworkProvider";
 
 // Define the valid icon names for all 5 tabs
 type IconName = "home" | "chat" | "journal" | "toolbox" | "profile";
@@ -49,82 +51,96 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     };
   });
 
+  const { isConnected } = useNetwork();
+
   return (
-    <View
-      onLayout={onTabbarLayout}
-      style={{ backgroundColor: Colors[theme].tabBar }}
-      className="absolute bottom-4 flex-row justify-between items-center mx-[58px] h-16 w-3/4 rounded-full shadow-md"
-    >
-      <Animated.View
-        style={[
-          animatedStyle,
-          {
-            height: dimensions.height - 15,
-            width: buttonWidth - 24,
-            backgroundColor: Colors[theme].tabIcon,
-          },
-        ]}
-        className="absolute rounded-full mx-3.5"
-      />
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+    <>
+      {!isConnected && (
+        <View
+          className="absolute bottom-24 items-center mx-[32px] p-2 w-5/6 rounded-full shadow-md"
+          style={{ backgroundColor: Colors[theme].primary }}
+        >
+          <Text className="text-white text-[12px] text-center">
+            You’re offline. Some features might not work.
+          </Text>
+        </View>
+      )}
+      <View
+        onLayout={onTabbarLayout}
+        style={{ backgroundColor: Colors[theme].tabBar }}
+        className="absolute bottom-4 flex-row justify-between items-center mx-[32px] h-16 w-5/6 rounded-full shadow-md"
+      >
+        <Animated.View
+          style={[
+            animatedStyle,
+            {
+              height: dimensions.height - 15,
+              width: buttonWidth - 24,
+              backgroundColor: Colors[theme].tabIcon,
+            },
+          ]}
+          className="absolute rounded-full mx-3.5"
+        />
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : route.name;
 
-        // Ensure that label is a string
-        const labelString =
-          typeof label === "string"
-            ? label
-            : typeof label === "function"
-            ? (label({
-                focused: state.index === index,
-                color: "white",
-                position: "beside-icon", // Use valid LabelPosition here
-                children: "",
-              }) as string)
-            : route.name;
+          // Ensure that label is a string
+          const labelString =
+            typeof label === "string"
+              ? label
+              : typeof label === "function"
+              ? (label({
+                  focused: state.index === index,
+                  color: "white",
+                  position: "beside-icon", // Use valid LabelPosition here
+                  children: "",
+                }) as string)
+              : route.name;
 
-        const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-        const onPress = () => {
-          tabPositionX.value = withSpring(buttonWidth * index, {
-            duration: 1500,
-          });
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const onPress = () => {
+            tabPositionX.value = withSpring(buttonWidth * index, {
+              duration: 1500,
+            });
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
-          }
-        };
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, route.params);
+            }
+          };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: "tabLongPress",
-            target: route.key,
-          });
-        };
+          const onLongPress = () => {
+            navigation.emit({
+              type: "tabLongPress",
+              target: route.key,
+            });
+          };
 
-        return (
-          <TabBarButton
-            key={route.key}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            isFocused={isFocused}
-            routeName={route.name as IconName}
-            color={isFocused ? "white" : "black"}
-            label={labelString}
-          />
-        );
-      })}
-    </View>
+          return (
+            <TabBarButton
+              key={route.key}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              isFocused={isFocused}
+              routeName={route.name as IconName}
+              color={isFocused ? "white" : "black"}
+              label={labelString}
+            />
+          );
+        })}
+      </View>
+    </>
   );
 }
 
@@ -192,7 +208,7 @@ function TabBarButton({
       </Animated.View>
       <Animated.Text
         style={[{ color: Colors[theme].tabIcon }, animatedTextStyle]}
-        className="font-heartful mt-1"
+        className="text-[10px] mt-1"
       >
         {label}
       </Animated.Text>

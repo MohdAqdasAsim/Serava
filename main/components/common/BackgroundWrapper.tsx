@@ -16,7 +16,7 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ImageBackground
-        source={require("../assets/images/main.png")}
+        source={require("@/assets/images/main.png")}
         resizeMode="cover"
         style={styles.background}
       >

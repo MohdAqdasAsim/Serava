@@ -11,21 +11,21 @@ const slides = [
     title: "Welcome to Serava",
     subtitle: "Your Emotional Companion",
     description: "Feeling anxious? Serava will guide you through it.",
-    image: require("../assets/images/icon.png"),
+    image: require("@/assets/images/icon.png"),
   },
   {
     id: "2",
     title: "Track Your Moods",
     subtitle: "Daily Emotional Insights",
     description: "Understand your patterns and feel seen every day.",
-    image: require("../assets/images/icon.png"),
+    image: require("@/assets/images/icon.png"),
   },
   {
     id: "3",
     title: "Breathe & Reflect",
     subtitle: "Mindfulness Tools",
     description: "Guided exercises to help you find calm in the chaos.",
-    image: require("../assets/images/icon.png"),
+    image: require("@/assets/images/icon.png"),
   },
 ];
 

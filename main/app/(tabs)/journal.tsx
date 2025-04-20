@@ -5,9 +5,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Plus, Trash2 } from "lucide-react-native";
 import { useRouter } from "expo-router";
-import { GradientWrapper } from "@/components";
+import { GradientWrapper, JournalItem } from "@/components";
 import { useEffect, useState } from "react";
 import {
   deleteJournalEntry,
@@ -15,6 +14,7 @@ import {
 } from "@/services/firebaseFunctions";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { Feather } from "@expo/vector-icons";
 
 type JournalEntry = {
   journalId: string;
@@ -46,6 +46,15 @@ export default function Journals() {
     loadJournals();
   }, []);
 
+  const handleDeleteJournal = async (journalId: string) => {
+    const result = await deleteJournalEntry(journalId);
+    if (result.success) {
+      setJournals((prev) => prev.filter((j) => j.journalId !== journalId));
+    } else {
+      console.warn(result.message);
+    }
+  };
+
   return (
     <GradientWrapper>
       {loading ? (
@@ -57,53 +66,16 @@ export default function Journals() {
           data={journals}
           keyExtractor={(item) => item.journalId}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              className="w-full bg-white/10 border border-white/20 rounded-xl p-4 mb-4 flex flex-row justify-between"
-              onPress={() => {
-                router.push(
-                  `/journalDetail?journalId=${item.journalId}` as never
-                );
-              }}
-            >
-              <View className="flex-1 pr-2">
-                <Text
-                  className="font-semibold text-lg"
-                  style={{ color: Colors[theme].text }}
-                >
-                  {item.title || "Untitled Journal"}
-                </Text>
-                <Text
-                  className="text-sm mt-1"
-                  numberOfLines={2}
-                  style={{ color: Colors[theme].text }}
-                >
-                  {item.content || "No content yet..."}
-                </Text>
-                <Text
-                  className="text-xs mt-1"
-                  style={{ color: Colors[theme].text }}
-                >
-                  {item.createdAt
-                    ? new Date(item.createdAt.seconds * 1000).toDateString()
-                    : "No date"}
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={async () => {
-                  const result = await deleteJournalEntry(item.journalId);
-                  if (result.success) {
-                    setJournals((prev) =>
-                      prev.filter((j) => j.journalId !== item.journalId)
-                    );
-                  } else {
-                    console.warn(result.message);
-                  }
-                }}
-              >
-                <Trash2 size={20} color="white" />
-              </TouchableOpacity>
-            </TouchableOpacity>
+            <JournalItem
+              journalId={item.journalId}
+              title={item.title}
+              content={item.content}
+              createdAt={item.createdAt}
+              onPress={() =>
+                router.push(`/journal?journalId=${item.journalId}`)
+              }
+              onDelete={() => handleDeleteJournal(item.journalId)}
+            />
           )}
           ListEmptyComponent={() => (
             <View className="flex-1 items-center mt-10">
@@ -116,12 +88,12 @@ export default function Journals() {
 
       {/* New Journal Floating Button */}
       <TouchableOpacity
-        className="absolute bottom-24 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
+        className="absolute bottom-20 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
         onPress={() => {
-          router.push("/JournalPage"); // Replace with your journal creation route
+          router.push("/journal/journal"); // Replace with your journal creation route
         }}
       >
-        <Plus color="white" size={28} />
+        <Feather name="plus" size={28} color="white" />
       </TouchableOpacity>
     </GradientWrapper>
   );

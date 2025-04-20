@@ -1,8 +1,8 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, useRouter } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
 import React, { ReactNode, useEffect } from "react";
 import { StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -39,7 +39,11 @@ const ToolboxPageWrapper: React.FC<ToolboxPageWrapperProps> = ({
       <SafeAreaView className="flex-1">
         <View className="flex-row items-center px-2 py-1">
           <TouchableOpacity onPress={() => router.back()} className="p-2 mr-3">
-            <ArrowLeft size={24} color={Colors[theme].tabIcon} />
+            <Feather
+              name="arrow-left"
+              size={24}
+              color={Colors[theme].tabIcon}
+            />
           </TouchableOpacity>
 
           {title && (

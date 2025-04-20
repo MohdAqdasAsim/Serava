@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  ImageBackground,
-  Dimensions,
-} from "react-native";
-import { Audio } from "expo-av";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { BlurView } from "expo-blur";
 import { ToolboxPageWrapper } from "@/components";
 

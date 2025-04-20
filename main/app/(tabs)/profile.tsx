@@ -48,7 +48,7 @@ export default function Profile() {
 
   const handleLogout = async () => {
     await logout(); // Call the logout function
-    router.replace("/Login");
+    router.replace("/auth/login");
   };
 
   return (
@@ -62,8 +62,7 @@ export default function Profile() {
           {profile.profileImage ? (
             <Image
               source={{ uri: profile.profileImage }}
-              style={{ width: 120, height: 120, borderRadius: 60 }}
-              className="m-3"
+              className="w-30 h-30 rounded-full m-3"
             />
           ) : (
             <View className="w-24 h-24 rounded-full bg-gray-300 justify-center items-center">
@@ -155,17 +154,9 @@ export default function Profile() {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={handleLogout}
-          style={{
-            backgroundColor: Colors[theme].primary,
-            paddingVertical: 12,
-            borderRadius: 25,
-            marginTop: 20,
-            alignItems: "center",
-          }}
+          className={`bg-${Colors[theme].primary} py-3 rounded-full mt-5 items-center`}
         >
-          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
-            Logout
-          </Text>
+          <Text className="text-white text-lg font-bold">Logout</Text>
         </TouchableOpacity>
       </ScrollView>
     </GradientWrapper>

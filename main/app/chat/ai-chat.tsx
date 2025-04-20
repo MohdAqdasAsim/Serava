@@ -8,8 +8,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { ArrowLeft, Send } from "lucide-react-native";
-import { CustomHeader, GradientWrapper } from "@/components";
+import { GradientWrapper } from "@/components";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Colors } from "@/constants/Colors";
 import Markdown from "react-native-markdown-display"; // Import Markdown
@@ -21,6 +20,7 @@ import {
   updateConversation,
 } from "@/services/firebaseFunctions";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 type Message = { from: "user" | "ai"; text: string };
 
@@ -190,7 +190,7 @@ const AiChat = () => {
     <GradientWrapper>
       <View className="flex-row items-center px-2 py-1">
         <TouchableOpacity onPress={handleBackPress} className="p-2 mr-3">
-          <ArrowLeft size={24} color={Colors[theme].tabIcon} />
+          <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
 
         <Text
@@ -288,7 +288,7 @@ const AiChat = () => {
             onPress={sendMessage}
             className="p-2 rounded-full bg-white/10"
           >
-            <Send color="white" size={22} />
+            <Feather name="send" size={22} color="white" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

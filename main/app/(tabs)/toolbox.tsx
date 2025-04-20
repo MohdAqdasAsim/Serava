@@ -7,31 +7,31 @@ const tools = [
     emoji: "🧘",
     title: "Breathing Guide",
     description: "Regulate your breath with calm rhythms.",
-    route: "/toolbox/breathing",
+    route: "/tools/breathing",
   },
   {
     emoji: "🧠",
     title: "Cognitive Reframe",
     description: "Shift negative thoughts with CBT exercises.",
-    route: "/toolbox/reframe",
+    route: "/tools/reframe",
   },
   {
     emoji: "👁️",
     title: "Visual Grounding",
     description: "Use your senses to feel grounded and present.",
-    route: "/toolbox/grounding",
+    route: "/tools/grounding",
   },
   {
     emoji: "📵",
     title: "Focus Timer",
     description: "Stay on track with a Pomodoro-style timer.",
-    route: "/toolbox/focus",
+    route: "/tools/focus",
   },
   {
     emoji: "🔁",
     title: "Emotion Rewind",
     description: "Reflect on a past moment with new insight.",
-    route: "/toolbox/rewind",
+    route: "/tools/rewind",
   },
 ];
 

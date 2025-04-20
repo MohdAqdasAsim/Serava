@@ -303,7 +303,7 @@ const ProfileSetup = () => {
     <BackgroundWrapper>
       <View className="w-full flex items-center mb-12">
         <Image
-          source={require("../assets/images/icon.png")}
+          source={require("@/assets/images/icon.png")}
           className="w-20 h-20"
           resizeMode="contain"
         />

@@ -70,7 +70,7 @@ const Signup = () => {
       {/* Logo */}
       <View className="w-full flex items-center mb-4">
         <Image
-          source={require("../assets/images/icon.png")}
+          source={require("@/assets/images/icon.png")}
           className="w-20 h-20"
           resizeMode="contain"
         />
@@ -182,7 +182,7 @@ const Signup = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            router.replace("/Login");
+            router.replace("/auth/login");
           }}
         >
           <Text className="text-[#312170]">Log In</Text>

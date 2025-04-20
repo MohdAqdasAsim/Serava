@@ -6,15 +6,33 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
-import { registerTimerTask } from "@/services/timerBackgroundTask";
+import { NetworkProvider } from "@/contexts/NetworkProvider";
+import { AlertProvider } from "@/contexts/AlertProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Heartful: require("../assets/fonts/Heartful.ttf"),
   });
+
+  useEffect(() => {
+    const warmBackend = async () => {
+      try {
+        const res = await fetch(
+          "https://gemini-backend-97la.onrender.com/ping"
+        );
+        res.ok
+          ? console.log("✅ Backend is awake!")
+          : console.warn("⚠️ Backend ping returned non-200");
+      } catch (error) {
+        console.error("🔥 Backend wake-up failed:", error);
+      }
+    };
+
+    warmBackend();
+  }, []);
 
   useEffect(() => {
     if (loaded) {
@@ -22,26 +40,16 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
-
-  // useEffect(() => {
-  //   registerTimerTask();
-  // }, []);
+  if (!loaded) return null;
 
   return (
     <ThemeProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="Signup" options={{ headerShown: false }} />
-        <Stack.Screen name="Login" options={{ headerShown: false }} />
-        <Stack.Screen name="ProfileSetup" options={{ headerShown: false }} />
-        <Stack.Screen name="AiChat" options={{ headerShown: false }} />
-        <Stack.Screen name="JournalPage" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <StatusBar style="auto" />
-      </Stack>
+      <NetworkProvider>
+        <AlertProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+          <StatusBar style="auto" />
+        </AlertProvider>
+      </NetworkProvider>
     </ThemeProvider>
   );
 }

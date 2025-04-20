@@ -1,18 +1,17 @@
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   ScrollView,
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { CustomHeader, GradientWrapper } from "@/components";
+import { GradientWrapper } from "@/components";
 import { useRouter } from "expo-router";
-import { ArrowLeft, Plus, Save } from "lucide-react-native"; // Icon for a floating save button
 import { saveJournalEntry } from "@/services/firebaseFunctions";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { Feather } from "@expo/vector-icons";
 
 const JournalPage = () => {
   const router = useRouter();
@@ -46,7 +45,7 @@ const JournalPage = () => {
           onPress={() => router.back()}
           className="p-2 mr-3"
         >
-          <ArrowLeft size={24} color={Colors[theme].tabIcon} />
+          <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -54,7 +53,7 @@ const JournalPage = () => {
           onPress={() => handleSaveJournal()}
           className="p-2 mr-3"
         >
-          <Save size={24} color={Colors[theme].tabIcon} />
+          <Feather name="save" size={24} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
       </View>
       <View className="flex-1 p-4 rounded-lg">

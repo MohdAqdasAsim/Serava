@@ -38,7 +38,7 @@ const Login = () => {
       if (hasProfile) {
         router.replace("/home");
       } else {
-        router.replace("/ProfileSetup");
+        router.replace("/auth/profile-setup");
       }
     }
   };
@@ -48,7 +48,7 @@ const Login = () => {
       {/* Logo */}
       <View className="w-full flex items-center mb-4">
         <Image
-          source={require("../assets/images/icon.png")}
+          source={require("@/assets/images/icon.png")}
           className="w-20 h-20"
           resizeMode="contain"
         />
@@ -56,10 +56,10 @@ const Login = () => {
 
       {/* Header Text */}
       <View className="w-full flex items-center mb-6">
-        <Text className="text-[#312170] font-semibold text-5xl">
+        <Text className="text-[#312170] font-semibold text-4xl">
           Hey there 👋
         </Text>
-        <Text className="text-[#312170] text-2xl mt-2 text-center">
+        <Text className="text-[#312170] text-lg mt-2 text-center">
           We've missed you. Let’s pick up where we left off 💜
         </Text>
       </View>
@@ -155,7 +155,7 @@ const Login = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            router.replace("/Signup");
+            router.replace("/auth/signup");
           }}
         >
           <Text className="text-[#312170]">Sign Up</Text>

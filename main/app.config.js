@@ -19,14 +19,13 @@ export default {
       package: "com.mohdaqdasasim.serava",
       playStoreUrl:
         "https://play.google.com/store/apps/details?id=com.mohdaqdasasim.serava",
-      googleServicesFile: "./google-services.json",
       adaptiveIcon: {
         foregroundImage: "./assets/images/app-icon.png",
         backgroundColor: "#ffffff",
       },
       splash: {
-        image: "./assets/images/splash-screen.png",
-        resizeMode: "cover",
+        image: "./assets/images/icon.png",
+        resizeMode: "contain",
         backgroundColor: "#ffffff",
       },
       intentFilters: [
@@ -63,7 +62,7 @@ export default {
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       BACKEND_TOKEN: process.env.BACKEND_TOKEN,
       eas: {
-        projectId: "8de27956-05bc-4f7d-bba1-077ad233ce8d",
+        projectId: "1dbaa0a3-3d86-4246-82f1-0293cbc6a6d7",
       },
     },
   },

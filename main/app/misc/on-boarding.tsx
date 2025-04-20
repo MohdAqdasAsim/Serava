@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   StatusBar,
   ImageBackground,
   Pressable,
-  Modal,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons"; // Import Ionicons for the close icon
 import { useRouter } from "expo-router";
 import { LoginSignUpModal, SlidesFlatList } from "@/components";
 
@@ -28,12 +23,12 @@ const OnBoarding = () => {
 
   const handleLogin = () => {
     setModalVisible(false); // Close the modal
-    router.push("/Login"); // Navigate to the login screen
+    router.push("/auth/login"); // Navigate to the login screen
   };
 
   const handleSignUp = () => {
     setModalVisible(false); // Close the modal
-    router.push("/Signup"); // Navigate to the signup screen
+    router.push("/auth/signup"); // Navigate to the signup screen
   };
 
   const handleCloseModal = () => {
@@ -43,7 +38,7 @@ const OnBoarding = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/images/main.png")}
+      source={require("@/assets/images/main.png")}
       resizeMode="cover"
       className="flex-1 w-full h-full"
     >

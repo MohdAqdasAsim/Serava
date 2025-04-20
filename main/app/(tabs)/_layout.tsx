@@ -1,5 +1,5 @@
-import { TabBar } from "@/components"; // Your custom tab bar component
-import { Tabs } from "expo-router"; // Expo router for tab navigation
+import { TabBar } from "@/components";
+import { Tabs } from "expo-router";
 import React from "react";
 
 export default function TabLayout() {
@@ -8,7 +8,7 @@ export default function TabLayout() {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         headerTitleAlign: "left",
-        headerShown: false, // This hides the header for each tab screen
+        headerShown: false,
       }}
     >
       <Tabs.Screen

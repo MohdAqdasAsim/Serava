@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Colors } from "@/constants/Colors";
+import { Feather } from "@expo/vector-icons";
 
 type Props = {
   title?: string;
@@ -32,7 +32,7 @@ export default function CustomHeader({
         onPress={backTo === undefined ? handleBackPress : handleBack}
         className="p-2 mr-3"
       >
-        <ArrowLeft size={24} color={Colors[theme].tabIcon} />
+        <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />
       </TouchableOpacity>
 
       {title && (

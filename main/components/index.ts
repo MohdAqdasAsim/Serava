@@ -1,10 +1,62 @@
-import BackgroundWrapper from "./BackgroundWrapper";
-import CustomHeader from "./CustomHeader";
-import EmailSentModal from "./EmailSentModal";
-import GradientWrapper from "./GradientWrapper";
-import LoginSignUpModal from "./LoginSignUpModal";
-import SlidesFlatList from "./SlidesFlatList";
-import { TabBar } from "./TabBar";
-import ToolboxPageWrapper from "./ToolboxPageWrapper";
+// Common components
+import BackgroundWrapper from "./common/BackgroundWrapper";
+import CustomHeader from "./common/CustomHeader";
+import GradientWrapper from "./common/GradientWrapper";
+import ToolboxPageWrapper from "./common/ToolboxPageWrapper";
 
-export { TabBar, BackgroundWrapper, GradientWrapper, SlidesFlatList, LoginSignUpModal, EmailSentModal, CustomHeader, ToolboxPageWrapper };
+// Authentication components
+import EmailSentModal from "./auth/EmailSentModal";
+import LoginSignUpModal from "./auth/LoginSignUpModal";
+
+// Onboarding components
+import SlidesFlatList from "./onboarding/SlidesFlatList";
+
+// Navigation components
+import { TabBar } from "./navigation/TabBar";
+
+// Home components
+import MoodPickerCard from "./home/MoodPickerCard";
+import DailyFocusCard from "./home/DailyFocusCard";
+import JournalCard from "./home/JournalCard";
+import AiCard from "./home/AiCard";
+import ToolboxCard from "./home/ToolboxCard";
+import QuoteCard from "./home/QuoteCard";
+
+// Chat Components
+import ConversationItem from "./chat/ConversationItem";
+
+// Journal Components
+import { JournalItem } from "./journal/JournalItem";
+
+// Exporting all components in a clean manner
+export {
+  // Navigation
+  TabBar,
+
+  // Home
+  MoodPickerCard,
+  DailyFocusCard,
+  JournalCard,
+  AiCard,
+  ToolboxCard,
+  QuoteCard,
+
+  // Chat
+  ConversationItem,
+  
+  // Journal
+  JournalItem,
+  
+  // Common
+  BackgroundWrapper,
+  GradientWrapper,
+  ToolboxPageWrapper,
+  CustomHeader,
+
+  // Authentication
+  LoginSignUpModal,
+  EmailSentModal,
+
+  // Onboarding
+  SlidesFlatList,
+};

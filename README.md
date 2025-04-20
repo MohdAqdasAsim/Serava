@@ -46,10 +46,10 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
   gap: 1rem;
   flex-wrap: nowrap;
   width: 100%;">
-  <img draggable="false" src="docs/mockups/1.png" width="300" alt="Serava Logo" />
-  <img draggable="false" src="docs/mockups/2.png" width="300" alt="Serava Logo" />
-  <img draggable="false" src="docs/mockups/3.png" width="300" alt="Serava Logo" />
-  <img draggable="false" src="docs/mockups/4.png" width="300" alt="Serava Logo" />
+  <img draggable="false" src="docs/mockups/1.png" width="23%" alt="Serava Logo" />
+  <img draggable="false" src="docs/mockups/2.png" width="23%" alt="Serava Logo" />
+  <img draggable="false" src="docs/mockups/3.png" width="23%" alt="Serava Logo" />
+  <img draggable="false" src="docs/mockups/4.png" width="23%" alt="Serava Logo" />
 </div>
 
 

@@ -11,7 +11,7 @@ import {
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { BackgroundWrapper } from "@/components";
+import { BackgroundWrapper, ForgotPasswordModal } from "@/components";
 import { useRouter } from "expo-router";
 import { checkUserProfileExists, logIn } from "@/services/firebaseFunctions";
 
@@ -21,6 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [forgotModalVisible, setForgotModalVisible] = useState(false);
 
   const router = useRouter();
 
@@ -33,7 +34,7 @@ const Login = () => {
     setLoading(false);
     setFeedback(result.message);
 
-    if (result.success) {
+    if (result.success && result.isUserEmailVerified) {
       const hasProfile = await checkUserProfileExists();
       if (hasProfile) {
         router.replace("/home");
@@ -114,9 +115,7 @@ const Login = () => {
           {/* Forgot Password Link */}
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {
-              // Handle Forgot Password navigation or logic here
-            }}
+            onPress={() => setForgotModalVisible(true)}
             className="w-full flex items-end"
           >
             <Text className="text-[#312170]">Forgot Password?</Text>
@@ -161,6 +160,13 @@ const Login = () => {
           <Text className="text-[#312170]">Sign Up</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        visible={forgotModalVisible}
+        onClose={() => setForgotModalVisible(false)}
+        setFeedback={setFeedback}
+      />
     </BackgroundWrapper>
   );
 };

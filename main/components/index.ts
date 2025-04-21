@@ -7,6 +7,7 @@ import ToolboxPageWrapper from "./common/ToolboxPageWrapper";
 // Authentication components
 import EmailSentModal from "./auth/EmailSentModal";
 import LoginSignUpModal from "./auth/LoginSignUpModal";
+import ForgotPasswordModal from "./auth/ForgotPasswordModal";
 
 // Onboarding components
 import SlidesFlatList from "./onboarding/SlidesFlatList";
@@ -56,6 +57,7 @@ export {
   // Authentication
   LoginSignUpModal,
   EmailSentModal,
+  ForgotPasswordModal,
 
   // Onboarding
   SlidesFlatList,

@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
 import { setDoc, doc, serverTimestamp, getDoc, updateDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
@@ -39,16 +40,29 @@ export const logIn = async (email: string, password: string) => {
     // Refresh the user's auth state
     await user.reload();
 
-    if (!user.emailVerified) {
+    const isUserEmailVerified = user.emailVerified;
+
+    if (!isUserEmailVerified) {
+      await auth.signOut();
       return {
         success: false,
         message: "Please verify your email before logging in.",
+        isUserEmailVerified: isUserEmailVerified
       };
     }
 
-    return { success: true, message: "Login successful!" };
+    return { success: true, message: "Login successful!", isUserEmailVerified: isUserEmailVerified };
   } catch (error: any) {
     return { success: false, message: error.message };
+  }
+};
+
+export const resetPassword = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { success: true, message: "Password reset email sent!" };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong." };
   }
 };
 

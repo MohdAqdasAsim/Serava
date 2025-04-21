@@ -13,6 +13,7 @@ import { getUserProfile, logout } from "@/services/firebaseFunctions";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import { GradientWrapper } from "@/components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
   const { theme } = useTheme();
@@ -22,9 +23,19 @@ export default function Profile() {
 
   useEffect(() => {
     const loadProfile = async () => {
-      const data = await getUserProfile();
-      setProfile(data);
-      setLoading(false);
+      try {
+        const data = await getUserProfile();
+        setProfile(data);
+        await AsyncStorage.setItem("userProfile", JSON.stringify(data));
+      } catch (error) {
+        console.log("Failed to fetch profile online. Trying cached data...");
+        const cached = await AsyncStorage.getItem("userProfile");
+        if (cached) {
+          setProfile(JSON.parse(cached));
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadProfile();

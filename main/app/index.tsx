@@ -13,6 +13,9 @@ const App = () => {
   const isFirstLaunch = useFirstLaunch();
 
   useAuthCheck((route, moodTheme) => {
+    // if (!isFirstLaunch) {
+    //   return;
+    // }
     if (moodTheme) {
       setTheme(moodTheme as never);
     }

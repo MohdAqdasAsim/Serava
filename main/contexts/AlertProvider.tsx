@@ -1,46 +1,126 @@
-// src/contexts/AlertProvider.tsx
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
+import {
+  Animated,
+  Dimensions,
+  Text,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+type AlertType = "success" | "error" | "warning" | "info";
+type AlertContextType = (type: AlertType, message: string) => void;
 
-type AlertType = "success" | "error" | "info" | "warning";
+const AlertContext = createContext<AlertContextType>(() => {});
+export const useAlert = () => useContext(AlertContext);
 
-interface AlertContextType {
-  alertMessage: string;
-  alertType: AlertType;
-  showAlert: (message: string, type: AlertType) => void;
-  hideAlert: () => void;
-}
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const AlertContext = createContext<AlertContextType>({
-  alertMessage: "",
-  alertType: "info",
-  showAlert: () => {},
-  hideAlert: () => {},
-});
+const alertColors = {
+  success: "#4CAF50",
+  error: "#F44336",
+  warning: "#FF9800",
+  info: "#2196F3",
+};
 
-export const AlertProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const [alertType, setAlertType] = useState<AlertType>("info");
+export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
+  const [alert, setAlert] = useState<{
+    type: AlertType;
+    message: string;
+  } | null>(null);
+  const translateY = useRef(new Animated.Value(-100)).current;
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const showAlert = (message: string, type: AlertType) => {
-    setAlertMessage(message);
-    setAlertType(type);
-  };
+  const showAlert = useCallback((type: AlertType, message: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-  const hideAlert = () => {
-    setAlertMessage("");
-    setAlertType("info");
-  };
+    setAlert({ type, message });
+
+    Animated.timing(translateY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    timeoutRef.current = setTimeout(() => {
+      Animated.timing(translateY, {
+        toValue: -100,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => {
+        setAlert(null);
+      });
+    }, 3000);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <AlertContext.Provider
-      value={{ alertMessage, alertType, showAlert, hideAlert }}
-    >
+    <AlertContext.Provider value={showAlert}>
       {children}
+      {alert && (
+        <Animated.View
+          style={[
+            styles.alertContainer,
+            {
+              backgroundColor: alertColors[alert.type],
+              transform: [{ translateY }],
+            },
+          ]}
+        >
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (timeoutRef.current) clearTimeout(timeoutRef.current);
+              Animated.timing(translateY, {
+                toValue: -100,
+                duration: 300,
+                useNativeDriver: true,
+              }).start(() => {
+                setAlert(null);
+              });
+            }}
+          >
+            <Text style={styles.alertText}>{alert.message}</Text>
+          </TouchableWithoutFeedback>
+        </Animated.View>
+      )}
     </AlertContext.Provider>
   );
 };
 
-export const useAlert = () => useContext(AlertContext);
+const styles = StyleSheet.create({
+  alertContainer: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    right: 20,
+    padding: 15,
+    borderRadius: 10,
+    zIndex: 1000,
+    elevation: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  alertText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

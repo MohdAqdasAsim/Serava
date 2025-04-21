@@ -8,9 +8,31 @@ import "../global.css";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { NetworkProvider } from "@/contexts/NetworkProvider";
 import { AlertProvider } from "@/contexts/AlertProvider";
+import { Text, View } from "react-native";
+import { ErrorBoundary } from "react-error-boundary";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+function ErrorFallback({ error }: { error: Error }) {
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+      }}
+    >
+      <Text style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}>
+        😓 Oops! Something went wrong.
+      </Text>
+      <Text style={{ fontSize: 14, color: "red", textAlign: "center" }}>
+        {error.message}
+      </Text>
+    </View>
+  );
+}
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -43,13 +65,15 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <ThemeProvider>
-      <NetworkProvider>
-        <AlertProvider>
-          <Stack screenOptions={{ headerShown: false }} />
-          <StatusBar style="auto" />
-        </AlertProvider>
-      </NetworkProvider>
-    </ThemeProvider>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ThemeProvider>
+        <NetworkProvider>
+          <AlertProvider>
+            <Stack screenOptions={{ headerShown: false }} />
+            <StatusBar style="auto" />
+          </AlertProvider>
+        </NetworkProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }

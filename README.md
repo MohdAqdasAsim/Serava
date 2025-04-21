@@ -8,12 +8,18 @@
   <em>A sanctuary in your pocket, Serava is always kind, always present, always evolving with you.</em>
 </p>
 
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.mohdaqdasasim.serava">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+         alt="Get it on Google Play" height="80"/>
+  </a>
+</p>
+
 ## 🌈 Overview
 
 **Serava** isn't just another chatbot. It's your mood-aware, emotionally intelligent AI friend designed to support your mental well-being through empathy, mindfulness, and personalization.
 
 Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding exercise, Serava adapts to what _you_ need in the moment—offering a calming presence, motivational support, or a gentle nudge toward self-reflection.
-
 
 ## ✨ Features
 
@@ -25,11 +31,9 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
 - 🧘 **Offline Mode** – Access core wellness tools even without internet.
 - 🔒 **Secure & Private** – Data encrypted and stored with Firebase.
 
-
 ## 💡 The Problem It Solves
 
 > Many people struggle silently with anxiety, burnout, and emotional turmoil. Not everyone can or wants to reach out. Serava steps in with 24/7 support, not to replace therapy, but to **bridge the gap** between daily struggles and professional help.
-
 
 ## 🌟 Target Audience
 
@@ -52,7 +56,6 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
   <img draggable="false" src="docs/mockups/4.png" width="23%" alt="Serava Logo" />
 </div>
 
-
 ## 🧹 Tech Stack
 
 | Layer              | Tech Used                                          |
@@ -64,16 +67,13 @@ Whether you're feeling lost, anxious, overwhelmed, or simply want a grounding ex
 | **Voice & Input**  | Optional integration with Mozilla DeepSpeech       |
 | **Design**         | Figma, Midjourney for assets, custom illustrations |
 
-
 ## 🗾 Architecture
 
 ![Architecture Diagram](docs/diagrams/architecture.png)
 
-
 ## 📏 User Flow
 
 ![User Flow](docs/diagrams/user_flow.png)
-
 
 ## ⚙️ Getting Started
 

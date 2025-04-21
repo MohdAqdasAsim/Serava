@@ -9,6 +9,7 @@ import { setDoc, doc, serverTimestamp, getDoc, updateDoc, collection, getDocs, d
 import uuid from "react-native-uuid";
 import { auth, db } from "./firebaseConfig";
 import { Alert } from "react-native";
+import { FirebaseError } from "firebase/app";
 
 // Sign Up function
 export const signUp = async (email: string, password: string) => {
@@ -27,7 +28,31 @@ export const signUp = async (email: string, password: string) => {
       message: "Verification email sent. Please verify your email!",
     };
   } catch (error: any) {
-    return { success: false, message: error.message };
+    let message = "Something went wrong. Please try again.";
+
+    if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          message = "This email is already in use. Try logging in instead.";
+          break;
+        case "auth/invalid-email":
+          message = "The email address is not valid.";
+          break;
+        case "auth/weak-password":
+          message = "Password should be at least 6 characters.";
+          break;
+        case "auth/operation-not-allowed":
+          message = "Sign-up is disabled for this project.";
+          break;
+        default:
+          message = error.message;
+      }
+    }
+
+    return {
+      success: false,
+      message,
+    };
   }
 };
 
@@ -53,7 +78,37 @@ export const logIn = async (email: string, password: string) => {
 
     return { success: true, message: "Login successful!", isUserEmailVerified: isUserEmailVerified };
   } catch (error: any) {
-    return { success: false, message: error.message };
+    let message = "Something went wrong. Please try again.";
+
+    if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case "auth/invalid-credential":
+          message = "No user found with this email address or incorrect password.";
+          break;
+        case "auth/user-not-found":
+          message = "No user found with this email address.";
+          break;
+        case "auth/wrong-password":
+          message = "Incorrect password. Please try again.";
+          break;
+        case "auth/invalid-email":
+          message = "Invalid email format.";
+          break;
+        case "auth/too-many-requests":
+          message = "Too many login attempts. Please try again later.";
+          break;
+        case "auth/operation-not-allowed":
+          message = "Login is disabled for this project.";
+          break;
+        default:
+          message = error.message;
+      }
+    }
+
+    return {
+      success: false,
+      message,
+    };
   }
 };
 

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
-import { GradientWrapper, JournalItem } from "@/components";
+import { ConfirmModal, GradientWrapper, JournalItem } from "@/components";
 import { useCallback, useState } from "react";
 import {
   deleteJournalEntry,
@@ -25,6 +25,10 @@ export default function Journals() {
   const router = useRouter();
   const [journals, setJournals] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedJournalId, setSelectedJournalId] = useState<string | null>(
+    null
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -45,12 +49,18 @@ export default function Journals() {
     }, [])
   );
 
-  const handleDeleteJournal = async (journalId: string) => {
-    const result = await deleteJournalEntry(journalId);
-    if (result.success) {
-      setJournals((prev) => prev.filter((j) => j.journalId !== journalId));
-    } else {
-      console.warn(result.message);
+  const handleDelete = (journalId: string) => {
+    setSelectedJournalId(journalId);
+    setConfirmVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    if (selectedJournalId) {
+      await deleteJournalEntry(selectedJournalId);
+      setJournals((prev) =>
+        prev.filter((j) => j.journalId !== selectedJournalId)
+      );
+      setConfirmVisible(false);
     }
   };
 
@@ -73,7 +83,7 @@ export default function Journals() {
               onPress={() =>
                 router.push(`/journal/journal?journalId=${item.journalId}`)
               }
-              onDelete={() => handleDeleteJournal(item.journalId)}
+              onDelete={() => handleDelete(item.journalId)}
             />
           )}
           ListEmptyComponent={() => (
@@ -94,6 +104,16 @@ export default function Journals() {
       >
         <Feather name="plus" size={28} color="white" />
       </TouchableOpacity>
+
+      <ConfirmModal
+        visible={confirmVisible}
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmVisible(false)}
+        title="Delete Journal?"
+        message="Are you sure you want to delete this journal entry?"
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </GradientWrapper>
   );
 }

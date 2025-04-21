@@ -86,7 +86,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             />
 
             <LinearGradient
-              colors={["#b6a8ff", "#9486f0"]}
+              colors={["#b6a2ff", "#9424f0"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               className="rounded-3xl w-full h-12 overflow-hidden"

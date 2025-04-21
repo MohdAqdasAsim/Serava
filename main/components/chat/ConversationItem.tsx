@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+type Message = { from: "user" | "ai"; text: string };
 
 type ConversationItemProps = {
   conversation: {
     id: string;
     title?: string;
+    messages?: Object;
     preview?: string;
     timestamp?: any;
   };
@@ -22,6 +24,8 @@ const ConversationItem = ({
 }: ConversationItemProps) => {
   const { theme } = useTheme();
 
+  const messages = conversation.messages as Message[] | undefined;
+
   return (
     <TouchableOpacity
       className="w-full bg-white/10 border border-white/20 rounded-2xl p-4 mb-4 flex flex-row justify-between"
@@ -34,8 +38,9 @@ const ConversationItem = ({
         >
           {conversation.title || "Untitled Conversation"}
         </Text>
-        <Text className="text-sm mt-1" style={{ color: Colors[theme].text }}>
-          {conversation.preview || "Start talking to Serava..."}
+        <Text className="text-sm" style={{ color: Colors[theme].text }}>
+          {(messages && messages[0].text + " . . .") ||
+            "Start talking to Serava..."}
         </Text>
         <Text className="text-xs mt-1" style={{ color: Colors[theme].text }}>
           {conversation.timestamp

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
-import { ConversationItem, GradientWrapper } from "@/components";
+import { ConfirmModal, ConversationItem, GradientWrapper } from "@/components";
 import {
   fetchUserConversations,
   deleteConversation,
@@ -25,6 +25,10 @@ export default function Chat() {
   const router = useRouter();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // 👇 State for modal
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedConvId, setSelectedConvId] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -45,13 +49,23 @@ export default function Chat() {
     }, [])
   );
 
-  const handleDelete = async (id: string) => {
-    const result = await deleteConversation(id);
-    if (result.success) {
-      setConversations((prev) => prev.filter((conv) => conv.id !== id));
-    } else {
-      console.warn(result.message);
+  const handleDelete = (id: string) => {
+    setSelectedConvId(id);
+    setConfirmVisible(true); // Show modal
+  };
+
+  const confirmDelete = async () => {
+    if (selectedConvId) {
+      const result = await deleteConversation(selectedConvId);
+      if (result.success) {
+        setConversations((prev) =>
+          prev.filter((conv) => conv.id !== selectedConvId)
+        );
+      } else {
+        console.warn(result.message);
+      }
     }
+    setConfirmVisible(false);
   };
 
   const handlePress = (id: string) => {
@@ -72,7 +86,7 @@ export default function Chat() {
             <ConversationItem
               conversation={item}
               onPress={() => handlePress(item.id)}
-              onDelete={() => handleDelete(item.id)}
+              onDelete={() => handleDelete(item.id)} // 👈 use the modal-triggering function
             />
           )}
           ListEmptyComponent={
@@ -93,6 +107,17 @@ export default function Chat() {
       >
         <Feather name="plus" size={28} color="white" />
       </TouchableOpacity>
+
+      {/* 👇 Reusable Confirmation Modal */}
+      <ConfirmModal
+        visible={confirmVisible}
+        title="Delete Conversation?"
+        message="Are you sure you want to delete this chat? This can't be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmVisible(false)}
+      />
     </GradientWrapper>
   );
 }

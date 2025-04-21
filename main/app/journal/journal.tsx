@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { GradientWrapper } from "@/components";
+import { DiscardChangesModal, GradientWrapper, SaveModal } from "@/components";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   saveJournalEntry,
@@ -30,6 +30,9 @@ const JournalPage = () => {
   const [content, setContent] = useState<string>("");
   const [initialTitle, setInitialTitle] = useState<string>("");
   const [initialContent, setInitialContent] = useState<string>("");
+
+  const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [saveModal, setSaveModal] = useState(false);
 
   const formattedDate = moment().format("dddd, MMMM Do YYYY");
 
@@ -76,10 +79,8 @@ const JournalPage = () => {
       setInitialTitle(title); // ✅ Update initial after save
       setInitialContent(content);
       if (!auto) {
-        Alert.alert(
-          "Success",
-          journalId ? "Journal updated!" : "Journal saved!"
-        );
+        setSaveModal(true);
+        setTimeout(() => setSaveModal(false), 1500);
       }
     } else {
       if (!auto) {
@@ -99,18 +100,7 @@ const JournalPage = () => {
   // 🔙 Handle back button
   const handleBackPress = () => {
     if (hasUnsavedChanges) {
-      Alert.alert(
-        "Unsaved Changes",
-        "You have unsaved changes. Do you want to discard them?",
-        [
-          { text: "Cancel", style: "cancel" },
-          {
-            text: "Discard",
-            style: "destructive",
-            onPress: () => router.back(),
-          },
-        ]
-      );
+      setShowDiscardModal(true);
     } else {
       router.back();
     }
@@ -183,6 +173,21 @@ const JournalPage = () => {
           {content.length} characters
         </Text>
       </View>
+
+      <DiscardChangesModal
+        visible={showDiscardModal}
+        onCancel={() => setShowDiscardModal(false)}
+        onDiscard={() => {
+          setShowDiscardModal(false);
+          router.back();
+        }}
+      />
+
+      <SaveModal
+        visible={saveModal}
+        onClose={() => setSaveModal(false)}
+        message={journalId ? "Journal updated!" : "Journal saved!"}
+      />
     </GradientWrapper>
   );
 };

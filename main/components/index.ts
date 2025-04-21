@@ -3,6 +3,7 @@ import BackgroundWrapper from "./common/BackgroundWrapper";
 import CustomHeader from "./common/CustomHeader";
 import GradientWrapper from "./common/GradientWrapper";
 import ToolboxPageWrapper from "./common/ToolboxPageWrapper";
+import ConfirmModal from "./common/ConfirmModal";
 
 // Authentication components
 import EmailSentModal from "./auth/EmailSentModal";
@@ -28,6 +29,8 @@ import ConversationItem from "./chat/ConversationItem";
 
 // Journal Components
 import { JournalItem } from "./journal/JournalItem";
+import SaveModal from "./journal/SaveModal";
+import DiscardChangesModal from "./journal/DiscardChangesModal";
 
 // Exporting all components in a clean manner
 export {
@@ -47,12 +50,15 @@ export {
   
   // Journal
   JournalItem,
+  SaveModal,
+  DiscardChangesModal,
   
   // Common
   BackgroundWrapper,
   GradientWrapper,
   ToolboxPageWrapper,
   CustomHeader,
+  ConfirmModal,
 
   // Authentication
   LoginSignUpModal,

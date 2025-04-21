@@ -22,25 +22,26 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSignUp = async () => {
     // Validate email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(email)) {
-      alert("Please enter a valid email!");
+      setFeedback("Please enter a valid email!");
       return;
     }
 
     // Validate password match
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setFeedback("Password do not match");
       return;
     }
 
     // Check if password is strong enough (optional)
     if (password.length < 6) {
-      alert("Password should be at least 6 characters long!");
+      setFeedback("Password should be at least 6 characters long!");
       return;
     }
 
@@ -54,10 +55,10 @@ const Signup = () => {
       if (success) {
         setModalVisible(true); // Show email sent modal
       } else {
-        alert(message); // Show error message if sign-up fails
+        setFeedback(message);
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      setFeedback("Something went wrong. Please try again.");
     }
   };
 
@@ -155,6 +156,11 @@ const Signup = () => {
           </View>
         </BlurView>
       </View>
+
+      {/* Feedback */}
+      {feedback && (
+        <Text className="text-center mb-2 text-[#312170]">{feedback}</Text>
+      )}
 
       {/* Sign Up Button */}
       <LinearGradient

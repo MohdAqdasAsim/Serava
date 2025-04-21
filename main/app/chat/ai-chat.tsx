@@ -7,6 +7,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  BackHandler,
+  ActivityIndicator,
 } from "react-native";
 import { GradientWrapper } from "@/components";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -34,8 +36,23 @@ const AiChat = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [conversationTitle, setConversationTitle] = useState("");
   const [isConversationStarted, setIsConversationStarted] = useState(false); // Track conversation start
+  const [actionLoading, setActionLoading] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const onBackPress = () => {
+      handleBackPress();
+      return true; // Prevent default behavior (going back immediately)
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress
+    );
+
+    return () => backHandler.remove(); // Cleanup
+  }, [isConversationStarted, conversationId, messages]); // include relevant dependencies
 
   useEffect(() => {
     const loadConversation = async () => {
@@ -75,23 +92,22 @@ const AiChat = () => {
 
     const emotion = theme;
 
-    const promptWrapper = `You are an emotionally intelligent AI named **Serava**, designed to be a caring, adaptive emotional companion.
-      You are talking to a user who wants emotional support. They have shared something with you, and they are currently feeling a specific emotion.
-      Your job is not to give solutions unless asked. Your main priority is to validate, support, and gently guide if needed — always with empathy and emotional resonance.
+    const promptWrapper = `You are Serava, an emotionally intelligent AI companion designed to provide compassionate, adaptive emotional support.
+    The user is sharing their feelings with you, and they are experiencing a specific emotion. Your role is to create a safe, comforting space where they feel heard and understood, without offering solutions unless specifically requested.
+  
+    Here is the user's input:
+    - What the user said: "${input}"
+    - Current emotional state: "${emotion}"
+  
+    Please respond with:
+    - A short and clear message unless the user asks for something more elaborate
+    - A tone and language that resonates with the user's emotional state (gentle if they're sad, calming if they're anxious, uplifting if they're happy)
+    - Genuine empathy that reflects how an emotionally present companion would naturally respond
+    - A supportive, non-judgmental approach — just *be there* and acknowledge their feelings
+    - If appropriate, gently encourage the user to continue the conversation with a soft prompt, without forcing it
     
-      Here’s the user input:
-      - What the user said: "${input}"
-      - Current emotional state: "${emotion}"
-      
-      Now respond with:
-      - Empathy that matches the user's emotional state
-      - A tone that aligns with the emotion (softer when sad, brighter when joyful, grounded when anxious, etc.)
-      - A response that feels like how *they would want an emotional partner to respond*
-      - Optionally, a subtle prompt to continue the conversation (if appropriate)
-
-      Do not analyze them. Do not be clinical. Just *be there*.
-      Begin your response:
-      `;
+    Avoid analyzing, diagnosing, or offering advice. Focus solely on validating their emotions and providing comfort in the moment.
+    Begin your response:`;
 
     try {
       if (!isConversationStarted) {
@@ -152,6 +168,7 @@ const AiChat = () => {
         );
 
         if (storedMessages) {
+          setActionLoading(true);
           const parsedMessages = JSON.parse(storedMessages);
 
           let result;
@@ -171,6 +188,7 @@ const AiChat = () => {
             console.error(result.message);
           }
         }
+        setActionLoading(false);
         router.back();
       }
     } catch (err) {
@@ -180,6 +198,11 @@ const AiChat = () => {
 
   return (
     <GradientWrapper>
+      {actionLoading && (
+        <View className="absolute top-0 left-0 right-0 bottom-0 z-50 justify-center items-center pointer-events-none">
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      )}
       <View className="flex-row items-center px-2 py-1">
         <TouchableOpacity onPress={handleBackPress} className="p-2 mr-3">
           <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />

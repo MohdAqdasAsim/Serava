@@ -231,7 +231,7 @@ export default function Profile() {
             <TextInput
               editable={isEditing}
               placeholder="Pronouns"
-              value={editedProfile.pronouns || "He/Him"}
+              value={editedProfile.pronouns || ""}
               onChangeText={(text) =>
                 setEditedProfile({ ...editedProfile, pronouns: text })
               }

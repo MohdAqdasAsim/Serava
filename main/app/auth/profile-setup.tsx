@@ -50,6 +50,7 @@ const ProfileSetup = () => {
     avoidTopics: "",
     plan: "free",
   });
+  const [feedback, setFeedback] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [moodTheme, setMoodTheme] = useState<Theme>("joy");
@@ -76,46 +77,40 @@ const ProfileSetup = () => {
     try {
       if (stepIndex === 0) {
         if (!form.name.trim()) {
-          Alert.alert("Validation Error", "Name is required.");
+          setFeedback("Name is required");
           return false;
         }
         const ageNumber = Number(form.age);
         if (!ageNumber || isNaN(ageNumber) || ageNumber < 1) {
-          Alert.alert("Validation Error", "Please enter a valid age.");
+          setFeedback("Please enter a valid age");
           return false;
         }
       }
 
       if (stepIndex === 2) {
         if (!form.emotionalReason.trim()) {
-          Alert.alert("Validation Error", "Please share why you're here.");
+          setFeedback("Please share why you're here");
           return false;
         }
         if (!form.avoidTopics.trim()) {
-          Alert.alert(
-            "Validation Error",
-            "Please share what you want to avoid."
-          );
+          setFeedback("Please share what you want to avoid");
           return false;
         }
       }
 
       if (stepIndex === 3) {
         if (!form.checkInFrequency) {
-          Alert.alert(
-            "Validation Error",
-            "Please select a check-in frequency."
-          );
+          setFeedback("Please select a check-in frequency");
           return false;
         }
         if (!form.preferredTime) {
-          Alert.alert("Validation Error", "Please select a support time.");
+          setFeedback("Please select a support time");
           return false;
         }
       }
 
       if (stepIndex === 4 && !moodTheme) {
-        Alert.alert("Validation Error", "Please choose a mood theme.");
+        setFeedback("Please choose a mood theme");
         return false;
       }
 
@@ -129,6 +124,7 @@ const ProfileSetup = () => {
   const handleNext = () => {
     try {
       if (!validateStep()) return;
+      setFeedback("");
       if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       } else {
@@ -140,15 +136,18 @@ const ProfileSetup = () => {
   };
 
   const handleBack = () => {
+    setFeedback("");
     if (stepIndex > 0) setStepIndex(stepIndex - 1);
   };
 
   const handleProfileSubmit = async () => {
-    if (!form.name) return Alert.alert("Name is required.");
+    if (!form.name) {
+      setFeedback("Name is required.");
+    }
 
     const ageNumber = Number(form.age);
     if (!ageNumber || isNaN(ageNumber) || ageNumber < 0) {
-      return Alert.alert("Please enter a valid age.");
+      setFeedback("Please enter a valid age.");
     }
 
     const profileData = {
@@ -159,7 +158,7 @@ const ProfileSetup = () => {
 
     setLoading(true);
     const { success, message } = await saveUserProfile(profileData);
-    Alert.alert(message);
+    setFeedback(message);
     setLoading(false);
 
     setTheme(moodTheme);
@@ -374,6 +373,11 @@ const ProfileSetup = () => {
         className="w-full rounded-3xl overflow-hidden p-4 max-w-md"
       >
         {renderInputs()}
+
+        {/* Feedback */}
+        {feedback && (
+          <Text className="text-center text-[#312170]">{feedback}</Text>
+        )}
 
         <View className="flex-row justify-between mt-6">
           {stepIndex > 0 && (

@@ -5,46 +5,45 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { GradientWrapper, JournalItem } from "@/components";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   deleteJournalEntry,
   fetchUserJournals,
 } from "@/services/firebaseFunctions";
-import { Colors } from "@/constants/Colors";
-import { useTheme } from "@/contexts/ThemeProvider";
 import { Feather } from "@expo/vector-icons";
 
 type JournalEntry = {
   journalId: string;
   title?: string;
   content?: string;
-  createdAt?: any; // Timestamp or Date
+  createdAt?: any;
 };
 
 export default function Journals() {
-  const { theme } = useTheme();
   const router = useRouter();
   const [journals, setJournals] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadJournals = async () => {
-      setLoading(true);
-      const result = await fetchUserJournals();
+  useFocusEffect(
+    useCallback(() => {
+      const loadJournals = async () => {
+        setLoading(true);
+        const result = await fetchUserJournals();
 
-      if (result.success) {
-        setJournals(result.data);
-      } else {
-        console.warn(result.message);
-      }
+        if (result.success) {
+          setJournals(result.data);
+        } else {
+          console.warn(result.message);
+        }
 
-      setLoading(false);
-    };
+        setLoading(false);
+      };
 
-    loadJournals();
-  }, []);
+      loadJournals();
+    }, [])
+  );
 
   const handleDeleteJournal = async (journalId: string) => {
     const result = await deleteJournalEntry(journalId);
@@ -72,7 +71,7 @@ export default function Journals() {
               content={item.content}
               createdAt={item.createdAt}
               onPress={() =>
-                router.push(`/journal?journalId=${item.journalId}`)
+                router.push(`/journal/journal?journalId=${item.journalId}`)
               }
               onDelete={() => handleDeleteJournal(item.journalId)}
             />
@@ -88,9 +87,9 @@ export default function Journals() {
 
       {/* New Journal Floating Button */}
       <TouchableOpacity
-        className="absolute bottom-20 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
+        className="absolute bottom-24 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
         onPress={() => {
-          router.push("/journal/journal"); // Replace with your journal creation route
+          router.push("/journal/journal");
         }}
       >
         <Feather name="plus" size={28} color="white" />

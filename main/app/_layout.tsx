@@ -10,6 +10,7 @@ import { NetworkProvider } from "@/contexts/NetworkProvider";
 import { AlertProvider } from "@/contexts/AlertProvider";
 import { Text, View } from "react-native";
 import { ErrorBoundary } from "react-error-boundary";
+import { FontProvider } from "@/contexts/FontProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,23 +41,6 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    const warmBackend = async () => {
-      try {
-        const res = await fetch(
-          "https://gemini-backend-97la.onrender.com/ping"
-        );
-        res.ok
-          ? console.log("✅ Backend is awake!")
-          : console.warn("⚠️ Backend ping returned non-200");
-      } catch (error) {
-        console.error("🔥 Backend wake-up failed:", error);
-      }
-    };
-
-    warmBackend();
-  }, []);
-
-  useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
@@ -66,14 +50,16 @@ export default function RootLayout() {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ThemeProvider>
-        <NetworkProvider>
-          <AlertProvider>
-            <Stack screenOptions={{ headerShown: false }} />
-            <StatusBar style="auto" />
-          </AlertProvider>
-        </NetworkProvider>
-      </ThemeProvider>
+      <FontProvider>
+        <ThemeProvider>
+          <NetworkProvider>
+            <AlertProvider>
+              <Stack screenOptions={{ headerShown: false }} />
+              <StatusBar style="auto" />
+            </AlertProvider>
+          </NetworkProvider>
+        </ThemeProvider>
+      </FontProvider>
     </ErrorBoundary>
   );
 }

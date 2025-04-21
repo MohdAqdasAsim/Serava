@@ -1,48 +1,141 @@
 import {
   View,
+  Text,
   TextInput,
   TouchableOpacity,
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GradientWrapper } from "@/components";
-import { useRouter } from "expo-router";
-import { saveJournalEntry } from "@/services/firebaseFunctions";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import {
+  saveJournalEntry,
+  fetchJournalById,
+  updateJournalEntry,
+} from "@/services/firebaseFunctions";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Feather } from "@expo/vector-icons";
+import moment from "moment";
+import { useFocusEffect } from "expo-router";
+import { BackHandler } from "react-native";
 
 const JournalPage = () => {
   const router = useRouter();
   const { theme } = useTheme();
+  const { journalId } = useLocalSearchParams<{ journalId?: string }>();
+
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [initialTitle, setInitialTitle] = useState<string>("");
+  const [initialContent, setInitialContent] = useState<string>("");
 
-  const handleSaveJournal = async () => {
+  const formattedDate = moment().format("dddd, MMMM Do YYYY");
+
+  const hasUnsavedChanges =
+    title !== initialTitle || content !== initialContent;
+
+  useEffect(() => {
+    if (journalId) {
+      fetchJournalById(journalId).then((res) => {
+        if (res.success && res.data) {
+          setTitle(res.data.title);
+          setContent(res.data.content);
+          setInitialTitle(res.data.title); // 🧠 store initial data
+          setInitialContent(res.data.content);
+        } else {
+          Alert.alert("Error", res.message || "Could not load journal.");
+        }
+      });
+    }
+  }, [journalId]);
+
+  const handleSaveJournal = async (auto = false) => {
     if (!title.trim() || !content.trim()) {
-      Alert.alert("Error", "Title and content cannot be empty.");
+      if (!auto) {
+        Alert.alert("Error", "Title and content cannot be empty.");
+      }
       return;
     }
 
     const mood = theme;
-    const result = await saveJournalEntry(title, content, mood);
+    let result;
+
+    if (journalId) {
+      result = await updateJournalEntry(journalId, {
+        title,
+        content,
+        mood,
+      });
+    } else {
+      result = await saveJournalEntry(title, content, mood);
+    }
 
     if (result.success) {
-      Alert.alert("Success", "Journal saved successfully!");
+      setInitialTitle(title); // ✅ Update initial after save
+      setInitialContent(content);
+      if (!auto) {
+        Alert.alert(
+          "Success",
+          journalId ? "Journal updated!" : "Journal saved!"
+        );
+      }
     } else {
-      console.log(result.message);
-
-      Alert.alert("Error", result.message || "Failed to save journal.");
+      if (!auto) {
+        Alert.alert("Error", result.message || "Save failed.");
+      }
     }
   };
+
+  // ⏱️ Auto-save
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleSaveJournal(true);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [title, content]);
+
+  // 🔙 Handle back button
+  const handleBackPress = () => {
+    if (hasUnsavedChanges) {
+      Alert.alert(
+        "Unsaved Changes",
+        "You have unsaved changes. Do you want to discard them?",
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Discard",
+            style: "destructive",
+            onPress: () => router.back(),
+          },
+        ]
+      );
+    } else {
+      router.back();
+    }
+  };
+
+  // Optional: Block Android hardware back button
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        handleBackPress();
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [title, content, initialTitle, initialContent])
+  );
 
   return (
     <GradientWrapper>
       <View className="flex-row items-center justify-between px-2 py-1">
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => router.back()}
+          onPress={handleBackPress}
           className="p-2 mr-3"
         >
           <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />
@@ -56,8 +149,15 @@ const JournalPage = () => {
           <Feather name="save" size={24} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
       </View>
+
+      {/* Journal Body */}
       <View className="flex-1 p-4 rounded-lg">
-        {/* Journal Title */}
+        {/* Date */}
+        <Text className="text-white text-lg mb-2 opacity-80">
+          {formattedDate}
+        </Text>
+
+        {/* Title Input */}
         <TextInput
           value={title}
           onChangeText={setTitle}
@@ -66,7 +166,7 @@ const JournalPage = () => {
           className="text-white font-bold text-2xl mb-4 bg-transparent border-b border-white/20"
         />
 
-        {/* Journal Content */}
+        {/* Content Input */}
         <ScrollView className="flex-1">
           <TextInput
             value={content}
@@ -77,6 +177,11 @@ const JournalPage = () => {
             className="flex-1 w-full text-white text-xl bg-transparent"
           />
         </ScrollView>
+
+        {/* Character Count */}
+        <Text className="text-right text-white text-sm opacity-60 mt-2">
+          {content.length} characters
+        </Text>
       </View>
     </GradientWrapper>
   );

@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
-import { deleteJournalEntry } from "@/services/firebaseFunctions";
 
 type JournalItemProps = {
   journalId: string;

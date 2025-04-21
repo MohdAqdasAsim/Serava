@@ -151,6 +151,12 @@ export const updateUserField = async (field: string, value: any) => {
   });
 };
 
+export const updateUserProfile = async (profileData:any) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
+};
+
 export const checkUserProfileExists = async () => {
   const currentUser = auth.currentUser;
   if (!currentUser) return false;

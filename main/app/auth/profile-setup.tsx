@@ -175,8 +175,8 @@ const ProfileSetup = () => {
       switch (stepIndex) {
         case 0:
           return (
-            <View className="flex flex-row items-start justify-center mt-8 gap-4">
-              <View className="flex items-center mt-8 h-full">
+            <View className="flex flex-col items-center justify-center gap-4">
+              <View className="flex items-center">
                 {form.profileImage ? (
                   <View className="relative">
                     <Image
@@ -204,8 +204,8 @@ const ProfileSetup = () => {
                 </Text>
               </View>
 
-              <View className="flex-1 pl-6">
-                <Text className="text-lg text-[#523c72]">
+              <View className="w-full px-3 mt-4">
+                <Text className="text-[14px] text-[#523c72]">
                   What should we call you?
                 </Text>
                 <TextInput
@@ -215,7 +215,9 @@ const ProfileSetup = () => {
                   className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
                 />
 
-                <Text className="text-lg text-[#523c72]">How old are you?</Text>
+                <Text className="text-[14px] text-[#523c72]">
+                  How old are you?
+                </Text>
                 <TextInput
                   value={form.age || ""}
                   onChangeText={(text) => setForm({ ...form, age: text })}
@@ -230,7 +232,7 @@ const ProfileSetup = () => {
         case 1:
           return (
             <>
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 Your pronouns (optional):
               </Text>
               <TextInput
@@ -239,7 +241,7 @@ const ProfileSetup = () => {
                 placeholder="e.g., she/her, he/him"
                 className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
               />
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 Preferred tone from Serava:
               </Text>
               <TextInput
@@ -255,7 +257,7 @@ const ProfileSetup = () => {
         case 2:
           return (
             <>
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 What brings you here?
               </Text>
               <TextInput
@@ -266,7 +268,7 @@ const ProfileSetup = () => {
                 placeholder="e.g., anxiety, self-growth"
                 className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
               />
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 Topics you'd like to avoid?
               </Text>
               <TextInput
@@ -280,7 +282,7 @@ const ProfileSetup = () => {
         case 3:
           return (
             <>
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 How often for check-ins?
               </Text>
               <Picker
@@ -296,7 +298,7 @@ const ProfileSetup = () => {
                 <Picker.Item label="Never" value="never" />
               </Picker>
 
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 Preferred support time?
               </Text>
               <Picker
@@ -317,7 +319,7 @@ const ProfileSetup = () => {
         case 4:
           return (
             <>
-              <Text className="text-lg mb-2 text-[#523c72]">
+              <Text className="text-[14px] text-[#523c72]">
                 Mood theme to begin with:
               </Text>
               <Picker
@@ -379,7 +381,9 @@ const ProfileSetup = () => {
               onPress={handleBack}
               className="bg-gray-300 py-3 px-6 rounded-2xl"
             >
-              <Text className="text-gray-800 text-center text-lg">Back</Text>
+              <Text className="text-gray-800 text-center text-[14px]">
+                Back
+              </Text>
             </Pressable>
           )}
 
@@ -388,7 +392,7 @@ const ProfileSetup = () => {
             className="bg-[#9486f0] py-3 px-6 rounded-2xl ml-auto"
             disabled={loading}
           >
-            <Text className="text-white text-center text-lg">
+            <Text className="text-white text-center text-[14px]">
               {loading
                 ? "Saving..."
                 : stepIndex === steps.length - 1

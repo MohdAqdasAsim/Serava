@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -6,13 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { ConversationItem, GradientWrapper } from "@/components";
 import {
   fetchUserConversations,
   deleteConversation,
 } from "@/services/firebaseFunctions";
-import { useTheme } from "@/contexts/ThemeProvider";
 import { Feather } from "@expo/vector-icons";
 
 type Conversation = {
@@ -23,27 +22,28 @@ type Conversation = {
 };
 
 export default function Chat() {
-  const { theme } = useTheme();
   const router = useRouter();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadConversations = async () => {
-      setLoading(true);
-      const result = await fetchUserConversations();
+  useFocusEffect(
+    useCallback(() => {
+      const loadConversations = async () => {
+        setLoading(true);
+        const result = await fetchUserConversations();
 
-      if (result.success) {
-        setConversations(result.data);
-      } else {
-        console.warn(result.message);
-      }
+        if (result.success) {
+          setConversations(result.data);
+        } else {
+          console.warn(result.message);
+        }
 
-      setLoading(false);
-    };
+        setLoading(false);
+      };
 
-    loadConversations();
-  }, []);
+      loadConversations();
+    }, [])
+  );
 
   const handleDelete = async (id: string) => {
     const result = await deleteConversation(id);
@@ -86,7 +86,7 @@ export default function Chat() {
 
       {/* New Chat Floating Button */}
       <TouchableOpacity
-        className="absolute bottom-20 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
+        className="absolute bottom-24 right-6 bg-white/20 border border-white/30 p-4 rounded-full"
         onPress={() => {
           router.push("/chat/ai-chat");
         }}

@@ -154,15 +154,10 @@ const AiChat = () => {
         if (storedMessages) {
           const parsedMessages = JSON.parse(storedMessages);
 
-          console.log(storedTitle);
           let result;
           if (conversationId && typeof conversationId === "string") {
-            // update existing conversation
             result = await updateConversation(conversationId, parsedMessages);
-
-            console.log(result);
           } else {
-            // save new conversation
             result = await storeConversation(
               storedTitle || "Untitled",
               parsedMessages
@@ -175,10 +170,7 @@ const AiChat = () => {
           } else {
             console.error(result.message);
           }
-
-          router.back();
         }
-      } else {
         router.back();
       }
     } catch (err) {
@@ -249,20 +241,22 @@ const AiChat = () => {
       </ScrollView>
 
       {showScrollButton && (
-        <TouchableOpacity
-          onPress={scrollToBottom}
-          style={{
-            position: "absolute",
-            bottom: 120,
-            right: 20,
-            backgroundColor: "#fff",
-            borderRadius: 30,
-            padding: 10,
-            elevation: 5,
-          }}
-        >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>⬇️</Text>
-        </TouchableOpacity>
+        <View className="absolute bottom-20 w-full flex items-center justify-center pointer-events-auto">
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={scrollToBottom}
+            style={{
+              backgroundColor: Colors[theme].tabBar,
+            }}
+            className="w-12 h-12 rounded-full flex items-center justify-center pointer-events-auto"
+          >
+            <Feather
+              name="arrow-down"
+              size={24}
+              color={Colors[theme].tabIcon}
+            />
+          </TouchableOpacity>
+        </View>
       )}
 
       <KeyboardAvoidingView

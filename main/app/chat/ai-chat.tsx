@@ -191,6 +191,7 @@ const AiChat = () => {
         setActionLoading(false);
         router.back();
       }
+      router.back();
     } catch (err) {
       console.error("Error saving/updating conversation:", err);
     }

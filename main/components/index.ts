@@ -4,6 +4,8 @@ import CustomHeader from "./common/CustomHeader";
 import GradientWrapper from "./common/GradientWrapper";
 import ToolboxPageWrapper from "./common/ToolboxPageWrapper";
 import ConfirmModal from "./common/ConfirmModal";
+import NoInternetModal from "./common/NoInternetModal";
+import NotLoggedInModal from "./common/NotLoggedInModal";
 
 // Authentication components
 import EmailSentModal from "./auth/EmailSentModal";
@@ -59,6 +61,8 @@ export {
   ToolboxPageWrapper,
   CustomHeader,
   ConfirmModal,
+  NoInternetModal,
+  NotLoggedInModal,
 
   // Authentication
   LoginSignUpModal,

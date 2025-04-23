@@ -6,26 +6,28 @@ import { doc, getDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 
+// ✅ Correct hook definition — but not just a fire-and-forget
 export const useAuthCheck = (onComplete: (route: string, theme?: string) => void) => {
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
     const checkAuth = async () => {
       const netState = await NetInfo.fetch();
 
-      // Offline? Use cache!
       if (!netState.isConnected) {
         const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
         const cachedProfile = await AsyncStorage.getItem("userProfile");
 
         if (isLoggedIn === "true" && cachedProfile) {
           const profile = JSON.parse(cachedProfile);
-          return onComplete("/home", profile.moodTheme);
+          onComplete("/home", profile.moodTheme);
         } else {
-          return onComplete("/auth/login");
+          onComplete("/auth/login");
         }
+        return;
       }
 
-      // Online? Do Firebase auth check
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
           const profileExists = await checkUserProfileExists();
           if (profileExists) {
@@ -34,20 +36,22 @@ export const useAuthCheck = (onComplete: (route: string, theme?: string) => void
             if (profile) {
               await AsyncStorage.setItem("isLoggedIn", "true");
               await AsyncStorage.setItem("userProfile", JSON.stringify(profile));
-              return onComplete("/home", profile.moodTheme);
+              onComplete("/home", profile.moodTheme);
             }
           } else {
-            return onComplete("/auth/profile-setup");
+            onComplete("/auth/profile-setup");
           }
         } else {
           await AsyncStorage.setItem("isLoggedIn", "false");
-          return onComplete("/auth/login");
+          onComplete("/auth/login");
         }
       });
-
-      return () => unsubscribe();
     };
 
     checkAuth();
-  }, []);
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [onComplete]); // <- you should pass this in as stable
 };

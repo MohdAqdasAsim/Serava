@@ -14,7 +14,7 @@
     "production": {
       "autoIncrement": true,
       "android": {
-        "buildType": "apk"  // This line specifies APK instead of AAB
+        "buildType": "apk"
       }
     }
   },

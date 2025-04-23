@@ -513,3 +513,84 @@ export const deleteJournalEntry = async (journalId: string) => {
     return { success: false, message: error.message };
   }
 };
+
+export const saveThoughtToFirestore = async (
+  negativeThought: string,
+  guidance: string,
+  reframedThought: string
+) => {
+  try {
+    const user = auth.currentUser;
+
+    if (!user) throw new Error("User not authenticated");
+
+    const userRef = doc(db, "users", user.uid);
+    const thoughtsCollection = collection(userRef, "thoughts");
+
+    const newThought = {
+      negativeThought,
+      guidanceQuestions: guidance,
+      reframedThought,
+      createdAt: new Date(),
+    };
+
+    await setDoc(doc(thoughtsCollection), newThought);
+    return true;
+  } catch (error) {
+    console.error("Failed to save thought:", error);
+    return false;
+  }
+};
+
+export const fetchUserThoughts = async () => {
+  try {
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      return {
+        success: false,
+        message: "No user is currently signed in.",
+        data: [],
+      };
+    }
+
+    const userId = currentUser.uid;
+    const thoughtsRef = collection(db, "users", userId, "thoughts");
+    const snapshot = await getDocs(thoughtsRef);
+
+    const thoughts = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return {
+      success: true,
+      data: thoughts,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Failed to fetch thoughts.",
+      data: [],
+    };
+  }
+};
+
+export const deleteThought = async (thoughtId: string) => {
+  try {
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      return { success: false, message: "No user is currently signed in." };
+    }
+
+    const userId = currentUser.uid;
+    const thoughtRef = doc(db, "users", userId, "thoughts", thoughtId);
+
+    await deleteDoc(thoughtRef);
+
+    return { success: true, message: "Thought deleted successfully." };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Failed to delete thought." };
+  }
+};

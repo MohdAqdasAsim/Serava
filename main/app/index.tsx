@@ -1,26 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ActivityIndicator } from "react-native";
-import { useRouter } from "expo-router";
 import { useFirstLaunch } from "@/hooks/useFirstLaunch";
-import { useAuthCheck } from "@/hooks/useAuthCheck";
-import { useTheme } from "@/contexts/ThemeProvider";
 import { BackgroundWrapper } from "@/components";
 import OnBoarding from "./misc/on-boarding";
+import { useRouter } from "expo-router";
 
 const App = () => {
-  const router = useRouter();
-  const { setTheme } = useTheme();
   const isFirstLaunch = useFirstLaunch();
+  const router = useRouter();
 
-  useAuthCheck((route, moodTheme) => {
-    // if (!isFirstLaunch) {
-    //   return;
-    // }
-    if (moodTheme) {
-      setTheme(moodTheme as never);
+  useEffect(() => {
+    if (isFirstLaunch === false) {
+      requestAnimationFrame(() => {
+        router.replace("/home");
+      });
     }
-    router.replace(route as never);
-  });
+  }, [isFirstLaunch]);
 
   if (isFirstLaunch === null) {
     return (
@@ -34,11 +29,7 @@ const App = () => {
     return <OnBoarding />;
   }
 
-  return (
-    <BackgroundWrapper>
-      <ActivityIndicator size="large" color="#513d73" />
-    </BackgroundWrapper>
-  );
+  return null;
 };
 
 export default App;

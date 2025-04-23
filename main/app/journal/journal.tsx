@@ -20,9 +20,11 @@ import { Feather } from "@expo/vector-icons";
 import moment from "moment";
 import { useFocusEffect } from "expo-router";
 import { BackHandler } from "react-native";
+import { useNetwork } from "@/contexts/NetworkProvider";
 
 const JournalPage = () => {
   const router = useRouter();
+  const { isConnected } = useNetwork();
   const { theme } = useTheme();
   const { journalId } = useLocalSearchParams<{ journalId?: string }>();
 

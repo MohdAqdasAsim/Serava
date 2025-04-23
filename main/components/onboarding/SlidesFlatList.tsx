@@ -12,6 +12,7 @@ const slides = [
     subtitle: "Your Emotional Companion",
     description: "Feeling anxious? Serava will guide you through it.",
     image: require("@/assets/images/icon.png"),
+    visual: require("@/assets/icons/hello.png"),
   },
   {
     id: "2",
@@ -19,6 +20,7 @@ const slides = [
     subtitle: "Daily Emotional Insights",
     description: "Understand your patterns and feel seen every day.",
     image: require("@/assets/images/icon.png"),
+    visual: require("@/assets/icons/mood.png"),
   },
   {
     id: "3",
@@ -26,6 +28,7 @@ const slides = [
     subtitle: "Mindfulness Tools",
     description: "Guided exercises to help you find calm in the chaos.",
     image: require("@/assets/images/icon.png"),
+    visual: require("@/assets/icons/breathe.png"),
   },
 ];
 
@@ -78,15 +81,20 @@ const SlidesFlatList = () => {
                 <Text className="text-[#312170] text-2xl text-center">
                   Meet Serava, your emotional wellness companion.
                 </Text>
-                <View className="w-full h-32 rounded-3xl overflow-hidden mt-12">
+                <View className="w-full flex-1 px-12 rounded-3xl overflow-hidden my-12">
                   <BlurView
-                    intensity={70}
+                    intensity={50}
                     tint="light"
-                    className="flex-1 items-center justify-center px-6"
+                    className="flex-1 items-center justify-center px-6 overflow-hidden rounded-3xl"
                   >
                     <Text className="text-[#312170] text-xl text-center">
                       Let’s begin a journey toward calm, clarity, and care 💜
                     </Text>
+                    <Image
+                      source={item.visual}
+                      className="w-60 h-60 mb-6"
+                      resizeMode="contain"
+                    />
                   </BlurView>
                 </View>
               </View>
@@ -110,22 +118,20 @@ const SlidesFlatList = () => {
               <Text className="text-[#312170] text-3xl text-center mt-2">
                 {item.subtitle}
               </Text>
-              <View
-                className="w-full h-32 rounded-3xl overflow-hidden my-12"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.15)",
-                  borderColor: "rgba(255, 255, 255, 0.3)",
-                  borderWidth: 1,
-                }}
-              >
+              <View className="w-full flex-1 px-12 rounded-3xl overflow-hidden my-12">
                 <BlurView
                   intensity={50}
                   tint="light"
-                  className="flex-1 items-center justify-center px-6"
+                  className="flex-1 items-center justify-center px-6 overflow-hidden rounded-3xl"
                 >
                   <Text className="text-[#312170] text-2xl text-center">
                     {item.description}
                   </Text>
+                  <Image
+                    source={item.visual}
+                    className="w-60 h-60 mb-6"
+                    resizeMode="contain"
+                  />
                 </BlurView>
               </View>
             </View>

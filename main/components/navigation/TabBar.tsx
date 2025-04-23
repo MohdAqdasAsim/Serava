@@ -16,7 +16,6 @@ import Animated, {
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
-import { useNetwork } from "@/contexts/NetworkProvider";
 
 // Define the valid icon names for all 5 tabs
 type IconName = "home" | "chat" | "journal" | "toolbox" | "profile";
@@ -51,20 +50,8 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     };
   });
 
-  const { isConnected } = useNetwork();
-
   return (
     <>
-      {!isConnected && (
-        <View
-          className="absolute bottom-24 items-center mx-[32px] p-2 w-5/6 rounded-full shadow-md"
-          style={{ backgroundColor: Colors[theme].primary }}
-        >
-          <Text className="text-white text-[12px] text-center">
-            You’re offline. Some features might not work.
-          </Text>
-        </View>
-      )}
       <View
         onLayout={onTabbarLayout}
         style={{ backgroundColor: Colors[theme].tabBar }}

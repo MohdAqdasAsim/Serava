@@ -3,6 +3,8 @@ import { Text, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToolboxPageWrapper } from "@/components";
 import { BlurView } from "expo-blur";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 const focusTime = 25 * 60;
 const breakTime = 5 * 60;
@@ -72,23 +74,28 @@ const FocusTimer = () => {
     return `${m}:${s}`;
   };
 
+  const { theme } = useTheme();
+
   return (
     <ToolboxPageWrapper title="Focus Timer">
       <BlurView
         intensity={60}
-        tint="dark"
-        className="px-8 py-10 rounded-3xl items-center justify-center bg-white/5"
+        tint="light"
+        className="flex-1 px-8 py-10 rounded-3xl items-center justify-center overflow-hidden"
       >
         <Text className="text-white text-7xl font-extrabold mb-4 text-shadow-neon">
           {formatTime(secondsLeft)}
         </Text>
-        <Text className="text-zinc-200 italic text-lg mb-6">
+        <Text
+          className="italic text-lg mb-6"
+          style={{ color: Colors[theme].text }}
+        >
           {onBreak ? "Break Time ☕" : "Focus Mode 🔥"}
         </Text>
 
         <TouchableOpacity
           onPress={() => setIsRunning((r) => !r)}
-          className="bg-white/10 border border-white rounded-2xl px-6 py-3 shadow-md shadow-cyan-400 active:bg-white/20"
+          className="bg-white/10 border border-white rounded-2xl px-6 py-3"
         >
           <Text className="text-white text-lg font-semibold">
             {isRunning ? "Pause" : "Start"}

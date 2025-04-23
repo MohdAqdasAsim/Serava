@@ -1,8 +1,14 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { Text } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Create context for font toggle
+// Font Context
 interface FontContextType {
   isFontEnabled: boolean;
   toggleFont: () => void;
@@ -10,7 +16,7 @@ interface FontContextType {
 
 const FontContext = createContext<FontContextType | undefined>(undefined);
 
-// Custom hook to use the font context
+// Custom Hook
 export const useFont = (): FontContextType => {
   const context = useContext(FontContext);
   if (!context) {
@@ -19,37 +25,55 @@ export const useFont = (): FontContextType => {
   return context;
 };
 
-// Font provider component to manage the font state
-export const FontProvider = ({ children }: { children: React.ReactNode }) => {
+// Provider
+export const FontProvider = ({ children }: { children: ReactNode }) => {
   const [isFontEnabled, setIsFontEnabled] = useState<boolean>(false);
 
-  // Load the font setting from AsyncStorage on mount
+  // Load font setting
   useEffect(() => {
     const loadFontSetting = async () => {
       try {
-        const storedFontSetting = await AsyncStorage.getItem("isFontEnabled");
-        if (storedFontSetting !== null) {
-          setIsFontEnabled(JSON.parse(storedFontSetting)); // Parse the stored value
+        const stored = await AsyncStorage.getItem("isFontEnabled");
+        if (stored !== null) {
+          setIsFontEnabled(JSON.parse(stored));
         }
-      } catch (error) {
-        console.error("Failed to load font setting:", error);
+      } catch (err) {
+        console.error("Failed to load font setting:", err);
       }
     };
-
     loadFontSetting();
   }, []);
 
-  // Toggle the font state and store it in AsyncStorage
+  // Monkey patch Text.render inside a valid hook
+  useEffect(() => {
+    const TextAny = Text as unknown as {
+      render: (...args: any[]) => JSX.Element;
+    };
+    const originalRender = TextAny.render;
+
+    TextAny.render = function (...args: any[]) {
+      const origin = originalRender.call(this, ...args);
+      const style = isFontEnabled
+        ? [{ fontFamily: "Heartful" }, origin.props.style]
+        : [{ fontFamily: "Arial" }, origin.props.style];
+
+      return React.cloneElement(origin, { style });
+    };
+
+    // Optional cleanup (not strictly needed unless you unmount this provider)
+    return () => {
+      TextAny.render = originalRender;
+    };
+  }, [isFontEnabled]);
+
+  // Toggle font state
   const toggleFont = async () => {
     try {
-      const newFontSetting = !isFontEnabled;
-      setIsFontEnabled(newFontSetting);
-      await AsyncStorage.setItem(
-        "isFontEnabled",
-        JSON.stringify(newFontSetting)
-      ); // Store the new state
-    } catch (error) {
-      console.error("Failed to save font setting:", error);
+      const newState = !isFontEnabled;
+      setIsFontEnabled(newState);
+      await AsyncStorage.setItem("isFontEnabled", JSON.stringify(newState));
+    } catch (err) {
+      console.error("Failed to save font setting:", err);
     }
   };
 
@@ -58,20 +82,4 @@ export const FontProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </FontContext.Provider>
   );
-};
-
-// TypeScript-safe monkey patch
-const TextAny = Text as unknown as { render: (...args: any[]) => JSX.Element };
-const defaultRender = TextAny.render;
-
-TextAny.render = function (...args: any[]) {
-  const origin = defaultRender.call(this, ...args);
-  const { isFontEnabled } = useFont(); // Get font state from context
-
-  // Apply the custom font if the flag is true
-  const style = isFontEnabled
-    ? [{ fontFamily: "Heartful" }, origin.props.style]
-    : [{ fontFamily: "Arial" }, origin.props.style];
-
-  return React.cloneElement(origin, { style });
 };

@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { useNetwork } from "@/contexts/NetworkProvider";
+import NoInternetModal from "../common/NoInternetModal";
+import { useAuth } from "@/contexts/AuthProvider";
+import NotLoggedInModal from "../common/NotLoggedInModal";
 
 const JournalCard = () => {
+  const { isConnected } = useNetwork();
+  const { isLoggedIn } = useAuth();
   const { theme } = useTheme();
   const router = useRouter();
+  const [isConnectedToInternetModal, setIsConnectedToInternetModal] =
+    useState(false);
+  const [isLoggedInModal, setIsLoggedInModal] = useState(false);
 
   return (
     <BlurView
@@ -29,7 +38,13 @@ const JournalCard = () => {
       </Text>
       <TouchableOpacity
         className="bg-white/40 px-3 py-1 rounded-xl self-start"
-        onPress={() => router.push("/journal/journal")}
+        onPress={
+          isConnected
+            ? isLoggedIn
+              ? () => router.push("/journal/journal")
+              : () => setIsLoggedInModal(true)
+            : () => setIsConnectedToInternetModal(true)
+        }
       >
         <Text
           className="text-white text-[12px]"
@@ -38,6 +53,16 @@ const JournalCard = () => {
           Start Journaling
         </Text>
       </TouchableOpacity>
+
+      <NoInternetModal
+        visible={isConnectedToInternetModal}
+        onCancel={() => setIsConnectedToInternetModal(false)}
+      />
+
+      <NotLoggedInModal
+        visible={isLoggedInModal}
+        onCancel={() => setIsLoggedInModal(false)}
+      />
     </BlurView>
   );
 };

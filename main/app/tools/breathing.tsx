@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import { ToolboxPageWrapper } from "@/components";
+import { BlurView } from "expo-blur";
 
 const DURATIONS = [1, 3, 5]; // in minutes
 
@@ -112,133 +113,137 @@ const BreathingGuide = () => {
 
   return (
     <ToolboxPageWrapper title="Breathing Guide">
-      {/* Mode Selector */}
-      <View className="flex-row justify-between my-4 border-b border-white/30">
-        {Object.keys(MODES).map((mode) => (
-          <TouchableOpacity
-            key={mode}
-            onPress={() => setSelectedMode(mode as keyof typeof MODES)}
-            className={`w-1/3 px-4 items-center py-2 ${
-              selectedMode === mode ? "bg-white rounded-t-md" : "bg-transparent"
-            }`}
-          >
-            <Text
-              className={`text-lg ${
-                selectedMode === mode ? "text-black" : "text-white/70"
+      <BlurView intensity={40} className="flex-1 rounded-2xl overflow-hidden">
+        {/* Mode Selector */}
+        <View className="flex-row justify-between border-b border-white/30">
+          {Object.keys(MODES).map((mode) => (
+            <TouchableOpacity
+              key={mode}
+              onPress={() => setSelectedMode(mode as keyof typeof MODES)}
+              className={`w-1/3 px-4 items-center py-2 ${
+                selectedMode === mode
+                  ? "bg-white rounded-t-md"
+                  : "bg-transparent"
               }`}
             >
-              {mode}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Custom Mode Inputs */}
-      {selectedMode === "Custom" && (
-        <View className="my-4">
-          <TextInput
-            value={String(customInhale)}
-            onChangeText={(text) => setCustomInhale(Number(text))}
-            keyboardType="numeric"
-            placeholder="Inhale (seconds)"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 8,
-              marginBottom: 8,
-            }}
-          />
-          <TextInput
-            value={String(customHold)}
-            onChangeText={(text) => setCustomHold(Number(text))}
-            keyboardType="numeric"
-            placeholder="Hold (seconds)"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 8,
-              marginBottom: 8,
-            }}
-          />
-          <TextInput
-            value={String(customExhale)}
-            onChangeText={(text) => setCustomExhale(Number(text))}
-            keyboardType="numeric"
-            placeholder="Exhale (seconds)"
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 8,
-            }}
-          />
+              <Text
+                className={`text-lg ${
+                  selectedMode === mode ? "text-black" : "text-white/70"
+                }`}
+              >
+                {mode}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
-      )}
 
-      {/* Breathing Animation */}
-      <View className="items-center justify-center my-10">
-        <Animated.View
-          style={{
-            width: 150,
-            height: 150,
-            borderRadius: 75,
-            backgroundColor: "rgba(255,255,255,0.15)",
-            transform: [{ scale }],
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text className="text-white font-bold text-lg">{phase}</Text>
-        </Animated.View>
-      </View>
+        {/* Custom Mode Inputs */}
+        {selectedMode === "Custom" && (
+          <View className="m-4">
+            <TextInput
+              value={String(customInhale)}
+              onChangeText={(text) => setCustomInhale(Number(text))}
+              keyboardType="numeric"
+              placeholder="Inhale (seconds)"
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                paddingVertical: 8,
+                marginBottom: 8,
+              }}
+            />
+            <TextInput
+              value={String(customHold)}
+              onChangeText={(text) => setCustomHold(Number(text))}
+              keyboardType="numeric"
+              placeholder="Hold (seconds)"
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                paddingVertical: 8,
+                marginBottom: 8,
+              }}
+            />
+            <TextInput
+              value={String(customExhale)}
+              onChangeText={(text) => setCustomExhale(Number(text))}
+              keyboardType="numeric"
+              placeholder="Exhale (seconds)"
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                paddingVertical: 8,
+              }}
+            />
+          </View>
+        )}
 
-      {/* Session Duration */}
-      <View className="flex-row justify-around mb-6">
-        {DURATIONS.map((d) => (
-          <TouchableOpacity
-            key={d}
-            onPress={() => {
-              if (!isRunning) setDuration(d);
+        {/* Breathing Animation */}
+        <View className="items-center justify-center my-10">
+          <Animated.View
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: 75,
+              backgroundColor: "rgba(255,255,255,0.15)",
+              transform: [{ scale }],
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            className={`px-4 py-2 rounded-lg border ${
-              duration === d ? "bg-white border-white" : "border-white/30"
-            }`}
           >
-            <Text
-              className={`${
-                duration === d ? "text-black" : "text-white"
-              } text-sm`}
+            <Text className="text-white font-bold text-lg">{phase}</Text>
+          </Animated.View>
+        </View>
+
+        {/* Session Duration */}
+        <View className="flex-row justify-around mb-6">
+          {DURATIONS.map((d) => (
+            <TouchableOpacity
+              key={d}
+              onPress={() => {
+                if (!isRunning) setDuration(d);
+              }}
+              className={`px-4 py-2 rounded-lg border ${
+                duration === d ? "bg-white border-white" : "border-white/30"
+              }`}
             >
-              {d} min
+              <Text
+                className={`${
+                  duration === d ? "text-black" : "text-white"
+                } text-sm`}
+              >
+                {d} min
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Timer + Controls */}
+        <Text className="text-center text-white mb-4 text-xl font-semibold">
+          {formatTime(timeLeft)}
+        </Text>
+
+        <View className="flex-row justify-around">
+          <TouchableOpacity
+            onPress={handleStartPause}
+            className="bg-green-400 px-6 py-3 rounded-xl"
+          >
+            <Text className="text-black font-semibold">
+              {isRunning ? "Pause" : "Start"}
             </Text>
           </TouchableOpacity>
-        ))}
-      </View>
 
-      {/* Timer + Controls */}
-      <Text className="text-center text-white mb-4 text-xl font-semibold">
-        {formatTime(timeLeft)}
-      </Text>
-
-      <View className="flex-row justify-around">
-        <TouchableOpacity
-          onPress={handleStartPause}
-          className="bg-green-400 px-6 py-3 rounded-xl"
-        >
-          <Text className="text-black font-semibold">
-            {isRunning ? "Pause" : "Start"}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleReset}
-          className="bg-red-500 px-6 py-3 rounded-xl"
-        >
-          <Text className="text-white font-semibold">Reset</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={handleReset}
+            className="bg-red-500 px-6 py-3 rounded-xl"
+          >
+            <Text className="text-white font-semibold">Reset</Text>
+          </TouchableOpacity>
+        </View>
+      </BlurView>
     </ToolboxPageWrapper>
   );
 };

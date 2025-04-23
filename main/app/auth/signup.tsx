@@ -53,7 +53,7 @@ const Signup = () => {
       setLoading(false);
 
       if (success) {
-        setModalVisible(true); // Show email sent modal
+        setModalVisible(true);
       } else {
         setFeedback(message);
       }

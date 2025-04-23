@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, Modal, TouchableOpacity } from "react-native";
 import { ToolboxPageWrapper } from "@/components";
+import { BlurView } from "expo-blur";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 // Define the interface for the entries
 interface Entry {
@@ -65,18 +68,33 @@ const EmotionRewind = () => {
     </TouchableOpacity>
   );
 
+  const { theme } = useTheme();
+
   return (
     <ToolboxPageWrapper title="Emotion Rewind">
-      <View className="flex-1 justify-center items-center px-4">
-        <Text className="text-2xl font-bold mb-4 text-center">
+      <BlurView
+        intensity={50}
+        className="flex-1 justify-center items-center px-4 rounded-2xl overflow-hidden"
+      >
+        {/* <Text
+          className="text-2xl mb-4 mt-6 text-center"
+          style={{ color: Colors[theme].text }}
+        >
           Select a past mood entry to reflect on:
-        </Text>
+        </Text> */}
 
-        <FlatList
+        {/* <FlatList
           data={entries}
           renderItem={renderEntry}
           keyExtractor={(item) => item.id}
-        />
+        /> */}
+
+        <Text
+          className="text-2xl mb-2 text-[16px]"
+          style={{ color: Colors[theme].text }}
+        >
+          No past entries yet
+        </Text>
 
         {/* Modal for reflecting on an entry */}
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
@@ -117,7 +135,7 @@ const EmotionRewind = () => {
             </View>
           </View>
         </Modal>
-      </View>
+      </BlurView>
     </ToolboxPageWrapper>
   );
 };

@@ -3,8 +3,9 @@ import Constants from "expo-constants";
 export const getGeminiResponse = async (input: any) => {
   try {
     const token = Constants.expoConfig?.extra?.BACKEND_TOKEN;
+    const backendUrl = Constants.expoConfig?.extra?.BACKEND_URL;
 
-    const response = await fetch("https://gemini-backend-97la.onrender.com/generate", {
+    const response = await fetch(`${backendUrl}/generate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

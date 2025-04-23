@@ -61,6 +61,7 @@ export default {
       FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       BACKEND_TOKEN: process.env.BACKEND_TOKEN,
+      BACKEND_URL: process.env.BACKEND_URL,
       eas: {
         projectId: "1dbaa0a3-3d86-4246-82f1-0293cbc6a6d7",
       },

@@ -6,11 +6,13 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
-import { NetworkProvider } from "@/contexts/NetworkProvider";
+import { NetworkProvider, useNetwork } from "@/contexts/NetworkProvider";
 import { AlertProvider } from "@/contexts/AlertProvider";
 import { Text, View } from "react-native";
 import { ErrorBoundary } from "react-error-boundary";
 import { FontProvider } from "@/contexts/FontProvider";
+import Constants from "expo-constants";
+import { AuthProvider } from "@/contexts/AuthProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,6 +43,22 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    const warmBackend = async () => {
+      const backendUrl = Constants.expoConfig?.extra?.BACKEND_URL;
+      try {
+        const res = await fetch(`${backendUrl}/ping`);
+        res.ok
+          ? console.log("✅ Backend is awake!")
+          : console.warn("⚠️ Backend ping returned non-200");
+      } catch (error) {
+        console.error("🔥 Backend wake-up failed:", error);
+      }
+    };
+
+    warmBackend();
+  }, []);
+
+  useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
@@ -52,12 +70,14 @@ export default function RootLayout() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <FontProvider>
         <ThemeProvider>
-          <NetworkProvider>
-            <AlertProvider>
-              <Stack screenOptions={{ headerShown: false }} />
-              <StatusBar style="auto" />
-            </AlertProvider>
-          </NetworkProvider>
+          <AuthProvider>
+            <NetworkProvider>
+              <AlertProvider>
+                <Stack screenOptions={{ headerShown: false }} />
+                <StatusBar style="auto" />
+              </AlertProvider>
+            </NetworkProvider>
+          </AuthProvider>
         </ThemeProvider>
       </FontProvider>
     </ErrorBoundary>

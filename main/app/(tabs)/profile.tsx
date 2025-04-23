@@ -19,12 +19,14 @@ import {
 } from "@/services/firebaseFunctions";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { GradientWrapper } from "@/components";
+import { GradientWrapper, NoInternetModal, SaveModal } from "@/components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
 import { useFont } from "@/contexts/FontProvider";
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
+import { useNetwork } from "@/contexts/NetworkProvider";
+import { useAuth } from "@/contexts/AuthProvider";
 
 interface UserProfile {
   name?: string;
@@ -41,7 +43,9 @@ interface UserProfile {
 }
 
 export default function Profile() {
+  const { isConnected } = useNetwork();
   const { theme } = useTheme();
+  const { isLoggedIn } = useAuth();
   const { isFontEnabled, toggleFont } = useFont();
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -49,6 +53,9 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
+  const [isSavedModalVisible, setIsSavedModalVisible] = useState(false);
+  const [isConnectedToInternetModal, setIsConnectedToInternetModal] =
+    useState(false);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -86,7 +93,7 @@ export default function Profile() {
     try {
       setActionLoading(true);
       await updateUserProfile(editedProfile);
-      Alert.alert("Success", "Profile updated!");
+      setIsSavedModalVisible(true);
       setProfile(editedProfile);
       setActionLoading(false);
       setIsEditing(false);
@@ -106,7 +113,53 @@ export default function Profile() {
   if (!profile) {
     return (
       <GradientWrapper>
-        <Text className="text-white text-lg">No profile data found.</Text>
+        {isLoggedIn ? (
+          <>
+            <View className="flex flex-row justify-between items-center px-2 mb-2">
+              <Text className="text-2xl text-white">Profile</Text>
+              <TouchableOpacity
+                onPress={
+                  isConnected
+                    ? handleLogout
+                    : () => setIsConnectedToInternetModal(true)
+                }
+              >
+                <Feather name="log-out" size={16} color="white" />
+              </TouchableOpacity>
+            </View>
+            <View className="flex flex-row justify-between items-center px-2 mt-4">
+              <Text className="text-white text-center text-lg">
+                No profile data found.
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => router.push("/auth/profile-setup")}
+                className="px-4 py-2 bg-white rounded-2xl"
+              >
+                <Text style={{ color: Colors[theme].primary }}>
+                  Create Profile
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        ) : (
+          <View className="flex-1 items-center justify-center px-4">
+            <Feather name="log-in" size={40} color="white" className="mb-4" />
+            <Text className="text-white text-xl font-semibold text-center mb-2">
+              You’re not logged in
+            </Text>
+            <Text className="text-white/70 text-base text-center mb-4">
+              Please log in.
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => router.push("/auth/login")}
+              className="bg-white/20 border border-white/30 px-6 py-3 rounded-xl"
+            >
+              <Text className="text-white font-semibold text-base">Log In</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </GradientWrapper>
     );
   }
@@ -142,14 +195,28 @@ export default function Profile() {
         <View className="flex flex-row justify-between items-center px-2 mb-2">
           <Text className="text-2xl text-white">Profile</Text>
           <View className="flex flex-row gap-4">
-            <TouchableOpacity onPress={() => setIsEditing((prev) => !prev)}>
+            <TouchableOpacity
+              onPress={
+                isConnected
+                  ? () => setIsEditing((prev) => !prev)
+                  : () => setIsConnectedToInternetModal(true)
+              }
+            >
               <Feather
                 name={isEditing ? "x" : "edit-3"}
                 size={16}
                 color="white"
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={isEditing ? handleSave : handleLogout}>
+            <TouchableOpacity
+              onPress={
+                isConnected
+                  ? isEditing
+                    ? handleSave
+                    : handleLogout
+                  : () => setIsConnectedToInternetModal(true)
+              }
+            >
               <Feather
                 name={isEditing ? "save" : "log-out"}
                 size={16}
@@ -393,6 +460,17 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <SaveModal
+        visible={isSavedModalVisible}
+        onClose={() => setIsSavedModalVisible(false)}
+        message={"Profile updated!"}
+      />
+
+      <NoInternetModal
+        visible={isConnectedToInternetModal}
+        onCancel={() => setIsConnectedToInternetModal(false)}
+      />
     </GradientWrapper>
   );
 }

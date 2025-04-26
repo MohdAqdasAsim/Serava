@@ -6,6 +6,7 @@ import ToolboxPageWrapper from "./common/ToolboxPageWrapper";
 import ConfirmModal from "./common/ConfirmModal";
 import NoInternetModal from "./common/NoInternetModal";
 import NotLoggedInModal from "./common/NotLoggedInModal";
+import FieldEmptyModal from "./common/FieldEmptyModal";
 
 // Authentication components
 import EmailSentModal from "./auth/EmailSentModal";
@@ -63,6 +64,7 @@ export {
   ConfirmModal,
   NoInternetModal,
   NotLoggedInModal,
+  FieldEmptyModal,
 
   // Authentication
   LoginSignUpModal,

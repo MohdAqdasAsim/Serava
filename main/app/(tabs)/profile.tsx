@@ -193,7 +193,9 @@ export default function Profile() {
       >
         {/* Edit Toggle Button */}
         <View className="flex flex-row justify-between items-center px-2 mb-2">
-          <Text className="text-2xl text-white">Profile</Text>
+          <Text className="text-2xl" style={{ color: Colors[theme].text }}>
+            Profile
+          </Text>
           <View className="flex flex-row gap-4">
             <TouchableOpacity
               onPress={
@@ -205,7 +207,7 @@ export default function Profile() {
               <Feather
                 name={isEditing ? "x" : "edit-3"}
                 size={16}
-                color="white"
+                color={Colors[theme].text}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -220,7 +222,7 @@ export default function Profile() {
               <Feather
                 name={isEditing ? "save" : "log-out"}
                 size={16}
-                color="white"
+                color={Colors[theme].text}
               />
             </TouchableOpacity>
           </View>
@@ -251,7 +253,7 @@ export default function Profile() {
               </View>
             )}
           </TouchableOpacity>
-          <View className="ml-4">
+          <View className="ml-4 flex w-full">
             <TextInput
               editable={isEditing}
               placeholder="Name"
@@ -259,10 +261,13 @@ export default function Profile() {
               onChangeText={(text) =>
                 setEditedProfile({ ...editedProfile, name: text })
               }
-              className="text-white text-2xl font-bold"
+              className="text-2xl font-bold"
+              style={{ color: Colors[theme].text }}
               placeholderTextColor="#ccc"
             />
-            <Text className="text-white text-sm">{profile.email}</Text>
+            <Text className="text-sm" style={{ color: Colors[theme].text }}>
+              {profile.email}
+            </Text>
           </View>
         </BlurView>
 
@@ -272,7 +277,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text className="text-white mb-1">Age</Text>
+            <Text
+              className="text-white mb-1"
+              style={{ color: Colors[theme].text }}
+            >
+              Age
+            </Text>
             <TextInput
               editable={isEditing}
               keyboardType="numeric"
@@ -284,6 +294,7 @@ export default function Profile() {
                   age: Number(text) || undefined,
                 })
               }
+              style={{ color: Colors[theme].text }}
               className={`text-white px-3 py-2 rounded-xl ${
                 isEditing ? "bg-white/10" : ""
               }`}
@@ -294,7 +305,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text className="text-white mb-1">Pronouns</Text>
+            <Text
+              className="text-white mb-1"
+              style={{ color: Colors[theme].text }}
+            >
+              Pronouns
+            </Text>
             <TextInput
               editable={isEditing}
               placeholder="Pronouns"
@@ -302,6 +318,7 @@ export default function Profile() {
               onChangeText={(text) =>
                 setEditedProfile({ ...editedProfile, pronouns: text })
               }
+              style={{ color: Colors[theme].text }}
               className={`text-white placeholder:text-white px-3 py-2 rounded-xl ${
                 isEditing ? "bg-white/10" : ""
               }`}
@@ -315,7 +332,12 @@ export default function Profile() {
           intensity={90}
           className="p-4 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text className="text-white mb-1">Tone Preference</Text>
+          <Text
+            className="text-white mb-1"
+            style={{ color: Colors[theme].text }}
+          >
+            Tone Preference
+          </Text>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Friendly, Supportive"
@@ -323,12 +345,18 @@ export default function Profile() {
             onChangeText={(text) =>
               setEditedProfile({ ...editedProfile, tonePreference: text })
             }
+            style={{ color: Colors[theme].text }}
             className={`text-white placeholder:text-white px-3 py-2 rounded-xl ${
               isEditing ? "bg-white/10" : ""
             } mb-3`}
             placeholderTextColor="#ccc"
           />
-          <Text className="text-white mb-1">Why you're here</Text>
+          <Text
+            className="text-white mb-1"
+            style={{ color: Colors[theme].text }}
+          >
+            Why you're here
+          </Text>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Stress relief, journaling"
@@ -338,6 +366,7 @@ export default function Profile() {
             onChangeText={(text) =>
               setEditedProfile({ ...editedProfile, emotionalReason: text })
             }
+            style={{ color: Colors[theme].text }}
             className={`text-white px-3 py-2 rounded-xl ${
               isEditing ? "bg-white/10" : ""
             }`}
@@ -352,7 +381,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text className="text-white mb-1">Check-in Frequency</Text>
+            <Text
+              className="text-white mb-1"
+              style={{ color: Colors[theme].text }}
+            >
+              Check-in Frequency
+            </Text>
             {isEditing ? (
               <Picker
                 selectedValue={editedProfile.checkInFrequency ?? undefined}
@@ -363,11 +397,11 @@ export default function Profile() {
                   })
                 }
                 style={{
-                  color: "white",
+                  color: Colors[theme].text,
                   backgroundColor: "#ffffff10",
                   borderRadius: 12,
                 }}
-                dropdownIconColor="#fff"
+                dropdownIconColor={Colors[theme].text}
               >
                 <Picker.Item label="Select frequency..." value={undefined} />
                 <Picker.Item label="Daily" value="daily" />
@@ -376,7 +410,10 @@ export default function Profile() {
                 <Picker.Item label="Never" value="never" />
               </Picker>
             ) : (
-              <Text className="text-white uppercase px-3 py-2 rounded-xl">
+              <Text
+                className="text-white uppercase px-3 py-2 rounded-xl"
+                style={{ color: Colors[theme].text }}
+              >
                 {editedProfile.checkInFrequency || "Not set"}
               </Text>
             )}
@@ -387,7 +424,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text className="text-white mb-1">Preferred Time</Text>
+            <Text
+              className="text-white mb-1"
+              style={{ color: Colors[theme].text }}
+            >
+              Preferred Time
+            </Text>
             {isEditing ? (
               <Picker
                 selectedValue={editedProfile.preferredTime ?? undefined}
@@ -395,11 +437,11 @@ export default function Profile() {
                   setEditedProfile({ ...editedProfile, preferredTime: value })
                 }
                 style={{
-                  color: "white",
+                  color: Colors[theme].text,
                   backgroundColor: "#ffffff10",
                   borderRadius: 12,
                 }}
-                dropdownIconColor="#fff"
+                dropdownIconColor={Colors[theme].text}
               >
                 <Picker.Item label="Select time..." value={undefined} />
                 <Picker.Item label="Morning" value="morning" />
@@ -409,7 +451,10 @@ export default function Profile() {
                 <Picker.Item label="Late night" value="late-night" />
               </Picker>
             ) : (
-              <Text className="text-white uppercase px-3 py-2 rounded-xl">
+              <Text
+                className="text-white uppercase px-3 py-2 rounded-xl"
+                style={{ color: Colors[theme].text }}
+              >
                 {editedProfile.preferredTime || "Not set"}
               </Text>
             )}
@@ -421,7 +466,12 @@ export default function Profile() {
           intensity={90}
           className="p-4 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text className="text-white mb-1">Topics to Avoid</Text>
+          <Text
+            className="text-white mb-1"
+            style={{ color: Colors[theme].text }}
+          >
+            Topics to Avoid
+          </Text>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Trauma, Work"
@@ -429,6 +479,7 @@ export default function Profile() {
             onChangeText={(text) =>
               setEditedProfile({ ...editedProfile, avoidTopics: text })
             }
+            style={{ color: Colors[theme].text }}
             className={`text-white px-3 py-2 rounded-xl ${
               isEditing ? "bg-white/10" : ""
             }`}
@@ -441,13 +492,21 @@ export default function Profile() {
           intensity={90}
           className="p-2 py-3 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text className="text-white mb-1">
+          <Text
+            className="text-white mb-1 font-bold"
+            style={{ color: Colors[theme].text }}
+          >
             Currently you are on free plan
           </Text>
         </BlurView>
 
         <View className="w-full flex flex-row items-center justify-between pl-2 mb-2">
-          <Text className="text-white text-base font-semibold">Fancy Font</Text>
+          <Text
+            className="text-white text-base font-bold"
+            style={{ color: Colors[theme].text }}
+          >
+            Fancy Font
+          </Text>
 
           <TouchableOpacity
             className={`w-16 h-8 px-1 flex justify-center ${

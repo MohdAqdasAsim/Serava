@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Font Context
@@ -43,28 +42,6 @@ export const FontProvider = ({ children }: { children: ReactNode }) => {
     };
     loadFontSetting();
   }, []);
-
-  // Monkey patch Text.render inside a valid hook
-  useEffect(() => {
-    const TextAny = Text as unknown as {
-      render: (...args: any[]) => JSX.Element;
-    };
-    const originalRender = TextAny.render;
-
-    TextAny.render = function (...args: any[]) {
-      const origin = originalRender.call(this, ...args);
-      const style = isFontEnabled
-        ? [{ fontFamily: "Heartful" }, origin.props.style]
-        : [{ fontFamily: "Arial" }, origin.props.style];
-
-      return React.cloneElement(origin, { style });
-    };
-
-    // Optional cleanup (not strictly needed unless you unmount this provider)
-    return () => {
-      TextAny.render = originalRender;
-    };
-  }, [isFontEnabled]);
 
   // Toggle font state
   const toggleFont = async () => {

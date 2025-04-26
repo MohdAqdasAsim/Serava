@@ -15,6 +15,8 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useNetwork } from "@/contexts/NetworkProvider";
 import { useAuth } from "@/contexts/AuthProvider";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 type JournalEntry = {
   journalId: string;
@@ -27,6 +29,7 @@ export default function Journals() {
   const { isConnected } = useNetwork();
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const { theme } = useTheme();
   const [journals, setJournals] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [confirmVisible, setConfirmVisible] = useState(false);
@@ -98,7 +101,10 @@ export default function Journals() {
                   )}
                   ListEmptyComponent={() => (
                     <View className="flex-1 items-center mt-10">
-                      <Text className="text-white text-2xl">
+                      <Text
+                        className="text-white text-2xl"
+                        style={{ color: Colors[theme].text }}
+                      >
                         No journals yet
                       </Text>
                     </View>

@@ -1,6 +1,8 @@
 import { GradientWrapper } from "@/components";
 import { Text, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { Colors } from "@/constants/Colors";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 const tools = [
   {
@@ -37,6 +39,7 @@ const tools = [
 
 export default function Toolbox() {
   const router = useRouter();
+  const { theme } = useTheme();
 
   return (
     <GradientWrapper>
@@ -48,10 +51,18 @@ export default function Toolbox() {
             className="bg-white/10 mb-4 p-4 rounded-xl border border-white/20"
             activeOpacity={0.8}
           >
-            <Text className="text-white text-xl font-semibold mb-1">
+            <Text
+              className="text-white text-xl font-bold mb-1"
+              style={{ color: Colors[theme].text }}
+            >
               {tool.emoji} {tool.title}
             </Text>
-            <Text className="text-white/80">{tool.description}</Text>
+            <Text
+              className="text-white/80"
+              style={{ color: Colors[theme].text }}
+            >
+              {tool.description}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

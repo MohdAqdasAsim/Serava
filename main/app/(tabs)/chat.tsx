@@ -15,6 +15,8 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useNetwork } from "@/contexts/NetworkProvider";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useTheme } from "@/contexts/ThemeProvider";
+import { Colors } from "@/constants/Colors";
 
 type Conversation = {
   id: string;
@@ -27,6 +29,7 @@ export default function Chat() {
   const { isConnected } = useNetwork();
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const { theme } = useTheme();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -99,7 +102,10 @@ export default function Chat() {
                   )}
                   ListEmptyComponent={
                     <View className="flex-1 items-center mt-10">
-                      <Text className="text-white text-2xl">
+                      <Text
+                        className="text-white text-2xl"
+                        style={{ color: Colors[theme].text }}
+                      >
                         No conversations yet
                       </Text>
                     </View>

@@ -7,7 +7,12 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { DiscardChangesModal, GradientWrapper, SaveModal } from "@/components";
+import {
+  DiscardChangesModal,
+  FieldEmptyModal,
+  GradientWrapper,
+  SaveModal,
+} from "@/components";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   saveJournalEntry,
@@ -35,6 +40,7 @@ const JournalPage = () => {
 
   const [showDiscardModal, setShowDiscardModal] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
+  const [fieldEmptyModal, setFieldEmptyModal] = useState(false);
 
   const formattedDate = moment().format("dddd, MMMM Do YYYY");
 
@@ -59,7 +65,8 @@ const JournalPage = () => {
   const handleSaveJournal = async (auto = false) => {
     if (!title.trim() || !content.trim()) {
       if (!auto) {
-        Alert.alert("Error", "Title and content cannot be empty.");
+        setFieldEmptyModal(true);
+        setTimeout(() => setFieldEmptyModal(false), 1500);
       }
       return;
     }
@@ -189,6 +196,12 @@ const JournalPage = () => {
         visible={saveModal}
         onClose={() => setSaveModal(false)}
         message={journalId ? "Journal updated!" : "Journal saved!"}
+      />
+
+      <FieldEmptyModal
+        visible={fieldEmptyModal}
+        onClose={() => setFieldEmptyModal(false)}
+        message={"Title and content cannot be empty."}
       />
     </GradientWrapper>
   );

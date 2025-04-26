@@ -17,6 +17,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { Theme, useTheme } from "@/contexts/ThemeProvider";
+import { useFont } from "@/contexts/FontProvider";
 
 const steps = [0, 1, 2, 3, 4];
 
@@ -55,6 +56,7 @@ const ProfileSetup = () => {
   const [loading, setLoading] = useState(false);
   const [moodTheme, setMoodTheme] = useState<Theme>("joy");
   const [ambientSounds, setAmbientSounds] = useState<boolean>(false);
+  const { isFontEnabled, toggleFont } = useFont();
 
   const { setTheme, setAmbientSounds: setAmbientSoundInContext } = useTheme();
 
@@ -336,12 +338,9 @@ const ProfileSetup = () => {
 
               <View className="flex-row items-center justify-between mt-4">
                 <Text className="text-lg text-[#523c72]">
-                  Enable ambient sounds?
+                  Enable fancy font?
                 </Text>
-                <Switch
-                  value={ambientSounds}
-                  onValueChange={(value) => setAmbientSounds(value)}
-                />
+                <Switch value={ambientSounds} onValueChange={toggleFont} />
               </View>
             </>
           );

@@ -16,7 +16,7 @@ const exampleDir = "app-example";
 const newAppDir = "app";
 const exampleDirPath = path.join(root, exampleDir);
 
-const indexContent = `import { Text, View } from "react-native";
+const indexContent = `import { FancyText, View } from "react-native";
 
 export default function Index() {
   return (
@@ -27,7 +27,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <FancyText>Edit app/index.tsx to edit this screen.</FancyText>
     </View>
   );
 }

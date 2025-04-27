@@ -4,11 +4,11 @@ import {
   Modal,
   TouchableOpacity,
   View,
-  Text,
   TouchableWithoutFeedback,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons for the close icon
+import FancyText from "../common/FancyText";
 
 interface LoginSignUpModalProps {
   modalVisible: boolean;
@@ -53,9 +53,9 @@ const LoginSignUpModal: React.FC<LoginSignUpModalProps> = ({
                   />
                 </TouchableOpacity>
               </View>
-              <Text className="text-2xl font-bold mb-5 text-white">
+              <FancyText className="text-2xl font-bold mb-5 text-white">
                 Choose an Option
-              </Text>
+              </FancyText>
 
               {/* Login Button */}
               <TouchableOpacity
@@ -63,7 +63,7 @@ const LoginSignUpModal: React.FC<LoginSignUpModalProps> = ({
                 onPress={handleLogin}
                 className="w-full p-4 mb-4 rounded-3xl items-center bg-indigo-500 shadow-md"
               >
-                <Text className="text-white text-lg">Login</Text>
+                <FancyText className="text-white text-lg">Login</FancyText>
               </TouchableOpacity>
 
               {/* Sign Up Button */}
@@ -72,7 +72,7 @@ const LoginSignUpModal: React.FC<LoginSignUpModalProps> = ({
                 onPress={handleSignUp}
                 className="w-full p-4 mb-4 rounded-3xl items-center bg-indigo-500 shadow-md"
               >
-                <Text className="text-white text-lg">Sign Up</Text>
+                <FancyText className="text-white text-lg">Sign Up</FancyText>
               </TouchableOpacity>
             </LinearGradient>
           </TouchableWithoutFeedback>

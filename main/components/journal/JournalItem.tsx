@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "../common/FancyText";
 
 type JournalItemProps = {
   journalId: string;
@@ -28,24 +29,27 @@ export const JournalItem = ({
       onPress={onPress}
     >
       <View className="flex-1 pr-2">
-        <Text
+        <FancyText
           className="font-semibold text-lg"
           style={{ color: Colors[theme].text }}
         >
           {title || "Untitled Journal"}
-        </Text>
-        <Text
+        </FancyText>
+        <FancyText
           className="text-sm mt-1"
           numberOfLines={2}
           style={{ color: Colors[theme].text }}
         >
           {content || "No content yet..."}
-        </Text>
-        <Text className="text-xs mt-1" style={{ color: Colors[theme].text }}>
+        </FancyText>
+        <FancyText
+          className="text-xs mt-1"
+          style={{ color: Colors[theme].text }}
+        >
           {createdAt
             ? new Date(createdAt.seconds * 1000).toDateString()
             : "No date"}
-        </Text>
+        </FancyText>
       </View>
 
       <TouchableOpacity onPress={onDelete}>

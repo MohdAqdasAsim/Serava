@@ -4,13 +4,13 @@ import {
   Modal,
   TouchableOpacity,
   View,
-  Text,
   TouchableWithoutFeedback,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "../common/FancyText";
 
 interface Props {
   visible: boolean;
@@ -51,25 +51,27 @@ const DiscardChangesModal: React.FC<Props> = ({
                 </TouchableOpacity>
               </View>
 
-              <Text className="text-xl font-bold text-white mb-5">
+              <FancyText className="text-xl font-bold text-white mb-5">
                 Unsaved Changes
-              </Text>
-              <Text className="text-white text-base mb-6 text-center">
+              </FancyText>
+              <FancyText className="text-white text-base mb-6 text-center">
                 You have unsaved changes. Are you sure you want to discard them?
-              </Text>
+              </FancyText>
 
               <TouchableOpacity
                 onPress={onDiscard}
                 className="w-full bg-white/30 p-3 rounded-2xl mb-3 items-center"
               >
-                <Text className="text-white font-medium">Discard Changes</Text>
+                <FancyText className="text-white font-medium">
+                  Discard Changes
+                </FancyText>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={onCancel}
                 className="w-full bg-white/20 p-3 rounded-2xl items-center"
               >
-                <Text className="text-white font-medium">Cancel</Text>
+                <FancyText className="text-white font-medium">Cancel</FancyText>
               </TouchableOpacity>
             </LinearGradient>
           </TouchableWithoutFeedback>

@@ -4,8 +4,9 @@ import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, useRouter } from "expo-router";
 import React, { ReactNode, useEffect } from "react";
-import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { StatusBar, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FancyText from "./FancyText";
 
 interface ToolboxPageWrapperProps {
   children: ReactNode;
@@ -47,12 +48,12 @@ const ToolboxPageWrapper: React.FC<ToolboxPageWrapperProps> = ({
           </TouchableOpacity>
 
           {title && (
-            <Text
+            <FancyText
               className="text-2xl font-semibold"
               style={{ color: Colors[theme].tabIcon }}
             >
               {title}
-            </Text>
+            </FancyText>
           )}
         </View>
         {children}

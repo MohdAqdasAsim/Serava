@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -9,6 +8,7 @@ import {
 import React, { useState, useEffect } from "react";
 import {
   DiscardChangesModal,
+  FancyText,
   FieldEmptyModal,
   GradientWrapper,
   SaveModal,
@@ -152,9 +152,9 @@ const JournalPage = () => {
       {/* Journal Body */}
       <View className="flex-1 p-4 rounded-lg">
         {/* Date */}
-        <Text className="text-white text-lg mb-2 opacity-80">
+        <FancyText className="text-white text-lg mb-2 opacity-80">
           {formattedDate}
-        </Text>
+        </FancyText>
 
         {/* Title Input */}
         <TextInput
@@ -178,9 +178,9 @@ const JournalPage = () => {
         </ScrollView>
 
         {/* Character Count */}
-        <Text className="text-right text-white text-sm opacity-60 mt-2">
+        <FancyText className="text-right text-white text-sm opacity-60 mt-2">
           {content.length} characters
-        </Text>
+        </FancyText>
       </View>
 
       <DiscardChangesModal

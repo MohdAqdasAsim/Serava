@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, Modal, TouchableOpacity } from "react-native";
-import { ToolboxPageWrapper } from "@/components";
+import { View, Modal, TouchableOpacity } from "react-native";
+import { FancyText, ToolboxPageWrapper } from "@/components";
 import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -62,9 +62,9 @@ const EmotionRewind = () => {
       onPress={() => openModal(item)}
       className="p-4 mb-2 bg-gray-200 rounded-lg w-full"
     >
-      <Text className="text-lg text-gray-700">
+      <FancyText className="text-lg text-gray-700">
         {item.timestamp} - {item.mood}
-      </Text>
+      </FancyText>
     </TouchableOpacity>
   );
 
@@ -76,12 +76,12 @@ const EmotionRewind = () => {
         intensity={50}
         className="flex-1 justify-center items-center px-4 rounded-2xl overflow-hidden"
       >
-        {/* <Text
+        {/* <FancyText
           className="text-2xl mb-4 mt-6 text-center"
           style={{ color: Colors[theme].text }}
         >
           Select a past mood entry to reflect on:
-        </Text> */}
+        </FancyText> */}
 
         {/* <FlatList
           data={entries}
@@ -89,12 +89,12 @@ const EmotionRewind = () => {
           keyExtractor={(item) => item.id}
         /> */}
 
-        <Text
+        <FancyText
           className="text-2xl mb-2 text-[16px]"
           style={{ color: Colors[theme].text }}
         >
           No past entries yet
-        </Text>
+        </FancyText>
 
         {/* Modal for reflecting on an entry */}
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
@@ -102,33 +102,35 @@ const EmotionRewind = () => {
             <View className="bg-white p-6 rounded-lg w-4/5 items-center">
               {selectedEntry && (
                 <>
-                  <Text className="text-2xl font-bold mb-2">
+                  <FancyText className="text-2xl font-bold mb-2">
                     Mood: {selectedEntry.mood}
-                  </Text>
-                  <Text className="text-lg mb-4 text-center">
+                  </FancyText>
+                  <FancyText className="text-lg mb-4 text-center">
                     {selectedEntry.description}
-                  </Text>
-                  <Text className="text-sm text-gray-500 mb-6">
+                  </FancyText>
+                  <FancyText className="text-sm text-gray-500 mb-6">
                     Date: {selectedEntry.timestamp}
-                  </Text>
-                  <Text className="italic text-lg mb-6">
+                  </FancyText>
+                  <FancyText className="italic text-lg mb-6">
                     How do you feel now about this moment?
-                  </Text>
+                  </FancyText>
 
                   <TouchableOpacity
                     onPress={handleReframe}
                     className="bg-green-500 p-3 rounded-lg mb-4"
                   >
-                    <Text className="text-white font-bold">
+                    <FancyText className="text-white font-bold">
                       Reflect & Reframe
-                    </Text>
+                    </FancyText>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={closeModal}
                     className="bg-red-500 p-3 rounded-lg"
                   >
-                    <Text className="text-white font-bold">Close</Text>
+                    <FancyText className="text-white font-bold">
+                      Close
+                    </FancyText>
                   </TouchableOpacity>
                 </>
               )}

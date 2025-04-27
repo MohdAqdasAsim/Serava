@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { BlurView } from "expo-blur";
-import { ToolboxPageWrapper } from "@/components";
+import { FancyText, ToolboxPageWrapper } from "@/components";
 import { Colors } from "@/constants/Colors";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -50,20 +50,20 @@ const grounding = () => {
           <Feather name="play" size={36} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
         <View className="">
-          <Text
+          <FancyText
             className="text-3xl font-semibold text-center"
             style={{ color: Colors[theme].tabIcon }}
           >
             Start Cognitive Reframe
-          </Text>
-          <Text
+          </FancyText>
+          <FancyText
             className="text-base mt-2 text-center"
             style={{ color: Colors[theme].tabIcon }}
           >
             Transform negative or unhelpful thoughts into balanced, constructive
             ones. This guided exercise helps you reflect, reframe, and shift
             your mindset with compassion and clarity.
-          </Text>
+          </FancyText>
         </View>
       </View>
       <BlurView
@@ -79,9 +79,9 @@ const grounding = () => {
       >
         {!isFinished ? (
           <View className="w-full">
-            <Text className="text-white text-2xl text-center font-semibold mb-6">
+            <FancyText className="text-white text-2xl text-center font-semibold mb-6">
               {currentPrompt.label}
-            </Text>
+            </FancyText>
             <TextInput
               className="bg-white/90 text-gray-800 rounded-lg p-4 text-base mb-4"
               placeholder="Write it down or just think it..."
@@ -95,22 +95,24 @@ const grounding = () => {
               style={{ backgroundColor: Colors[theme].primary }}
               className="px-6 py-3 rounded-xl"
             >
-              <Text className="text-white text-center">Next</Text>
+              <FancyText className="text-white text-center">Next</FancyText>
             </TouchableOpacity>
           </View>
         ) : (
           <View className="items-center">
-            <Text className="text-white text-2xl font-bold mb-4">
+            <FancyText className="text-white text-2xl font-bold mb-4">
               Well done 🌿
-            </Text>
-            <Text className="text-white text-center mb-6">
+            </FancyText>
+            <FancyText className="text-white text-center mb-6">
               You’ve grounded yourself beautifully. Breathe. You’re here.
-            </Text>
+            </FancyText>
             <TouchableOpacity
               onPress={resetExercise}
               className="bg-green-500 px-6 py-3 rounded-xl"
             >
-              <Text className="text-white text-center">Start Again</Text>
+              <FancyText className="text-white text-center">
+                Start Again
+              </FancyText>
             </TouchableOpacity>
           </View>
         )}

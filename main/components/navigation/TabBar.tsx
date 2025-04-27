@@ -3,7 +3,6 @@ import {
   Pressable,
   LayoutChangeEvent,
   GestureResponderEvent,
-  Text,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -16,6 +15,7 @@ import Animated, {
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "../common/FancyText";
 
 // Define the valid icon names for all 5 tabs
 type IconName = "home" | "chat" | "journal" | "toolbox" | "profile";
@@ -174,7 +174,7 @@ function TabBarButton({
     };
   });
 
-  const animatedTextStyle = useAnimatedStyle(() => {
+  const animatedFancyTextStyle = useAnimatedStyle(() => {
     const opacity = interpolate(scale.value, [0, 1], [1, 0]);
 
     return {
@@ -193,12 +193,12 @@ function TabBarButton({
           color: isFocused ? Colors[theme].tabBar : Colors[theme].tabIcon,
         })}
       </Animated.View>
-      <Animated.Text
-        style={[{ color: Colors[theme].tabIcon }, animatedTextStyle]}
+      <FancyText
+        style={[{ color: Colors[theme].tabIcon }, animatedFancyTextStyle]}
         className="text-[10px] mt-1"
       >
         {label}
-      </Animated.Text>
+      </FancyText>
     </Pressable>
   );
 }

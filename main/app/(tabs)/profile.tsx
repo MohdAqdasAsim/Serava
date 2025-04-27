@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import {
-  Text,
   View,
   ActivityIndicator,
   Image,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Alert,
-  Button,
+  TextInput,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -19,7 +17,12 @@ import {
 } from "@/services/firebaseFunctions";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { GradientWrapper, NoInternetModal, SaveModal } from "@/components";
+import {
+  FancyText,
+  GradientWrapper,
+  NoInternetModal,
+  SaveModal,
+} from "@/components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
 import { useFont } from "@/contexts/FontProvider";
@@ -116,7 +119,7 @@ export default function Profile() {
         {isLoggedIn ? (
           <>
             <View className="flex flex-row justify-between items-center px-2 mb-2">
-              <Text className="text-2xl text-white">Profile</Text>
+              <FancyText className="text-2xl text-white">Profile</FancyText>
               <TouchableOpacity
                 onPress={
                   isConnected
@@ -128,35 +131,37 @@ export default function Profile() {
               </TouchableOpacity>
             </View>
             <View className="flex flex-row justify-between items-center px-2 mt-4">
-              <Text className="text-white text-center text-lg">
+              <FancyText className="text-white text-center text-lg">
                 No profile data found.
-              </Text>
+              </FancyText>
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => router.push("/auth/profile-setup")}
                 className="px-4 py-2 bg-white rounded-2xl"
               >
-                <Text style={{ color: Colors[theme].primary }}>
+                <FancyText style={{ color: Colors[theme].primary }}>
                   Create Profile
-                </Text>
+                </FancyText>
               </TouchableOpacity>
             </View>
           </>
         ) : (
           <View className="flex-1 items-center justify-center px-4">
             <Feather name="log-in" size={40} color="white" className="mb-4" />
-            <Text className="text-white text-xl font-semibold text-center mb-2">
+            <FancyText className="text-white text-xl font-semibold text-center mb-2">
               You’re not logged in
-            </Text>
-            <Text className="text-white/70 text-base text-center mb-4">
+            </FancyText>
+            <FancyText className="text-white/70 text-base text-center mb-4">
               Please log in.
-            </Text>
+            </FancyText>
 
             <TouchableOpacity
               onPress={() => router.push("/auth/login")}
               className="bg-white/20 border border-white/30 px-6 py-3 rounded-xl"
             >
-              <Text className="text-white font-semibold text-base">Log In</Text>
+              <FancyText className="text-white font-semibold text-base">
+                Log In
+              </FancyText>
             </TouchableOpacity>
           </View>
         )}
@@ -193,9 +198,9 @@ export default function Profile() {
       >
         {/* Edit Toggle Button */}
         <View className="flex flex-row justify-between items-center px-2 mb-2">
-          <Text className="text-2xl" style={{ color: Colors[theme].text }}>
+          <FancyText className="text-2xl" style={{ color: Colors[theme].text }}>
             Profile
-          </Text>
+          </FancyText>
           <View className="flex flex-row gap-4">
             <TouchableOpacity
               onPress={
@@ -258,16 +263,19 @@ export default function Profile() {
               editable={isEditing}
               placeholder="Name"
               value={editedProfile.name || ""}
-              onChangeText={(text) =>
+              onChangeText={(text: any) =>
                 setEditedProfile({ ...editedProfile, name: text })
               }
               className="text-2xl font-bold"
               style={{ color: Colors[theme].text }}
               placeholderTextColor="#ccc"
             />
-            <Text className="text-sm" style={{ color: Colors[theme].text }}>
+            <FancyText
+              className="text-sm"
+              style={{ color: Colors[theme].text }}
+            >
               {profile.email}
-            </Text>
+            </FancyText>
           </View>
         </BlurView>
 
@@ -277,12 +285,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text
+            <FancyText
               className="text-white mb-1"
               style={{ color: Colors[theme].text }}
             >
               Age
-            </Text>
+            </FancyText>
             <TextInput
               editable={isEditing}
               keyboardType="numeric"
@@ -305,12 +313,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text
+            <FancyText
               className="text-white mb-1"
               style={{ color: Colors[theme].text }}
             >
               Pronouns
-            </Text>
+            </FancyText>
             <TextInput
               editable={isEditing}
               placeholder="Pronouns"
@@ -332,12 +340,12 @@ export default function Profile() {
           intensity={90}
           className="p-4 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text
+          <FancyText
             className="text-white mb-1"
             style={{ color: Colors[theme].text }}
           >
             Tone Preference
-          </Text>
+          </FancyText>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Friendly, Supportive"
@@ -351,12 +359,12 @@ export default function Profile() {
             } mb-3`}
             placeholderTextColor="#ccc"
           />
-          <Text
+          <FancyText
             className="text-white mb-1"
             style={{ color: Colors[theme].text }}
           >
             Why you're here
-          </Text>
+          </FancyText>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Stress relief, journaling"
@@ -381,12 +389,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text
+            <FancyText
               className="text-white mb-1"
               style={{ color: Colors[theme].text }}
             >
               Check-in Frequency
-            </Text>
+            </FancyText>
             {isEditing ? (
               <Picker
                 selectedValue={editedProfile.checkInFrequency ?? undefined}
@@ -410,12 +418,12 @@ export default function Profile() {
                 <Picker.Item label="Never" value="never" />
               </Picker>
             ) : (
-              <Text
+              <FancyText
                 className="text-white uppercase px-3 py-2 rounded-xl"
                 style={{ color: Colors[theme].text }}
               >
                 {editedProfile.checkInFrequency || "Not set"}
-              </Text>
+              </FancyText>
             )}
           </BlurView>
 
@@ -424,12 +432,12 @@ export default function Profile() {
             intensity={90}
             className="p-3 rounded-2xl flex-1 overflow-hidden"
           >
-            <Text
+            <FancyText
               className="text-white mb-1"
               style={{ color: Colors[theme].text }}
             >
               Preferred Time
-            </Text>
+            </FancyText>
             {isEditing ? (
               <Picker
                 selectedValue={editedProfile.preferredTime ?? undefined}
@@ -451,12 +459,12 @@ export default function Profile() {
                 <Picker.Item label="Late night" value="late-night" />
               </Picker>
             ) : (
-              <Text
+              <FancyText
                 className="text-white uppercase px-3 py-2 rounded-xl"
                 style={{ color: Colors[theme].text }}
               >
                 {editedProfile.preferredTime || "Not set"}
-              </Text>
+              </FancyText>
             )}
           </BlurView>
         </View>
@@ -466,12 +474,12 @@ export default function Profile() {
           intensity={90}
           className="p-4 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text
+          <FancyText
             className="text-white mb-1"
             style={{ color: Colors[theme].text }}
           >
             Topics to Avoid
-          </Text>
+          </FancyText>
           <TextInput
             editable={isEditing}
             placeholder="e.g., Trauma, Work"
@@ -492,21 +500,21 @@ export default function Profile() {
           intensity={90}
           className="p-2 py-3 rounded-2xl mb-3 overflow-hidden"
         >
-          <Text
+          <FancyText
             className="text-white mb-1 font-bold"
             style={{ color: Colors[theme].text }}
           >
             Currently you are on free plan
-          </Text>
+          </FancyText>
         </BlurView>
 
         <View className="w-full flex flex-row items-center justify-between pl-2 mb-2">
-          <Text
+          <FancyText
             className="text-white text-base font-bold"
             style={{ color: Colors[theme].text }}
           >
             Fancy Font
-          </Text>
+          </FancyText>
 
           <TouchableOpacity
             className={`w-16 h-8 px-1 flex justify-center ${

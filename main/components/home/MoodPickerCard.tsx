@@ -1,8 +1,9 @@
-import { View, TouchableOpacity, Image, Text } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { Theme, useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "../common/FancyText";
 
 const emotionIcons = [
   { id: "joy", source: require("@/assets/icons/emoticons/joy.png") },
@@ -21,12 +22,12 @@ const MoodPicker = () => {
       tint="light"
       className="w-full h-32 rounded-3xl overflow-hidden flex justify-center items-center"
     >
-      <Text
+      <FancyText
         className="text-[14px] mb-4 text-center"
         style={{ color: Colors[theme].text }}
       >
         Tap an icon to change your theme based on your current mood
-      </Text>
+      </FancyText>
       <View className="flex-row justify-between w-[90%]">
         {emotionIcons.map((emotion) => (
           <TouchableOpacity

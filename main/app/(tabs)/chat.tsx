@@ -2,12 +2,16 @@ import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
-import { ConfirmModal, ConversationItem, GradientWrapper } from "@/components";
+import {
+  ConfirmModal,
+  ConversationItem,
+  FancyText,
+  GradientWrapper,
+} from "@/components";
 import {
   fetchUserConversations,
   deleteConversation,
@@ -102,12 +106,12 @@ export default function Chat() {
                   )}
                   ListEmptyComponent={
                     <View className="flex-1 items-center mt-10">
-                      <Text
+                      <FancyText
                         className="text-white text-2xl"
                         style={{ color: Colors[theme].text }}
                       >
                         No conversations yet
-                      </Text>
+                      </FancyText>
                     </View>
                   }
                   ListFooterComponent={<View className="mb-28" />}
@@ -129,8 +133,8 @@ export default function Chat() {
                 visible={confirmVisible}
                 title="Delete Conversation?"
                 message="Are you sure you want to delete this chat? This can't be undone."
-                confirmText="Delete"
-                cancelText="Cancel"
+                confirmFancyText="Delete"
+                cancelFancyText="Cancel"
                 onConfirm={confirmDelete}
                 onCancel={() => setConfirmVisible(false)}
               />
@@ -138,20 +142,20 @@ export default function Chat() {
           ) : (
             <View className="flex-1 items-center justify-center px-4">
               <Feather name="log-in" size={40} color="white" className="mb-4" />
-              <Text className="text-white text-xl font-semibold text-center mb-2">
+              <FancyText className="text-white text-xl font-semibold text-center mb-2">
                 You’re not logged in
-              </Text>
-              <Text className="text-white/70 text-base text-center mb-4">
+              </FancyText>
+              <FancyText className="text-white/70 text-base text-center mb-4">
                 Please log in to view and manage your conversations.
-              </Text>
+              </FancyText>
 
               <TouchableOpacity
                 onPress={() => router.push("/auth/login")}
                 className="bg-white/20 border border-white/30 px-6 py-3 rounded-xl"
               >
-                <Text className="text-white font-semibold text-base">
+                <FancyText className="text-white font-semibold text-base">
                   Log In
-                </Text>
+                </FancyText>
               </TouchableOpacity>
             </View>
           )}
@@ -159,13 +163,13 @@ export default function Chat() {
       ) : (
         <View className="flex-1 items-center justify-center px-4">
           <Feather name="wifi-off" size={40} color="white" className="mb-4" />
-          <Text className="text-white text-xl font-semibold text-center mb-2">
+          <FancyText className="text-white text-xl font-semibold text-center mb-2">
             You're Offline
-          </Text>
-          <Text className="text-white/70 text-base text-center">
+          </FancyText>
+          <FancyText className="text-white/70 text-base text-center">
             Connect to the internet to access this feature and sync your
             journals.
-          </Text>
+          </FancyText>
         </View>
       )}
     </GradientWrapper>

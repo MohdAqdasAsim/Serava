@@ -7,6 +7,7 @@ import ConfirmModal from "./common/ConfirmModal";
 import NoInternetModal from "./common/NoInternetModal";
 import NotLoggedInModal from "./common/NotLoggedInModal";
 import FieldEmptyModal from "./common/FieldEmptyModal";
+import FancyText from "./common/FancyText";
 
 // Authentication components
 import EmailSentModal from "./auth/EmailSentModal";
@@ -65,6 +66,7 @@ export {
   NoInternetModal,
   NotLoggedInModal,
   FieldEmptyModal,
+  FancyText,
 
   // Authentication
   LoginSignUpModal,

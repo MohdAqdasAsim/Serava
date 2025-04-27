@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToolboxPageWrapper } from "@/components";
+import { FancyText, ToolboxPageWrapper } from "@/components";
 import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -83,23 +83,23 @@ const FocusTimer = () => {
         tint="light"
         className="flex-1 px-8 py-10 rounded-3xl items-center justify-center overflow-hidden"
       >
-        <Text className="text-white text-7xl font-extrabold mb-4 text-shadow-neon">
+        <FancyText className="text-white text-7xl font-extrabold mb-4 text-shadow-neon">
           {formatTime(secondsLeft)}
-        </Text>
-        <Text
+        </FancyText>
+        <FancyText
           className="italic text-lg mb-6"
           style={{ color: Colors[theme].text }}
         >
           {onBreak ? "Break Time ☕" : "Focus Mode 🔥"}
-        </Text>
+        </FancyText>
 
         <TouchableOpacity
           onPress={() => setIsRunning((r) => !r)}
           className="bg-white/10 border border-white rounded-2xl px-6 py-3"
         >
-          <Text className="text-white text-lg font-semibold">
+          <FancyText className="text-white text-lg font-semibold">
             {isRunning ? "Pause" : "Start"}
-          </Text>
+          </FancyText>
         </TouchableOpacity>
       </BlurView>
     </ToolboxPageWrapper>

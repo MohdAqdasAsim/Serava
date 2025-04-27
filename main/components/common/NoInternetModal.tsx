@@ -1,10 +1,11 @@
 // components/NoInternetModal.tsx
 import React from "react";
-import { Modal, View, Text, TouchableWithoutFeedback } from "react-native";
+import { Modal, View, TouchableWithoutFeedback } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "./FancyText";
 
 interface Props {
   visible: boolean;
@@ -35,13 +36,13 @@ const NoInternetModal: React.FC<Props> = ({ visible, onCancel }) => {
                 color="white"
                 className="mb-4"
               />
-              <Text className="text-white text-xl font-semibold text-center mb-2">
+              <FancyText className="text-white text-xl font-semibold text-center mb-2">
                 You're Offline
-              </Text>
-              <Text className="text-white/70 text-base text-center">
+              </FancyText>
+              <FancyText className="text-white/70 text-base text-center">
                 Connect to the internet to access this feature and sync your
                 journals.
-              </Text>
+              </FancyText>
             </LinearGradient>
           </TouchableWithoutFeedback>
         </View>

@@ -2,7 +2,6 @@ import React from "react";
 import {
   Modal,
   View,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -10,13 +9,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "./FancyText";
 
 interface ConfirmModalProps {
   visible: boolean;
   title?: string;
   message?: string;
-  confirmText?: string;
-  cancelText?: string;
+  confirmFancyText?: string;
+  cancelFancyText?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -25,8 +25,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   visible,
   title = "Are you sure?",
   message = "This action cannot be undone.",
-  confirmText = "Delete",
-  cancelText = "Cancel",
+  confirmFancyText = "Delete",
+  cancelFancyText = "Cancel",
   onConfirm,
   onCancel,
 }) => {
@@ -47,12 +47,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 color="white"
                 style={{ marginBottom: 12 }}
               />
-              <Text className="text-white text-xl font-bold mb-2 text-center">
+              <FancyText className="text-white text-xl font-bold mb-2 text-center">
                 {title}
-              </Text>
-              <Text className="text-white text-base text-center opacity-80 mb-6">
+              </FancyText>
+              <FancyText className="text-white text-base text-center opacity-80 mb-6">
                 {message}
-              </Text>
+              </FancyText>
 
               <View className="flex-row space-x-4 gap-4">
                 <TouchableOpacity
@@ -60,14 +60,18 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                   onPress={onCancel}
                   className="px-6 py-2 rounded-full bg-white/20 border border-white/40"
                 >
-                  <Text className="text-white text-base">{cancelText}</Text>
+                  <FancyText className="text-white text-base">
+                    {cancelFancyText}
+                  </FancyText>
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={onConfirm}
                   className="px-6 py-2 rounded-full bg-red-600/80"
                 >
-                  <Text className="text-white text-base">{confirmText}</Text>
+                  <FancyText className="text-white text-base">
+                    {confirmFancyText}
+                  </FancyText>
                 </TouchableOpacity>
               </View>
             </LinearGradient>

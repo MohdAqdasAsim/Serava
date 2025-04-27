@@ -1,7 +1,8 @@
 // components/SlidesFlatList.tsx
 import React, { useRef, useEffect, useState } from "react";
-import { View, Text, FlatList, Dimensions, Image } from "react-native";
+import { View, FlatList, Dimensions, Image } from "react-native";
 import { BlurView } from "expo-blur";
+import FancyText from "../common/FancyText";
 
 const { width } = Dimensions.get("window");
 
@@ -75,21 +76,21 @@ const SlidesFlatList = () => {
                   className="w-24 h-24 mb-6"
                   resizeMode="contain"
                 />
-                <Text className="text-[#312170] font-bold text-5xl text-center mb-2">
+                <FancyText className="text-[#312170] font-bold text-5xl text-center mb-2">
                   Hello There! 👋
-                </Text>
-                <Text className="text-[#312170] text-2xl text-center">
+                </FancyText>
+                <FancyText className="text-[#312170] text-2xl text-center">
                   Meet Serava, your emotional wellness companion.
-                </Text>
+                </FancyText>
                 <View className="w-full flex-1 px-12 rounded-3xl overflow-hidden my-12">
                   <BlurView
                     intensity={50}
                     tint="light"
                     className="flex-1 items-center justify-center px-6 overflow-hidden rounded-3xl"
                   >
-                    <Text className="text-[#312170] text-xl text-center">
+                    <FancyText className="text-[#312170] text-xl text-center">
                       Let’s begin a journey toward calm, clarity, and care 💜
-                    </Text>
+                    </FancyText>
                     <Image
                       source={item.visual}
                       className="w-60 h-60 mb-6"
@@ -112,21 +113,21 @@ const SlidesFlatList = () => {
                 className="w-20 h-20 mb-6"
                 resizeMode="contain"
               />
-              <Text className="text-[#312170] font-medium text-5xl text-center">
+              <FancyText className="text-[#312170] font-medium text-5xl text-center">
                 {item.title}
-              </Text>
-              <Text className="text-[#312170] text-3xl text-center mt-2">
+              </FancyText>
+              <FancyText className="text-[#312170] text-3xl text-center mt-2">
                 {item.subtitle}
-              </Text>
+              </FancyText>
               <View className="w-full flex-1 px-12 rounded-3xl overflow-hidden my-12">
                 <BlurView
                   intensity={50}
                   tint="light"
                   className="flex-1 items-center justify-center px-6 overflow-hidden rounded-3xl"
                 >
-                  <Text className="text-[#312170] text-2xl text-center">
+                  <FancyText className="text-[#312170] text-2xl text-center">
                     {item.description}
-                  </Text>
+                  </FancyText>
                   <Image
                     source={item.visual}
                     className="w-60 h-60 mb-6"

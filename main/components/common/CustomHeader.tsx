@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Colors } from "@/constants/Colors";
 import { Feather } from "@expo/vector-icons";
+import FancyText from "./FancyText";
 
 type Props = {
   title?: string;
@@ -36,12 +37,12 @@ export default function CustomHeader({
       </TouchableOpacity>
 
       {title && (
-        <Text
+        <FancyText
           className="text-2xl font-semibold"
           style={{ color: Colors[theme].tabIcon }}
         >
           {title}
-        </Text>
+        </FancyText>
       )}
     </View>
   );

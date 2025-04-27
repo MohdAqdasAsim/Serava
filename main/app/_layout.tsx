@@ -6,13 +6,14 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
-import { NetworkProvider, useNetwork } from "@/contexts/NetworkProvider";
+import { NetworkProvider } from "@/contexts/NetworkProvider";
 import { AlertProvider } from "@/contexts/AlertProvider";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { ErrorBoundary } from "react-error-boundary";
 import { FontProvider } from "@/contexts/FontProvider";
 import Constants from "expo-constants";
 import { AuthProvider } from "@/contexts/AuthProvider";
+import { FancyText } from "@/components";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -27,12 +28,14 @@ function ErrorFallback({ error }: { error: Error }) {
         padding: 20,
       }}
     >
-      <Text style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}>
+      <FancyText
+        style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
+      >
         😓 Oops! Something went wrong.
-      </Text>
-      <Text style={{ fontSize: 14, color: "red", textAlign: "center" }}>
+      </FancyText>
+      <FancyText style={{ fontSize: 14, color: "red", textAlign: "center" }}>
         {error.message}
-      </Text>
+      </FancyText>
     </View>
   );
 }

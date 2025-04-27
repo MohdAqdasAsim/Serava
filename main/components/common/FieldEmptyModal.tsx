@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Modal, View, Text, TouchableWithoutFeedback } from "react-native";
+import { Modal, View, TouchableWithoutFeedback } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
+import FancyText from "./FancyText";
 
 interface Props {
   visible: boolean;
@@ -43,10 +44,12 @@ const FieldEmptyModal: React.FC<Props> = ({ visible, onClose, message }) => {
               style={{ marginBottom: 12 }}
             />
 
-            <Text className="text-white text-xl font-bold mb-2">Error</Text>
-            <Text className="text-white text-center text-base opacity-90">
+            <FancyText className="text-white text-xl font-bold mb-2">
+              Error
+            </FancyText>
+            <FancyText className="text-white text-center text-base opacity-90">
               {message || "Something went wrong..."}
-            </Text>
+            </FancyText>
           </LinearGradient>
         </View>
       </TouchableWithoutFeedback>

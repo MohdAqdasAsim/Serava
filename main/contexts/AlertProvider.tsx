@@ -9,7 +9,7 @@ import React, {
 import {
   Animated,
   Dimensions,
-  Text,
+  FancyText,
   View,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -95,7 +95,7 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
               });
             }}
           >
-            <Text style={styles.alertText}>{alert.message}</Text>
+            <FancyText style={styles.alertFancyText}>{alert.message}</FancyText>
           </TouchableWithoutFeedback>
         </Animated.View>
       )}
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
-  alertText: {
+  alertFancyText: {
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -10,7 +9,7 @@ import {
   BackHandler,
   ActivityIndicator,
 } from "react-native";
-import { GradientWrapper } from "@/components";
+import { FancyText, GradientWrapper } from "@/components";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Colors } from "@/constants/Colors";
 import Markdown from "react-native-markdown-display"; // Import Markdown
@@ -209,12 +208,12 @@ const AiChat = () => {
           <Feather name="arrow-left" size={24} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
 
-        <Text
+        <FancyText
           className="text-2xl font-semibold"
           style={{ color: Colors[theme].tabIcon }}
         >
           Chat with Serava
-        </Text>
+        </FancyText>
       </View>
 
       <ScrollView
@@ -234,7 +233,7 @@ const AiChat = () => {
             }`}
           >
             {msg.from === "user" ? (
-              <Text className="text-white text-lg">{msg.text}</Text>
+              <FancyText className="text-white text-lg">{msg.text}</FancyText>
             ) : (
               <Markdown
                 style={{
@@ -245,8 +244,8 @@ const AiChat = () => {
                   listUnorderedItemIcon: {
                     color: "white", // Bullet point color
                   },
-                  listUnorderedItemText: {
-                    color: "white", // Text color for list items
+                  listUnorderedItemFancyText: {
+                    color: "white", // FancyText color for list items
                   },
                 }}
               >

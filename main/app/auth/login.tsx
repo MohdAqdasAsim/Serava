@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   Image,
   TextInput,
   Pressable,
@@ -11,7 +10,11 @@ import {
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { BackgroundWrapper, ForgotPasswordModal } from "@/components";
+import {
+  BackgroundWrapper,
+  FancyText,
+  ForgotPasswordModal,
+} from "@/components";
 import { useRouter } from "expo-router";
 import { checkUserProfileExists, logIn } from "@/services/firebaseFunctions";
 
@@ -55,14 +58,14 @@ const Login = () => {
         />
       </View>
 
-      {/* Header Text */}
+      {/* Header FancyText */}
       <View className="w-full flex items-center mb-6">
-        <Text className="text-[#312170] font-semibold text-4xl">
+        <FancyText className="text-[#312170] font-semibold text-4xl">
           Hey there 👋
-        </Text>
-        <Text className="text-[#312170] text-lg mt-2 text-center">
+        </FancyText>
+        <FancyText className="text-[#312170] text-lg mt-2 text-center">
           We've missed you. Let’s pick up where we left off 💜
-        </Text>
+        </FancyText>
       </View>
 
       {/* Inputs Container */}
@@ -80,7 +83,9 @@ const Login = () => {
           className="flex-1 items-center justify-center px-6 py-6"
         >
           {/* Email */}
-          <Text className="self-start text-gray-700 text-base mb-1">Email</Text>
+          <FancyText className="self-start text-gray-700 text-base mb-1">
+            Email
+          </FancyText>
           <TextInput
             value={email}
             onChangeText={setEmail}
@@ -91,9 +96,9 @@ const Login = () => {
           />
 
           {/* Password */}
-          <Text className="self-start text-gray-700 text-base mb-1">
+          <FancyText className="self-start text-gray-700 text-base mb-1">
             Password
-          </Text>
+          </FancyText>
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Password"
@@ -118,14 +123,16 @@ const Login = () => {
             onPress={() => setForgotModalVisible(true)}
             className="w-full flex items-end"
           >
-            <Text className="text-[#312170]">Forgot Password?</Text>
+            <FancyText className="text-[#312170]">Forgot Password?</FancyText>
           </TouchableOpacity>
         </BlurView>
       </View>
 
       {/* Feedback */}
       {feedback && (
-        <Text className="text-center mb-2 text-[#312170]">{feedback}</Text>
+        <FancyText className="text-center mb-2 text-[#312170]">
+          {feedback}
+        </FancyText>
       )}
 
       {/* Login Button */}
@@ -143,21 +150,25 @@ const Login = () => {
           {loading ? (
             <ActivityIndicator size="small" color="#fff" />
           ) : (
-            <Text className="text-2xl text-white text-center">Login</Text>
+            <FancyText className="text-2xl text-white text-center">
+              Login
+            </FancyText>
           )}
         </Pressable>
       </LinearGradient>
 
       {/* Already Have an Account? Sign Up Link */}
       <View className="w-full flex flex-row items-center justify-center mt-6">
-        <Text className="text-[#312170cb]">Don't have an account? </Text>
+        <FancyText className="text-[#312170cb]">
+          Don't have an account?{" "}
+        </FancyText>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
             router.replace("/auth/signup");
           }}
         >
-          <Text className="text-[#312170]">Sign Up</Text>
+          <FancyText className="text-[#312170]">Sign Up</FancyText>
         </TouchableOpacity>
       </View>
 

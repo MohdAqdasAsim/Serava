@@ -3,11 +3,11 @@ import {
   Modal,
   TouchableOpacity,
   View,
-  Text,
   TouchableWithoutFeedback,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient"; // For the gradient background
 import { Ionicons } from "@expo/vector-icons"; // Close icon
+import FancyText from "../common/FancyText";
 
 interface EmailSentModalProps {
   modalVisible: boolean;
@@ -48,15 +48,15 @@ const EmailSentModal: React.FC<EmailSentModalProps> = ({
                   />
                 </TouchableOpacity>
               </View>
-              <Text className="text-2xl font-bold mb-5 text-white">
+              <FancyText className="text-2xl font-bold mb-5 text-white">
                 Email Sent!
-              </Text>
+              </FancyText>
 
-              {/* Message Text */}
-              <Text className="text-white mb-5 text-center">
+              {/* Message FancyText */}
+              <FancyText className="text-white mb-5 text-center">
                 A verification email has been sent to your email address. Please
                 check your inbox and follow the instructions.
-              </Text>
+              </FancyText>
 
               {/* OK Button */}
               <TouchableOpacity
@@ -64,7 +64,7 @@ const EmailSentModal: React.FC<EmailSentModalProps> = ({
                 onPress={handleOk}
                 className="w-full p-4 mb-4 rounded-3xl items-center bg-indigo-500 shadow-md"
               >
-                <Text className="text-white text-lg">OK</Text>
+                <FancyText className="text-white text-lg">OK</FancyText>
               </TouchableOpacity>
             </LinearGradient>
           </TouchableWithoutFeedback>

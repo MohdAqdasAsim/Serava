@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   Animated,
   Easing,
   TextInput,
 } from "react-native";
-import { ToolboxPageWrapper } from "@/components";
+import { FancyText, ToolboxPageWrapper } from "@/components";
 import { BlurView } from "expo-blur";
 
 const DURATIONS = [1, 3, 5]; // in minutes
@@ -126,13 +125,13 @@ const BreathingGuide = () => {
                   : "bg-transparent"
               }`}
             >
-              <Text
+              <FancyText
                 className={`text-lg ${
                   selectedMode === mode ? "text-black" : "text-white/70"
                 }`}
               >
                 {mode}
-              </Text>
+              </FancyText>
             </TouchableOpacity>
           ))}
         </View>
@@ -194,7 +193,9 @@ const BreathingGuide = () => {
               justifyContent: "center",
             }}
           >
-            <Text className="text-white font-bold text-lg">{phase}</Text>
+            <FancyText className="text-white font-bold text-lg">
+              {phase}
+            </FancyText>
           </Animated.View>
         </View>
 
@@ -210,37 +211,37 @@ const BreathingGuide = () => {
                 duration === d ? "bg-white border-white" : "border-white/30"
               }`}
             >
-              <Text
+              <FancyText
                 className={`${
                   duration === d ? "text-black" : "text-white"
                 } text-sm`}
               >
                 {d} min
-              </Text>
+              </FancyText>
             </TouchableOpacity>
           ))}
         </View>
 
         {/* Timer + Controls */}
-        <Text className="text-center text-white mb-4 text-xl font-semibold">
+        <FancyText className="text-center text-white mb-4 text-xl font-semibold">
           {formatTime(timeLeft)}
-        </Text>
+        </FancyText>
 
         <View className="flex-row justify-around">
           <TouchableOpacity
             onPress={handleStartPause}
             className="bg-green-400 px-6 py-3 rounded-xl"
           >
-            <Text className="text-black font-semibold">
+            <FancyText className="text-black font-semibold">
               {isRunning ? "Pause" : "Start"}
-            </Text>
+            </FancyText>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleReset}
             className="bg-red-500 px-6 py-3 rounded-xl"
           >
-            <Text className="text-white font-semibold">Reset</Text>
+            <FancyText className="text-white font-semibold">Reset</FancyText>
           </TouchableOpacity>
         </View>
       </BlurView>

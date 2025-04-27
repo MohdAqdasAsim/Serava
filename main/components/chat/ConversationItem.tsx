@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
+import FancyText from "../common/FancyText";
 type Message = { from: "user" | "ai"; text: string };
 
 type ConversationItemProps = {
@@ -32,21 +33,24 @@ const ConversationItem = ({
       onPress={onPress}
     >
       <View>
-        <Text
+        <FancyText
           className="font-semibold text-lg"
           style={{ color: Colors[theme].text }}
         >
           {conversation.title || "Untitled Conversation"}
-        </Text>
-        <Text className="text-sm" style={{ color: Colors[theme].text }}>
+        </FancyText>
+        <FancyText className="text-sm" style={{ color: Colors[theme].text }}>
           {(messages && messages[0].text + " . . .") ||
             "Start talking to Serava..."}
-        </Text>
-        <Text className="text-xs mt-1" style={{ color: Colors[theme].text }}>
+        </FancyText>
+        <FancyText
+          className="text-xs mt-1"
+          style={{ color: Colors[theme].text }}
+        >
           {conversation.timestamp
             ? new Date(conversation.timestamp.seconds * 1000).toDateString()
             : "No date"}
-        </Text>
+        </FancyText>
       </View>
 
       <TouchableOpacity onPress={onDelete}>

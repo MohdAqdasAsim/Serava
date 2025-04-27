@@ -1,5 +1,5 @@
-import { GradientWrapper } from "@/components";
-import { Text, TouchableOpacity, ScrollView } from "react-native";
+import { FancyText, GradientWrapper } from "@/components";
+import { TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
@@ -51,18 +51,18 @@ export default function Toolbox() {
             className="bg-white/10 mb-4 p-4 rounded-xl border border-white/20"
             activeOpacity={0.8}
           >
-            <Text
+            <FancyText
               className="text-white text-xl font-bold mb-1"
               style={{ color: Colors[theme].text }}
             >
               {tool.emoji} {tool.title}
-            </Text>
-            <Text
+            </FancyText>
+            <FancyText
               className="text-white/80"
               style={{ color: Colors[theme].text }}
             >
               {tool.description}
-            </Text>
+            </FancyText>
           </TouchableOpacity>
         ))}
       </ScrollView>

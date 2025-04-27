@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import {
-  Text,
-  StatusBar,
-  ImageBackground,
-  Pressable,
-  Keyboard,
-} from "react-native";
+import { StatusBar, ImageBackground, Pressable, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { LoginSignUpModal, SlidesFlatList } from "@/components";
+import { FancyText, LoginSignUpModal, SlidesFlatList } from "@/components";
 
 const OnBoarding = () => {
   const router = useRouter();
@@ -62,7 +56,9 @@ const OnBoarding = () => {
             className="w-full h-full flex items-center justify-center"
             onPress={handleContinuePress} // Show modal on press
           >
-            <Text className="text-2xl text-white text-center">Continue</Text>
+            <FancyText className="text-2xl text-white text-center">
+              Continue
+            </FancyText>
           </Pressable>
         </LinearGradient>
 

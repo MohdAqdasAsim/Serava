@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   Modal,
@@ -9,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import { ToolboxPageWrapper } from "@/components";
+import { FancyText, ToolboxPageWrapper } from "@/components";
 import { getGeminiResponse } from "@/services/gemini";
 import { BlurView } from "expo-blur";
 import { Feather } from "@expo/vector-icons";
@@ -137,31 +136,31 @@ const Reframe = () => {
           <Feather name="play" size={36} color={Colors[theme].tabIcon} />
         </TouchableOpacity>
         <View className="">
-          <Text
+          <FancyText
             className="text-3xl font-semibold text-center"
             style={{ color: Colors[theme].tabIcon }}
           >
             Start Cognitive Reframe
-          </Text>
-          <Text
+          </FancyText>
+          <FancyText
             className="text-base mt-2 text-center"
             style={{ color: Colors[theme].tabIcon }}
           >
             Transform negative or unhelpful thoughts into balanced, constructive
             ones. This guided exercise helps you reflect, reframe, and shift
             your mindset with compassion and clarity.
-          </Text>
+          </FancyText>
         </View>
         <BlurView
           intensity={80}
           className="w-full p-4 mt-6 rounded-2xl overflow-hidden"
         >
-          <Text
+          <FancyText
             className="text-xl font-semibold text-center mb-4"
             style={{ color: Colors[theme].tabIcon }}
           >
             Saved Thoughts
-          </Text>
+          </FancyText>
 
           <ScrollView className="w-full">
             {savedThoughts.length > 0 ? (
@@ -171,9 +170,9 @@ const Reframe = () => {
                   className="p-2 mb-2 rounded-lg flex flex-row items-center justify-between"
                   style={{ backgroundColor: Colors[theme].primary }}
                 >
-                  <Text className="text-white text-base">
+                  <FancyText className="text-white text-base">
                     {thought.reframedThought}
-                  </Text>
+                  </FancyText>
 
                   <TouchableOpacity
                     activeOpacity={0.7}
@@ -186,12 +185,12 @@ const Reframe = () => {
                 </View>
               ))
             ) : (
-              <Text
+              <FancyText
                 className="text-center text-[14px] opacity-70"
                 style={{ color: Colors[theme].text }}
               >
                 No thoughts saved yet.
-              </Text>
+              </FancyText>
             )}
           </ScrollView>
         </BlurView>
@@ -214,15 +213,15 @@ const Reframe = () => {
                 className="w-5/6 p-6 rounded-xl shadow-xl"
                 style={{ backgroundColor: Colors[theme].primary }}
               >
-                <Text className="text-2xl font-bold text-center mb-4 text-white">
+                <FancyText className="text-2xl font-bold text-center mb-4 text-white">
                   Cognitive Reframe
-                </Text>
+                </FancyText>
 
-                <Text className="text-base text-center text-gray-200 mb-4">
+                <FancyText className="text-base text-center text-gray-200 mb-4">
                   Think of a recent negative thought you’ve had. What is
                   something that you believe about yourself, others, or a
                   situation that may not be entirely true?
-                </Text>
+                </FancyText>
 
                 <TextInput
                   className="h-12 border border-gray-300 rounded-lg p-3 mb-4 text-white placeholder:text-white"
@@ -236,23 +235,25 @@ const Reframe = () => {
                   onPress={generateGuidance}
                   className="bg-white px-4 py-2 rounded-lg mb-4"
                 >
-                  <Text
+                  <FancyText
                     className="text-center"
                     style={{ color: Colors[theme].tabIcon }}
                   >
                     Get Guidance
-                  </Text>
+                  </FancyText>
                 </TouchableOpacity>
 
                 {isLoading && (
-                  <Text className="text-center text-gray-300 mb-4">
+                  <FancyText className="text-center text-gray-300 mb-4">
                     Thinking...
-                  </Text>
+                  </FancyText>
                 )}
 
                 {guidance && (
                   <ScrollView className="mb-4">
-                    <Text className="text-gray-200 text-sm">{guidance}</Text>
+                    <FancyText className="text-gray-200 text-sm">
+                      {guidance}
+                    </FancyText>
                   </ScrollView>
                 )}
 
@@ -272,24 +273,24 @@ const Reframe = () => {
                     {isSaving ? (
                       <ActivityIndicator color={Colors[theme].primary} />
                     ) : (
-                      <Text
+                      <FancyText
                         className="text-white text-center"
                         style={{ color: Colors[theme].primary }}
                       >
                         Save Thought
-                      </Text>
+                      </FancyText>
                     )}
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={closeModal}
                     className="px-4 py-2 rounded-lg bg-white"
                   >
-                    <Text
+                    <FancyText
                       className="text-white text-center"
                       style={{ color: Colors[theme].primary }}
                     >
                       Close
-                    </Text>
+                    </FancyText>
                   </TouchableOpacity>
                 </View>
               </View>

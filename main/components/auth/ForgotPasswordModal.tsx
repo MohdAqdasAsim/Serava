@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
   Modal,
   View,
-  Text,
   TouchableOpacity,
   TextInput,
   TouchableWithoutFeedback,
@@ -15,6 +14,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { resetPassword } from "@/services/firebaseFunctions";
+import FancyText from "../common/FancyText";
 
 interface ForgotPasswordModalProps {
   visible: boolean;
@@ -71,9 +71,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               </TouchableOpacity>
             </View>
 
-            <Text className="text-2xl font-bold text-white mb-4">
+            <FancyText className="text-2xl font-bold text-white mb-4">
               Reset Password
-            </Text>
+            </FancyText>
 
             <TextInput
               value={forgotEmail}
@@ -99,9 +99,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
                 {loading ? (
                   <ActivityIndicator size="small" color="#fff" />
                 ) : (
-                  <Text className="text-2xl text-white text-center">
+                  <FancyText className="text-2xl text-white text-center">
                     Reset Password
-                  </Text>
+                  </FancyText>
                 )}
               </Pressable>
             </LinearGradient>

@@ -2,8 +2,9 @@ import React from "react";
 import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/ThemeProvider";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
+import FancyText from "../common/FancyText";
 
 const toolRoutes: Record<string, string> = {
   Breathe: "/tools/breathing",
@@ -21,12 +22,12 @@ const ToolboxCard = () => {
       tint="light"
       className="w-full rounded-3xl mt-4 px-6 py-4 overflow-hidden justify-center items-start"
     >
-      <Text
+      <FancyText
         className="text-primary text-[14px] font-semibold mb-2"
         style={{ color: Colors[theme].text }}
       >
         🧰 Toolbox
-      </Text>
+      </FancyText>
       <View className="w-full flex-wrap space-x-2 gap-2">
         {["Breathe", "Reframe", "Ground"].map((tool, i) => (
           <TouchableOpacity
@@ -34,7 +35,7 @@ const ToolboxCard = () => {
             className="px-3 py-2 bg-white/40 rounded-xl"
             onPress={() => router.push(toolRoutes[tool] as never)}
           >
-            <Text
+            <FancyText
               className="text-[12px] text-primary"
               style={{ color: Colors[theme].text }}
             >
@@ -45,7 +46,7 @@ const ToolboxCard = () => {
                 : tool === "Ground"
                 ? "👁️ Visual Grounding"
                 : tool}
-            </Text>
+            </FancyText>
           </TouchableOpacity>
         ))}
       </View>

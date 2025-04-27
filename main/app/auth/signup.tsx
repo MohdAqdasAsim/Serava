@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   Image,
   TextInput,
   Pressable,
@@ -11,7 +10,7 @@ import {
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { BackgroundWrapper, EmailSentModal } from "@/components";
+import { BackgroundWrapper, EmailSentModal, FancyText } from "@/components";
 import { useRouter } from "expo-router";
 import { signUp } from "@/services/firebaseFunctions";
 
@@ -77,14 +76,14 @@ const Signup = () => {
         />
       </View>
 
-      {/* Header Text */}
+      {/* Header FancyText */}
       <View className="w-full flex items-center mb-6">
-        <Text className="text-[#312170] font-semibold text-5xl">
+        <FancyText className="text-[#312170] font-semibold text-5xl">
           Welcome! 🌱
-        </Text>
-        <Text className="text-[#312170] text-2xl mt-2 text-center">
+        </FancyText>
+        <FancyText className="text-[#312170] text-2xl mt-2 text-center">
           Let's start your journey to a calmer mind 💜
-        </Text>
+        </FancyText>
       </View>
 
       {/* Inputs Container */}
@@ -102,7 +101,9 @@ const Signup = () => {
           className="flex-1 items-center justify-center px-6 py-6"
         >
           {/* Email */}
-          <Text className="self-start text-gray-700 text-base mb-1">Email</Text>
+          <FancyText className="self-start text-gray-700 text-base mb-1">
+            Email
+          </FancyText>
           <TextInput
             placeholder="Enter your email"
             value={email}
@@ -112,9 +113,9 @@ const Signup = () => {
           />
 
           {/* Password */}
-          <Text className="self-start text-gray-700 text-base mb-1">
+          <FancyText className="self-start text-gray-700 text-base mb-1">
             Password
-          </Text>
+          </FancyText>
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Password"
@@ -134,9 +135,9 @@ const Signup = () => {
           </View>
 
           {/* Confirm Password */}
-          <Text className="self-start text-gray-700 text-base mb-1">
+          <FancyText className="self-start text-gray-700 text-base mb-1">
             Confirm Password
-          </Text>
+          </FancyText>
           <View className="w-full flex-row items-center bg-white/10 rounded-xl px-4 py-2">
             <TextInput
               placeholder="Confirm Password"
@@ -159,7 +160,9 @@ const Signup = () => {
 
       {/* Feedback */}
       {feedback && (
-        <Text className="text-center mb-2 text-[#312170]">{feedback}</Text>
+        <FancyText className="text-center mb-2 text-[#312170]">
+          {feedback}
+        </FancyText>
       )}
 
       {/* Sign Up Button */}
@@ -177,21 +180,25 @@ const Signup = () => {
           {loading ? (
             <ActivityIndicator size="small" color="#fff" />
           ) : (
-            <Text className="text-2xl text-white text-center">Signup</Text>
+            <FancyText className="text-2xl text-white text-center">
+              Signup
+            </FancyText>
           )}
         </Pressable>
       </LinearGradient>
 
       {/* Already Have an Account? Login Link */}
       <View className="w-full flex flex-row items-center justify-center mt-6">
-        <Text className="text-[#312170cb]">Already have an account? </Text>
+        <FancyText className="text-[#312170cb]">
+          Already have an account?{" "}
+        </FancyText>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
             router.replace("/auth/login");
           }}
         >
-          <Text className="text-[#312170]">Log In</Text>
+          <FancyText className="text-[#312170]">Log In</FancyText>
         </TouchableOpacity>
       </View>
 

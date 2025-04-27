@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   Pressable,
   Switch,
@@ -11,7 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { saveUserProfile } from "@/services/firebaseFunctions";
-import { BackgroundWrapper } from "@/components";
+import { BackgroundWrapper, FancyText } from "@/components";
 import { BlurView } from "expo-blur";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
@@ -200,15 +199,15 @@ const ProfileSetup = () => {
                     <Entypo name="camera" size={34} color="white" />
                   </TouchableOpacity>
                 )}
-                <Text className="text-xs text-gray-500 mt-1">
+                <FancyText className="text-xs text-gray-500 mt-1">
                   Add/Change Photo
-                </Text>
+                </FancyText>
               </View>
 
               <View className="w-full px-3 mt-4">
-                <Text className="text-[14px] text-[#523c72]">
+                <FancyText className="text-[14px] text-[#523c72]">
                   What should we call you?
-                </Text>
+                </FancyText>
                 <TextInput
                   value={form.name}
                   onChangeText={(text) => setForm({ ...form, name: text })}
@@ -216,9 +215,9 @@ const ProfileSetup = () => {
                   className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
                 />
 
-                <Text className="text-[14px] text-[#523c72]">
+                <FancyText className="text-[14px] text-[#523c72]">
                   How old are you?
-                </Text>
+                </FancyText>
                 <TextInput
                   value={form.age || ""}
                   onChangeText={(text) => setForm({ ...form, age: text })}
@@ -233,18 +232,18 @@ const ProfileSetup = () => {
         case 1:
           return (
             <>
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 Your pronouns (optional):
-              </Text>
+              </FancyText>
               <TextInput
                 value={form.pronouns}
                 onChangeText={(text) => setForm({ ...form, pronouns: text })}
                 placeholder="e.g., she/her, he/him"
                 className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
               />
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 Preferred tone from Serava:
-              </Text>
+              </FancyText>
               <TextInput
                 value={form.tonePreference}
                 onChangeText={(text) =>
@@ -258,9 +257,9 @@ const ProfileSetup = () => {
         case 2:
           return (
             <>
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 What brings you here?
-              </Text>
+              </FancyText>
               <TextInput
                 value={form.emotionalReason}
                 onChangeText={(text) =>
@@ -269,9 +268,9 @@ const ProfileSetup = () => {
                 placeholder="e.g., anxiety, self-growth"
                 className="border-b border-[#523c72] text-[#523c72] mb-4 w-full text-lg"
               />
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 Topics you'd like to avoid?
-              </Text>
+              </FancyText>
               <TextInput
                 value={form.avoidTopics}
                 onChangeText={(text) => setForm({ ...form, avoidTopics: text })}
@@ -283,9 +282,9 @@ const ProfileSetup = () => {
         case 3:
           return (
             <>
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 How often for check-ins?
-              </Text>
+              </FancyText>
               <Picker
                 selectedValue={form.checkInFrequency}
                 onValueChange={(value) =>
@@ -299,9 +298,9 @@ const ProfileSetup = () => {
                 <Picker.Item label="Never" value="never" />
               </Picker>
 
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 Preferred support time?
-              </Text>
+              </FancyText>
               <Picker
                 selectedValue={form.preferredTime}
                 onValueChange={(value) =>
@@ -320,9 +319,9 @@ const ProfileSetup = () => {
         case 4:
           return (
             <>
-              <Text className="text-[14px] text-[#523c72]">
+              <FancyText className="text-[14px] text-[#523c72]">
                 Mood theme to begin with:
-              </Text>
+              </FancyText>
               <Picker
                 selectedValue={moodTheme}
                 onValueChange={(value) => setMoodTheme(value)}
@@ -337,22 +336,24 @@ const ProfileSetup = () => {
               </Picker>
 
               <View className="flex-row items-center justify-between mt-4">
-                <Text className="text-lg text-[#523c72]">
+                <FancyText className="text-lg text-[#523c72]">
                   Enable fancy font?
-                </Text>
+                </FancyText>
                 <Switch value={ambientSounds} onValueChange={toggleFont} />
               </View>
             </>
           );
         default:
-          return <Text>Nothing to show</Text>;
+          return <FancyText>Nothing to show</FancyText>;
       }
     } catch (err: any) {
       Alert.alert(
         "Error rendering inputs",
         err?.message || JSON.stringify(err)
       );
-      return <Text className="text-red-500">Something went wrong.</Text>;
+      return (
+        <FancyText className="text-red-500">Something went wrong.</FancyText>
+      );
     }
   };
 
@@ -375,7 +376,9 @@ const ProfileSetup = () => {
 
         {/* Feedback */}
         {feedback && (
-          <Text className="text-center text-[#312170]">{feedback}</Text>
+          <FancyText className="text-center text-[#312170]">
+            {feedback}
+          </FancyText>
         )}
 
         <View className="flex-row justify-between mt-6">
@@ -384,9 +387,9 @@ const ProfileSetup = () => {
               onPress={handleBack}
               className="bg-gray-300 py-3 px-6 rounded-2xl"
             >
-              <Text className="text-gray-800 text-center text-[14px]">
+              <FancyText className="text-gray-800 text-center text-[14px]">
                 Back
-              </Text>
+              </FancyText>
             </Pressable>
           )}
 
@@ -395,13 +398,13 @@ const ProfileSetup = () => {
             className="bg-[#9486f0] py-3 px-6 rounded-2xl ml-auto"
             disabled={loading}
           >
-            <Text className="text-white text-center text-[14px]">
+            <FancyText className="text-white text-center text-[14px]">
               {loading
                 ? "Saving..."
                 : stepIndex === steps.length - 1
                 ? "Finish Setup"
                 : "Continue"}
-            </Text>
+            </FancyText>
           </Pressable>
         </View>
       </BlurView>

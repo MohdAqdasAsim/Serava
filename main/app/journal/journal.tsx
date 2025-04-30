@@ -152,7 +152,10 @@ const JournalPage = () => {
       {/* Journal Body */}
       <View className="flex-1 p-4 rounded-lg">
         {/* Date */}
-        <FancyText className="text-white text-lg mb-2 opacity-80">
+        <FancyText
+          className="text-lg mb-2 opacity-80"
+          style={{ color: Colors[theme].text }}
+        >
           {formattedDate}
         </FancyText>
 
@@ -161,8 +164,9 @@ const JournalPage = () => {
           value={title}
           onChangeText={setTitle}
           placeholder="Title"
-          placeholderTextColor="white"
-          className="text-white font-bold text-2xl mb-4 bg-transparent border-b border-white/20"
+          placeholderTextColor={Colors[theme].text}
+          className="font-bold text-2xl mb-4 bg-transparent border-b border-white/20"
+          style={{ color: Colors[theme].text }}
         />
 
         {/* Content Input */}
@@ -171,14 +175,18 @@ const JournalPage = () => {
             value={content}
             onChangeText={setContent}
             placeholder="Write your thoughts here..."
-            placeholderTextColor="white"
+            placeholderTextColor={Colors[theme].text}
             multiline
             className="flex-1 w-full text-white text-xl bg-transparent"
+            style={{ color: Colors[theme].text }}
           />
         </ScrollView>
 
         {/* Character Count */}
-        <FancyText className="text-right text-white text-sm opacity-60 mt-2">
+        <FancyText
+          className="text-right text-white text-sm opacity-60 mt-2"
+          style={{ color: Colors[theme].text }}
+        >
           {content.length} characters
         </FancyText>
       </View>

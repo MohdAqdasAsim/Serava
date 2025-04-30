@@ -99,7 +99,13 @@ export default function Home() {
               Explore Features
             </motion.a>
             <button
-              onClick={() => setShowPopup(true)}
+              // onClick={() => setShowPopup(true)}
+              onClick={() =>
+                window.open(
+                  "https://play.google.com/store/apps/details?id=com.mohdaqdasasim.serava",
+                  "_blank"
+                )
+              }
               className="inline-block focus:outline-none cursor-pointer"
             >
               <img
@@ -168,6 +174,44 @@ export default function Home() {
                 Experience support that evolves with your emotions, always
                 empathetic, always present.
               </p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Screenshots Section */}
+      <section id="screenshots" className="py-20 px-6 max-w-6xl mx-auto">
+        <h2 className="text-4xl text-center font-extrabold mb-12 text-[#523c74] drop-shadow-xl">
+          App Preview
+        </h2>
+
+        {/* Promo Video */}
+        <div className="mb-16 flex justify-center">
+          <div className="w-full sm:w-[560px] h-[315px]">
+            <iframe
+              className="w-full h-full rounded-xl shadow-lg border border-indigo-100"
+              src="https://www.youtube.com/embed/ubrHCBv4zXQ"
+              title="Serava Promo Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+
+        {/* Screenshots Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {["1.png", "2.png", "3.png", "4.png"].map((file, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ scale: 1.03 }}
+              className="rounded-xl overflow-hidden shadow-xl border border-indigo-100"
+            >
+              <img
+                src={`/screenshots/${file}`}
+                alt={`Screenshot ${idx + 1}`}
+                className="w-full h-auto object-cover"
+              />
             </motion.div>
           ))}
         </div>

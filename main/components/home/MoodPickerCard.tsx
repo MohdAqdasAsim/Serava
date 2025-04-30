@@ -4,6 +4,7 @@ import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import { Theme, useTheme } from "@/contexts/ThemeProvider";
 import FancyText from "../common/FancyText";
+import { useAlert } from "@/contexts/AlertProvider";
 
 const emotionIcons = [
   { id: "joy", source: require("@/assets/icons/emoticons/joy.png") },
@@ -16,6 +17,8 @@ const emotionIcons = [
 
 const MoodPicker = () => {
   const { setTheme, theme } = useTheme();
+  const showAlert = useAlert();
+
   return (
     <BlurView
       intensity={50}
@@ -34,7 +37,12 @@ const MoodPicker = () => {
             key={emotion.id}
             activeOpacity={0.7}
             className="items-center justify-center"
-            onPress={() => setTheme(emotion.id as Theme)}
+            onPress={() => {
+              setTheme(emotion.id as Theme);
+              setTimeout(() => {
+                showAlert("info", `Theme changed to ${emotion.id}`);
+              }, 200);
+            }}
           >
             <View className="w-10 h-10 rounded-full bg-white/30 items-center justify-center">
               <Image

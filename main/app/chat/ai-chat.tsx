@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   View,
   TextInput,
@@ -38,20 +38,6 @@ const AiChat = () => {
   const [actionLoading, setActionLoading] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
-
-  useEffect(() => {
-    const onBackPress = () => {
-      handleBackPress();
-      return true; // Prevent default behavior (going back immediately)
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      onBackPress
-    );
-
-    return () => backHandler.remove(); // Cleanup
-  }, [isConversationStarted, conversationId, messages]); // include relevant dependencies
 
   useEffect(() => {
     const loadConversation = async () => {
@@ -158,7 +144,7 @@ const AiChat = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
 
-  const handleBackPress = async () => {
+  const handleBackPress = useCallback(async (): Promise<boolean> => {
     try {
       if (isConversationStarted) {
         const storedTitle = await AsyncStorage.getItem("conversationTitle");
@@ -181,20 +167,37 @@ const AiChat = () => {
           }
 
           if (result.success) {
-            await AsyncStorage.removeItem("conversationTitle");
-            await AsyncStorage.removeItem("conversationMessages");
+            await AsyncStorage.multiRemove([
+              "conversationTitle",
+              "conversationMessages",
+            ]);
           } else {
             console.error(result.message);
           }
         }
         setActionLoading(false);
-        router.back();
       }
+
       router.back();
+      return true; // block default back
     } catch (err) {
       console.error("Error saving/updating conversation:", err);
+      router.back();
+      return true;
     }
-  };
+  }, [isConversationStarted, conversationId]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        handleBackPress(); // Don't await here — it's handled inside
+        return true; // Prevent default
+      }
+    );
+
+    return () => backHandler.remove();
+  }, [handleBackPress]);
 
   return (
     <GradientWrapper>
@@ -233,19 +236,24 @@ const AiChat = () => {
             }`}
           >
             {msg.from === "user" ? (
-              <FancyText className="text-white text-lg">{msg.text}</FancyText>
+              <FancyText
+                className="text-lg"
+                style={{ color: Colors[theme].text }}
+              >
+                {msg.text}
+              </FancyText>
             ) : (
               <Markdown
                 style={{
                   text: {
-                    color: "white", // general text color
+                    color: Colors[theme].text, // general text color
                     fontSize: 16,
                   },
                   listUnorderedItemIcon: {
-                    color: "white", // Bullet point color
+                    color: Colors[theme].text, // Bullet point color
                   },
                   listUnorderedItemFancyText: {
-                    color: "white", // FancyText color for list items
+                    color: Colors[theme].text, // FancyText color for list items
                   },
                 }}
               >
@@ -256,9 +264,18 @@ const AiChat = () => {
         ))}
         {loading && (
           <View className="flex flex-row gap-1 mb-3 ml-4">
-            <View className="w-1 h-1 bg-gray-100 rounded-full animate-bounce [animation-delay:0s]"></View>
-            <View className="w-1 h-1 bg-gray-100 rounded-full animate-bounce [animation-delay:0.2s]"></View>
-            <View className="w-1 h-1 bg-gray-100 rounded-full animate-bounce [animation-delay:0.4s]"></View>
+            <View
+              style={{ backgroundColor: Colors[theme].text }}
+              className="w-1 h-1 rounded-full animate-bounce [animation-delay:0s]"
+            ></View>
+            <View
+              style={{ backgroundColor: Colors[theme].text }}
+              className="w-1 h-1 rounded-full animate-bounce [animation-delay:0.2s]"
+            ></View>
+            <View
+              style={{ backgroundColor: Colors[theme].text }}
+              className="w-1 h-1 rounded-full animate-bounce [animation-delay:0.4s]"
+            ></View>
           </View>
         )}
       </ScrollView>

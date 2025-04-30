@@ -181,7 +181,7 @@ const BreathingGuide = () => {
         )}
 
         {/* Breathing Animation */}
-        <View className="items-center justify-center my-10">
+        <View className="items-center justify-center my-10 flex-1">
           <Animated.View
             style={{
               width: 150,
@@ -227,7 +227,7 @@ const BreathingGuide = () => {
           {formatTime(timeLeft)}
         </FancyText>
 
-        <View className="flex-row justify-around">
+        <View className="flex-row justify-around mb-12">
           <TouchableOpacity
             onPress={handleStartPause}
             className="bg-green-400 px-6 py-3 rounded-xl"

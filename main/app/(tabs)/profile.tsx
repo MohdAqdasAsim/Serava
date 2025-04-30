@@ -18,6 +18,7 @@ import {
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import {
+  ConfirmModal,
   FancyText,
   GradientWrapper,
   NoInternetModal,
@@ -59,6 +60,7 @@ export default function Profile() {
   const [isSavedModalVisible, setIsSavedModalVisible] = useState(false);
   const [isConnectedToInternetModal, setIsConnectedToInternetModal] =
     useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -220,7 +222,7 @@ export default function Profile() {
                 isConnected
                   ? isEditing
                     ? handleSave
-                    : handleLogout
+                    : () => setConfirmVisible(true)
                   : () => setIsConnectedToInternetModal(true)
               }
             >
@@ -537,6 +539,16 @@ export default function Profile() {
       <NoInternetModal
         visible={isConnectedToInternetModal}
         onCancel={() => setIsConnectedToInternetModal(false)}
+      />
+
+      <ConfirmModal
+        visible={confirmVisible}
+        onConfirm={handleLogout}
+        onCancel={() => setConfirmVisible(false)}
+        title="Log Out?"
+        message="Are you sure you want to log out?"
+        confirmFancyText="Log Out"
+        cancelFancyText="Cancel"
       />
     </GradientWrapper>
   );

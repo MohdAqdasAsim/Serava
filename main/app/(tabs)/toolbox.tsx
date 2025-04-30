@@ -52,7 +52,7 @@ export default function Toolbox() {
             activeOpacity={0.8}
           >
             <FancyText
-              className="text-white text-xl font-bold mb-1"
+              className="text-white text-xl mb-1"
               style={{ color: Colors[theme].text }}
             >
               {tool.emoji} {tool.title}

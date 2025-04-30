@@ -189,15 +189,16 @@ function TabBarButton({
       className="flex-1 items-center justify-center p-2"
     >
       <Animated.View style={animatedIconStyle}>
-        {icon[routeName]({
-          color: isFocused ? Colors[theme].tabBar : Colors[theme].tabIcon,
-        })}
+        {icon[routeName] &&
+          icon[routeName]({
+            color: isFocused ? Colors[theme].tabBar : Colors[theme].tabIcon,
+          })}
       </Animated.View>
       <FancyText
         style={[{ color: Colors[theme].tabIcon }, animatedFancyTextStyle]}
         className="text-[10px] mt-1"
       >
-        {label}
+        {isFocused ? "" : label}
       </FancyText>
     </Pressable>
   );

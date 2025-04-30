@@ -54,8 +54,6 @@ const testimonials = [
   },
 ];
 
-const contributors = ["Aarav Mehta", "Mohd Amaan", "Mohd Saad", "Bilal"];
-
 export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
 
@@ -235,23 +233,6 @@ export default function Home() {
               <p className="italic text-gray-700 mb-4">“{quote}”</p>
               <p className="font-semibold text-[#523c74]">— {name}</p>
             </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contributors */}
-      <section id="contributors" className="py-16 text-center">
-        <h2 className="text-4xl text-center font-extrabold mb-4 text-[#523c74] drop-shadow-xl">
-          Contributors
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {contributors.map((name, idx) => (
-            <span
-              key={idx}
-              className="bg-white px-5 py-2 rounded-xl shadow text-gray-700 hover:bg-indigo-50 transition"
-            >
-              {name}
-            </span>
           ))}
         </div>
       </section>
